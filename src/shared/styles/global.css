@@ -6,8 +6,11 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Native smooth scrolling is the no-JS fallback only: Lenis (html.lenis) owns smoothing otherwise. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -101,12 +104,6 @@ button {
 
 .skip-link:focus {
   top: var(--space-2);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
 }
 
 .sr-only {

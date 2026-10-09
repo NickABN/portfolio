@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Motion from '../../features/motion/components/Motion.astro';
 import type { Locale } from '../i18n/locales';
 import { useUi } from '../i18n/ui';
 
@@ -41,5 +42,6 @@ const { title = strings.siteTitle, description = strings.siteDescription } = Ast
     <a class="skip-link label" href="#main">{strings.skipToContent}</a>
     <div class="progress" aria-hidden="true"></div>
     <slot />
+    <Motion />
   </body>
 </html>

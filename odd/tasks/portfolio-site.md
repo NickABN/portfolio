@@ -36,7 +36,7 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 
 ## Delivery
 - Branch: `feat/portfolio-site` from root commit `336ee15` (empty `chore: initialize repository` on main, created because the repo had no commits).
-- Forecast: ~1,600 authored changed lines (lockfile excluded) → exceeds the ~400-line budget. Strategy: ask-on-risk. No git remote is configured, so no PR can be opened now; the chain strategy (stacked-to-main vs feature-branch-chain) will be asked before the first PR. Work-unit commits below mark candidate slice boundaries.
+- Forecast: ~1,600 authored changed lines (lockfile excluded) → exceeds the ~400-line budget. Strategy: user decided (2026-10-09) direct delivery: when all tasks pass checks and reviews, fast-forward main to feat/portfolio-site and push origin main (https://github.com/NickABN/portfolio.git). No PRs. Work-unit commits below mark candidate slice boundaries.
 - RDD: on (global). Review assessment runs after each work-unit commit.
 
 ## Tasks
@@ -44,9 +44,9 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 - [x] T2 Shared foundation: design tokens (light/dark), global styles, fonts, BaseLayout (lang, meta, theme toggle), i18n utilities + tests, site config. Route: delegated writer (2+ non-trivial files).
 - [x] T2b Review follow-ups (non-blocking, from review-318740d76bf27baa): theme toggle logic extracted to tested TS + matchMedia sync + bind all toggles; stripLocale handles repeated slashes (+test); remove vitest passWithNoTests; single source for locales (astro.config imports from locales.ts). Route: folded into T3 writer.
 - [x] T3 Projects slice: domain types and selectors + tests, content collection schema, placeholder entries EN/ES, Selected Work + Index components, project detail pages. Route: delegated writer.
-- [ ] T3b Review follow-ups (non-blocking, from review-dfbfc0ff6e143c33): parseEntryId rejects nested slugs (single-segment [slug] routes); test that every project slug exists in both locales; theme toggle DOM wiring testable without new deps. Route: folded into T4/T5 writer.
-- [ ] T4 Hero slice: masthead (nav, EN/ES switch, theme toggle), front page, typing engine + tests, CSS-3D wire sphere with pointer tilt. Route: delegated writer.
-- [ ] T5 Profile + Contact slices and home page composition for EN and ES. Route: delegated writer.
+- [x] T3b Review follow-ups (non-blocking, from review-dfbfc0ff6e143c33): parseEntryId rejects nested slugs (single-segment [slug] routes); test that every project slug exists in both locales; theme toggle DOM wiring testable without new deps. Route: folded into T4/T5 writer.
+- [x] T4 Hero slice: masthead (nav, EN/ES switch, theme toggle), front page, typing engine + tests, CSS-3D wire sphere with pointer tilt. Route: delegated writer.
+- [x] T5 Profile + Contact slices and home page composition for EN and ES. Route: delegated writer.
 - [ ] T6 Motion slice: Lenis, scroll-driven animations, progress bar, reduced-motion guards + tests. Route: delegated writer.
 - [ ] T7 SEO (title, description, Open Graph, hreflang), 404 page, README content guide, final full checks. Route: delegated writer.
 
@@ -64,6 +64,10 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 - T2b `d6a77b8` fix(shared): theme toggle extracted + matchMedia sync, stripLocale hardening, no passWithNoTests, astro.config.ts imports locales. RED 2 failed/10 passed → GREEN 16/16.
 - T3 `ead8398` feat(projects): slice with content collection (glob loader, locale+slug from path), 7 EN + 7 ES placeholders, SelectedWork, ProjectIndex, ProjectArticle, detail pages. RED (missing modules) → GREEN 24/24. check 0 errors; build 16 pages. Parent spot check: `pnpm test` 24 passed.
 - Review T2b+T3 (base 3bff0d3, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → ead8398. Findings → T3b.
+- T3b `a508091` fix(projects): nested slugs rejected, locale parity (findLocaleGaps + real content test via import.meta.glob), bindThemeToggles tested with fakes. RED → GREEN 32/32.
+- T4 `47c6611` feat(hero): Masthead (edition strip, nav, EN/ES switch w/ aria-current, theme toggle, nameplate; compact variant on detail pages), FrontPage (progressive-enhancement typing, sr-only full headline), WireSphere (CSS 3D + pointer tilt, drift hook). RED → GREEN 42/42.
+- T5 `9e906f2` feat(home): Profile (optional portrait via astro:assets, fill-text quote), Correspondence (slide/fade hooks), Footer, HomePage composition; pages are thin wrappers; progress element in BaseLayout. 42/42; check 0; build 16 pages. Parent spot check `pnpm test` 42 passed.
+- Review T3b–T5 (base ead8398, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → 9e906f2. Findings: footer year from build clock (→ T7: year in site config); ledger lag (fixed here).
 
 ## Next step
-T3b + T4 + T5.
+T6 + T7, then ff main and push.

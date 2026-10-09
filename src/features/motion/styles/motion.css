@@ -1,0 +1,134 @@
+/* Scroll-driven animations. Every rule sits behind @supports and is switched
+   off for reduced motion, so unsupported browsers (e.g. Firefox) simply render
+   the static, fully visible page. */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 10;
+  background: var(--display);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* Without scroll timelines the bar has nothing to show. */
+@supports not (animation-timeline: scroll()) {
+  .progress {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .progress {
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .mast {
+      animation: mast-shrink linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 600px;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    .fade,
+    .reveal,
+    .row-in {
+      animation: fade-cover linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .slide {
+      animation: slide-cover linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .drift {
+      animation: drift-cover linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    /* Ink fill: the hairline layer is the "unprinted" text, the ink layer grows over it. */
+    .fill-text {
+      background:
+        linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 100% no-repeat,
+        linear-gradient(var(--hair), var(--hair));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: ink-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 70% cover 60%;
+    }
+  }
+}
+
+@keyframes progress-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes mast-shrink {
+  to {
+    opacity: 0.2;
+    transform: scale(0.92) translateY(24px);
+    letter-spacing: -0.06em;
+  }
+}
+
+@keyframes fade-cover {
+  0% {
+    opacity: 0;
+  }
+  30%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-cover {
+  0% {
+    opacity: 0;
+    transform: translateX(-12%);
+  }
+  30%,
+  70% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+@keyframes drift-cover {
+  from {
+    transform: translateY(-48px);
+  }
+  to {
+    transform: translateY(72px);
+  }
+}
+
+@keyframes ink-fill {
+  from {
+    background-size: 100% 0%, 100% 100%;
+  }
+  to {
+    background-size: 100% 100%, 100% 100%;
+  }
+}
