@@ -35,9 +35,9 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 - Forecast ~700 authored lines (icon data excluded as generated/vendored).
 
 ## Tasks
-- [ ] R1 Light default + segmented theme and language controls with underline hover. Route: delegated writer (2+ non-trivial files: theme logic, tokens, masthead, toggle).
-- [ ] R2 Floating contact rail (contact slice), expanding buttons, mobile row, reduced motion. Route: delegated writer.
-- [ ] R3 Tech sphere: vendored icon data, pure orbit math + tests, client loop with pointer steering, visibility pause, reduced motion, caption/i18n, README attribution. Route: delegated writer.
+- [x] R1 Light default + segmented theme and language controls with underline hover. Route: delegated writer (2+ non-trivial files: theme logic, tokens, masthead, toggle).
+- [x] R2 Floating contact rail (contact slice), expanding buttons, mobile row, reduced motion. Route: delegated writer.
+- [x] R3 Tech sphere: vendored icon data, pure orbit math + tests, client loop with pointer steering, visibility pause, reduced motion, caption/i18n, README attribution. Route: delegated writer.
 
 ## Acceptance criteria
 - First visit renders light even when the OS prefers dark; choosing Dark persists across pages; no flash.
@@ -47,7 +47,15 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 - `pnpm test`, `pnpm check`, `pnpm build` pass.
 
 ## Progress / evidence
-(updated per task)
+- R1 `d8a9082` feat(shared): light default (dark only when stored), dark tokens only under [data-theme="dark"], segmented Light|Dark buttons (aria-pressed, all instances) + EN|ES links (aria-current), underline-draw hover. RED 5 failed → GREEN 60/60.
+- R2 `9e1db35` feat(contact): ContactRail in BaseLayout (every page), grow-on-hover timings from mockup, phone bottom row + 80px body padding. No pure logic; check/build verified (3 rail links per page).
+- R3 `e1357e8` feat(hero): TechSphere with 14 vendored icons (techStack.ts), orbit.ts math (21 tests), SSR initial positions, rAF loop with pointer steering, IntersectionObserver/visibility pause, reduced motion static; WireSphere + tilt removed; README tech sphere + third-party icons. GREEN 77/77 (parent spot check 77 passed). check 0; build 17 pages.
+- Review R1–R3 (base 6bfd49b, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → e1357e8.
+- Fix `e104500` fix(shared): theme-color meta follows in-session switches (bindThemeToggles onThemeChange). RED 2 failed/77 → GREEN 79/79; check 0; build 17. Assess: medium, under_budget (pending in slice).
+
+## Follow-ups (not blocking)
+- TechSphere: if reduced motion is on at load, the loop never starts when it is turned off mid-session (review suggestion); client loop has no automated coverage beyond pure math.
+- Not verified in a browser by the agents; owner reviews the local preview.
 
 ## Next step
-R1–R3 (one writer, one commit per task).
+Owner reviews local preview; on approval fast-forward main and push origin.
