@@ -47,8 +47,8 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 - [x] T3b Review follow-ups (non-blocking, from review-dfbfc0ff6e143c33): parseEntryId rejects nested slugs (single-segment [slug] routes); test that every project slug exists in both locales; theme toggle DOM wiring testable without new deps. Route: folded into T4/T5 writer.
 - [x] T4 Hero slice: masthead (nav, EN/ES switch, theme toggle), front page, typing engine + tests, CSS-3D wire sphere with pointer tilt. Route: delegated writer.
 - [x] T5 Profile + Contact slices and home page composition for EN and ES. Route: delegated writer.
-- [ ] T6 Motion slice: Lenis, scroll-driven animations, progress bar, reduced-motion guards + tests. Route: delegated writer.
-- [ ] T7 SEO (title, description, Open Graph, hreflang), 404 page, README content guide, final full checks. Route: delegated writer.
+- [x] T6 Motion slice: Lenis, scroll-driven animations, progress bar, reduced-motion guards + tests. Route: delegated writer.
+- [x] T7 SEO (title, description, Open Graph, hreflang), 404 page, README content guide, final full checks. Route: delegated writer.
 
 ## Acceptance criteria
 - `/` (EN) and `/es/` render every section of the approved design with placeholder content; the EN/ES switch keeps the current page.
@@ -68,6 +68,15 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 - T4 `47c6611` feat(hero): Masthead (edition strip, nav, EN/ES switch w/ aria-current, theme toggle, nameplate; compact variant on detail pages), FrontPage (progressive-enhancement typing, sr-only full headline), WireSphere (CSS 3D + pointer tilt, drift hook). RED → GREEN 42/42.
 - T5 `9e906f2` feat(home): Profile (optional portrait via astro:assets, fill-text quote), Correspondence (slide/fade hooks), Footer, HomePage composition; pages are thin wrappers; progress element in BaseLayout. 42/42; check 0; build 16 pages. Parent spot check `pnpm test` 42 passed.
 - Review T3b–T5 (base ead8398, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → 9e906f2. Findings: footer year from build clock (→ T7: year in site config); ledger lag (fixed here).
+- T6 `3560ead` feat(motion): lenis 1.3.26 (autoRaf; off under reduced motion / coarse pointer), own anchor handling (scrollTo + hash + focus), motion.css scroll-driven animations behind @supports + no-preference; native smooth scroll only as html:not(.lenis) fallback. RED → GREEN 54/54.
+- T7 `f723299` feat(seo): buildSeo (canonical, hreflang en/es/x-default, OG/Twitter, theme-color), site.url placeholder https://example.com, copyrightYear in config, bilingual noindex 404, SVG favicon, README content guide. RED → GREEN 60/60; check 0; build 17 pages.
+- Parent fix `de13a37` fix(hero): 404 language switch pointed to nonexistent /404 and /es/404 → Masthead switchPath prop, 404 passes '/'. check 0, test 60/60, build 17 pages.
+- Review T6–T7 + fix (base 9e906f2, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → de13a37.
+
+## Follow-ups (not blocking, not scheduled)
+- smoothScroll.ts: hash/focus applied only in Lenis onComplete — an interrupted scroll leaves the hash stale; repeated clicks push duplicate history entries (review-29628ecba46b6e3a suggestion).
+- BaseLayout (shared) imports the motion feature — small inversion of the slice rule; acceptable for now.
+- Owner content pending: name, role, city, email, LinkedIn, GitHub, site.url, portrait, public/cv.pdf, real projects.
 
 ## Next step
-T6 + T7, then ff main and push.
+Delivered: main fast-forwarded and pushed to origin. Next: owner replaces placeholders (see README) and picks hosting.
