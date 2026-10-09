@@ -31,6 +31,19 @@ describe('stripLocale', () => {
     expect(stripLocale('/es/projects/alpha/')).toBe('/projects/alpha/');
     expect(stripLocale('/projects/alpha/')).toBe('/projects/alpha/');
   });
+
+  it('normalizes repeated leading slashes', () => {
+    expect(stripLocale('//es/projects/')).toBe('/projects/');
+    expect(stripLocale('///projects/')).toBe('/projects/');
+    expect(stripLocale('//')).toBe('/');
+  });
+
+  it('handles a locale segment followed by a query or hash', () => {
+    expect(stripLocale('/es?x=1')).toBe('/?x=1');
+    expect(stripLocale('/es#top')).toBe('/#top');
+    expect(stripLocale('/es/?x=1')).toBe('/?x=1');
+    expect(stripLocale('/espresso?x=1')).toBe('/espresso?x=1');
+  });
 });
 
 describe('localizePath', () => {

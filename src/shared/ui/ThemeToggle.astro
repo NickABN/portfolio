@@ -34,31 +34,40 @@ const strings = useUi(locale);
 </style>
 
 <script>
-  const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  import { nextTheme, resolveTheme, toggleLabel, type Theme } from '../theme/theme';
+
   const root = document.documentElement;
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+  const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function isDark(): boolean {
-    const explicit = root.getAttribute('data-theme');
-    if (explicit) return explicit === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function currentTheme(): Theme {
+    return resolveTheme(root.getAttribute('data-theme'), colorScheme.matches);
   }
 
-  function syncLabel(): void {
-    if (!button) return;
-    const next = isDark() ? button.dataset.labelToLight : button.dataset.labelToDark;
-    if (next) button.setAttribute('aria-label', next);
+  function syncLabels(): void {
+    const theme = currentTheme();
+    toggles.forEach((button) => {
+      const { labelToDark, labelToLight } = button.dataset;
+      if (!labelToDark || !labelToLight) return;
+      button.setAttribute('aria-label', toggleLabel(theme, { toDark: labelToDark, toLight: labelToLight }));
+    });
   }
 
-  button?.addEventListener('click', () => {
-    const next = isDark() ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try {
-      localStorage.setItem('theme', next);
-    } catch {
-      // Storage unavailable: the choice applies for this visit only.
-    }
-    syncLabel();
+  toggles.forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = nextTheme(currentTheme());
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        // Storage unavailable: the choice applies for this visit only.
+      }
+      syncLabels();
+    });
   });
 
-  syncLabel();
+  // Without an explicit choice the theme follows the system, so keep labels in step.
+  colorScheme.addEventListener('change', syncLabels);
+
+  syncLabels();
 </script>

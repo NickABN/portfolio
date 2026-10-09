@@ -1,11 +1,12 @@
 import { defaultLocale, isLocale, locales, type Locale } from './locales';
 
 function firstSegment(path: string): string {
-  return path.split('/').filter(Boolean)[0] ?? '';
+  return path.split(/[/?#]/).filter(Boolean)[0] ?? '';
 }
 
+/** Guarantees exactly one leading slash, collapsing any repeated ones. */
 function ensureLeadingSlash(path: string): string {
-  return path.startsWith('/') ? path : `/${path}`;
+  return `/${path.replace(/^\/+/, '')}`;
 }
 
 export function getLocaleFromPath(path: string): Locale {
@@ -19,7 +20,8 @@ export function stripLocale(path: string): string {
   const segment = firstSegment(normalized);
   if (!isLocale(segment)) return normalized;
   const rest = normalized.slice(segment.length + 1);
-  return rest === '' ? '/' : rest;
+  if (rest === '') return '/';
+  return rest.startsWith('/') ? rest : `/${rest}`;
 }
 
 /** Builds the URL path of a page for a locale. The default locale is unprefixed. */
