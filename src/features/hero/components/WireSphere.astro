@@ -1,0 +1,150 @@
+---
+const meridians = Array.from({ length: 9 }, (_, index) => index * 20);
+---
+
+<div class="plate" data-tilt-area>
+  <div class="scene drift" aria-hidden="true">
+    <div class="tilt" data-tilt>
+      <div class="sphere">
+        {meridians.map((angle) => <div class="ring" style={`transform: rotateY(${angle}deg)`} />)}
+        <div class="lat equator"></div>
+        <div class="lat mid north"></div>
+        <div class="lat mid south"></div>
+        <div class="lat high north"></div>
+        <div class="lat high south"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .plate {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--rule);
+    background: var(--plate);
+    color: var(--figure);
+    overflow: hidden;
+  }
+  .scene {
+    --size: min(300px, 70vw);
+    perspective: 1600px;
+    width: var(--size);
+    height: var(--size);
+  }
+  .tilt {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    will-change: transform;
+  }
+  .sphere {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: spin 40s linear infinite;
+  }
+  .ring,
+  .lat {
+    position: absolute;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+  }
+  .ring {
+    inset: 0;
+  }
+  .lat {
+    opacity: 0.4;
+  }
+  .equator {
+    inset: 0;
+    transform: rotateX(90deg);
+  }
+  .mid {
+    inset: 6.7%;
+  }
+  .high {
+    inset: 22.4%;
+  }
+  .mid.north {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * 0.25));
+  }
+  .mid.south {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * -0.25));
+  }
+  .high.north {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * 0.4133));
+  }
+  .high.south {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * -0.4133));
+  }
+  @keyframes spin {
+    from {
+      transform: rotateX(-16deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(-16deg) rotateY(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sphere {
+      animation: none;
+      transform: rotateX(-16deg) rotateY(25deg);
+    }
+  }
+</style>
+
+<script>
+  import { easeToward, tiltFromPointer } from '../tilt/tilt';
+
+  const MAX_DEG = 12;
+  const EASE = 0.12;
+
+  function init(): void {
+    const area = document.querySelector<HTMLElement>('[data-tilt-area]');
+    const target = area?.querySelector<HTMLElement>('[data-tilt]');
+    if (!area || !target) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const coarse = window.matchMedia('(pointer: coarse)');
+    if (reduced.matches || coarse.matches) return;
+
+    let current = { rotateX: 0, rotateY: 0 };
+    let goal = { rotateX: 0, rotateY: 0 };
+    let frame = 0;
+
+    const step = (): void => {
+      current = {
+        rotateX: easeToward(current.rotateX, goal.rotateX, EASE),
+        rotateY: easeToward(current.rotateY, goal.rotateY, EASE),
+      };
+      target.style.setProperty('--tilt-x', `${current.rotateX}deg`);
+      target.style.setProperty('--tilt-y', `${current.rotateY}deg`);
+      const settled = current.rotateX === goal.rotateX && current.rotateY === goal.rotateY;
+      frame = settled ? 0 : requestAnimationFrame(step);
+    };
+    const schedule = (): void => {
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+
+    window.addEventListener(
+      'pointermove',
+      (event) => {
+        if (reduced.matches || coarse.matches) return;
+        goal = tiltFromPointer(event.clientX, event.clientY, area.getBoundingClientRect(), MAX_DEG);
+        schedule();
+      },
+      { passive: true },
+    );
+    document.documentElement.addEventListener('pointerleave', () => {
+      goal = { rotateX: 0, rotateY: 0 };
+      schedule();
+    });
+  }
+
+  init();
+</script>

@@ -1,0 +1,145 @@
+---
+import ThemeToggle from '../../../shared/ui/ThemeToggle.astro';
+import { site } from '../../../shared/config/site';
+import { locales, type Locale } from '../../../shared/i18n/locales';
+import { useUi } from '../../../shared/i18n/ui';
+import { getAlternatePaths, localizePath } from '../../../shared/i18n/utils';
+import { useHeroUi } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** `home` carries the page h1; `compact` is a smaller nameplate linking home. */
+  variant?: 'home' | 'compact';
+}
+
+const { locale, variant = 'home' } = Astro.props;
+const ui = useUi(locale);
+const hero = useHeroUi(locale);
+const home = localizePath('/', locale);
+const alternates = getAlternatePaths(Astro.url.pathname);
+---
+
+<header class:list={['masthead', variant]}>
+  <div class="strip label">
+    <span>{ui.edition}</span>
+    <nav aria-label={ui.navLabel}>
+      <a href={`${home}#work`}>{ui.navWork}</a>
+      <a href={`${home}#profile`}>{ui.navProfile}</a>
+      <a href={`${home}#correspondence`}>{ui.navContact}</a>
+      <a href={site.cvPath}>{ui.navCv}</a>
+    </nav>
+    <div class="tools">
+      <div class="langs" role="group" aria-label={ui.langLabel}>
+        {
+          locales.map((code, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">/</span>}
+              <a
+                href={alternates[code]}
+                hreflang={code}
+                lang={code}
+                aria-current={code === locale ? 'true' : undefined}
+              >
+                {code.toUpperCase()}
+              </a>
+            </>
+          ))
+        }
+      </div>
+      <ThemeToggle locale={locale} />
+    </div>
+  </div>
+
+  {
+    variant === 'home' ? (
+      <h1 class="mast nameplate">{site.name}</h1>
+    ) : (
+      <p class="mast nameplate">
+        <a href={home} aria-label={`${site.name} — ${hero.homeLink}`}>
+          {site.name}
+        </a>
+      </p>
+    )
+  }
+
+  <div class="tagline label">
+    <span>{hero.role}</span>
+    {
+      hero.tags.map((tag) => (
+        <>
+          <span class="dot" aria-hidden="true">
+            ·
+          </span>
+          <span>{tag}</span>
+        </>
+      ))
+    }
+  </div>
+</header>
+
+<style>
+  .masthead {
+    padding-top: var(--space-3);
+  }
+  .strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0 var(--space-3);
+    border-top: var(--rule);
+    border-bottom: var(--rule);
+  }
+  nav,
+  .tools,
+  .langs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  nav {
+    gap: 0 var(--space-3);
+  }
+  .strip a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    text-decoration: none;
+  }
+  .langs a {
+    min-width: var(--tap);
+    justify-content: center;
+  }
+  .langs a:not([aria-current]) {
+    opacity: 0.45;
+  }
+  .langs a:not([aria-current]):hover {
+    opacity: 0.8;
+  }
+  .nameplate {
+    padding: var(--space-3) 0 var(--space-2);
+    text-align: center;
+    font-size: var(--text-display);
+    line-height: 0.9;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+  }
+  .compact .nameplate {
+    font-size: clamp(32px, 6vw, 72px);
+  }
+  .nameplate a {
+    text-decoration: none;
+  }
+  .tagline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1) 32px;
+    padding: 10px 0;
+    border-top: var(--rule-double);
+    border-bottom: var(--rule);
+  }
+  .dot {
+    color: var(--muted);
+  }
+</style>

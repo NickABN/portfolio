@@ -1,0 +1,165 @@
+---
+import type { Locale } from '../../../shared/i18n/locales';
+import { useHeroUi } from '../i18n';
+import WireSphere from './WireSphere.astro';
+
+interface Props {
+  locale: Locale;
+  /** Milliseconds per typed character. */
+  typingSpeed?: number;
+}
+
+const { locale, typingSpeed = 55 } = Astro.props;
+const hero = useHeroUi(locale);
+const [first, second, emphasis] = hero.headline;
+const fullHeadline = `${first} ${second}${emphasis}`;
+---
+
+<section class="front" aria-labelledby="front-headline">
+  <div class="story">
+    <span class="kicker accent">{hero.frontKicker}</span>
+    <h2 id="front-headline" class="headline" data-typing data-speed={typingSpeed}>
+      <span class="sr-only">{fullHeadline}</span>
+      <span aria-hidden="true">
+        <span data-seg>{first}</span><br /><span data-seg>{second}</span><em data-seg>{emphasis}</em><span
+          class="caret"></span
+        >
+      </span>
+    </h2>
+    <p class="deck">{hero.deck}</p>
+    <div class="cols intro">
+      <p class="drop">{hero.intro1}</p>
+      <p>{hero.intro2}</p>
+    </div>
+  </div>
+  <figure class="figure">
+    <WireSphere />
+    <figcaption>
+      <span class="label">{hero.fig} 1</span> — {hero.fig1}
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .front {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    padding: var(--space-5) 0 var(--space-6);
+    border-bottom: var(--rule);
+  }
+  .story {
+    flex: 999 1 600px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .headline {
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+  }
+  .headline em {
+    color: var(--display);
+  }
+  /* The caret only exists while the script is typing; without JS the headline is plain text. */
+  .caret {
+    display: none;
+    width: 0.06em;
+    height: 0.85em;
+    margin-left: 0.04em;
+    vertical-align: -0.05em;
+    background: currentColor;
+  }
+  .headline[data-typing-active] .caret {
+    display: inline-block;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .headline[data-typing-active] .caret {
+      animation: none;
+    }
+  }
+  .deck {
+    max-width: 620px;
+    font-size: var(--text-deck);
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .intro {
+    padding-top: var(--space-3);
+    border-top: var(--rule-hair);
+  }
+  .intro p {
+    margin: 0 0 var(--space-2);
+  }
+  .intro p:last-child {
+    margin: 0;
+  }
+  .figure {
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  figcaption {
+    font-size: var(--text-small);
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  figcaption .label {
+    color: var(--ink);
+  }
+</style>
+
+<script>
+  import { sliceSegments, totalLength } from '../typing/typing';
+
+  const DEFAULT_SPEED = 55;
+
+  function init(): void {
+    const headline = document.querySelector<HTMLElement>('[data-typing]');
+    if (!headline) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const nodes = [...headline.querySelectorAll<HTMLElement>('[data-seg]')];
+    const segments = nodes.map((node) => node.textContent ?? '');
+    const total = totalLength(segments);
+    const speed = Number(headline.dataset.speed) || DEFAULT_SPEED;
+
+    // Reserve the final height so typing does not push the page around.
+    headline.style.minHeight = `${headline.offsetHeight}px`;
+    headline.setAttribute('data-typing-active', '');
+
+    let count = 0;
+    const render = (): void => {
+      sliceSegments(segments, count).forEach((text, index) => {
+        const node = nodes[index];
+        if (node) node.textContent = text;
+      });
+    };
+
+    render();
+    const timer = window.setInterval(() => {
+      count += 1;
+      render();
+      if (count >= total) {
+        window.clearInterval(timer);
+        headline.style.minHeight = '';
+      }
+    }, speed);
+  }
+
+  init();
+</script>
