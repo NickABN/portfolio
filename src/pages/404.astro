@@ -12,7 +12,7 @@ const copy = locales.map((code) => ({ code, ui: useUi(code), home: localizePath(
 
 <BaseLayout title={`${copy[0].ui.notFoundTitle} / ${copy[1].ui.notFoundTitle}`} noindex>
   <div class="page">
-    <Masthead locale="en" variant="compact" />
+    <Masthead locale="en" variant="compact" switchPath="/" />
     <main id="main" class="missing">
       <span class="kicker accent">404</span>
       {

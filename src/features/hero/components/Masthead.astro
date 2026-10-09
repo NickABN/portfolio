@@ -10,13 +10,15 @@ interface Props {
   locale: Locale;
   /** `home` carries the page h1; `compact` is a smaller nameplate linking home. */
   variant?: 'home' | 'compact';
+  /** Path the EN/ES switch localizes; defaults to the current page (404 passes '/'). */
+  switchPath?: string;
 }
 
-const { locale, variant = 'home' } = Astro.props;
+const { locale, variant = 'home', switchPath = Astro.url.pathname } = Astro.props;
 const ui = useUi(locale);
 const hero = useHeroUi(locale);
 const home = localizePath('/', locale);
-const alternates = getAlternatePaths(Astro.url.pathname);
+const alternates = getAlternatePaths(switchPath);
 ---
 
 <header class:list={['masthead', variant]}>
