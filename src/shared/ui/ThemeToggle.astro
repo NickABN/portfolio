@@ -38,5 +38,10 @@ const strings = useUi(locale);
     root: document.documentElement,
     buttons: document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]') as Iterable<ThemeToggleButton>,
     storage,
+    onThemeChange: (theme) => {
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', theme === 'dark' ? '#07393c' : '#eaeaea');
+    },
   });
 </script>

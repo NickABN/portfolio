@@ -94,3 +94,30 @@ describe('bindThemeToggles', () => {
     expect(attrs['data-theme']).toBeUndefined();
   });
 });
+
+describe('bindThemeToggles theme color', () => {
+  function setupWithColor(attr: string | null) {
+    const attrs: Record<string, string> = attr ? { 'data-theme': attr } : {};
+    const root = {
+      getAttribute: (name: string) => attrs[name] ?? null,
+      setAttribute: (name: string, value: string) => {
+        attrs[name] = value;
+      },
+    };
+    const colors: string[] = [];
+    const buttons = [fakeButton('light'), fakeButton('dark')];
+    bindThemeToggles({ root, buttons, storage: null, onThemeChange: (theme) => colors.push(theme) });
+    return { buttons, colors };
+  }
+
+  it('reports the current theme on load', () => {
+    expect(setupWithColor('dark').colors).toEqual(['dark']);
+  });
+
+  it('reports every in-session theme switch', () => {
+    const { buttons, colors } = setupWithColor(null);
+    buttons[1].click();
+    buttons[0].click();
+    expect(colors).toEqual(['light', 'dark', 'light']);
+  });
+});
