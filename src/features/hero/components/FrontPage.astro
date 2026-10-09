@@ -1,7 +1,7 @@
 ---
 import type { Locale } from '../../../shared/i18n/locales';
 import { useHeroUi } from '../i18n';
-import WireSphere from './WireSphere.astro';
+import TechSphere from './TechSphere.astro';
 
 interface Props {
   locale: Locale;
@@ -33,7 +33,7 @@ const fullHeadline = `${first} ${second}${emphasis}`;
     </div>
   </div>
   <figure class="figure">
-    <WireSphere />
+    <TechSphere locale={locale} />
     <figcaption>
       <span class="label">{hero.fig} 1</span> — {hero.fig1}
     </figcaption>

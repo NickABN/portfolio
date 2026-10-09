@@ -1,0 +1,233 @@
+---
+import type { Locale } from '../../../shared/i18n/locales';
+import { useHeroUi } from '../i18n';
+import { fibonacciSphere, INITIAL_ANGLE, ORBIT_VIEW, project, projectionStyle, rotate } from '../orbit/orbit';
+import { techStack } from '../stack/techStack';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const hero = useHeroUi(locale);
+const meridians = Array.from({ length: 9 }, (_, index) => index * 20);
+
+// Server-rendered positions, so the sphere is a readable static figure without JavaScript.
+const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIAL_ANGLE.y).map((point, index) => {
+  const { transform, opacity, zIndex } = projectionStyle(project(point, ORBIT_VIEW));
+  return { tech: techStack[index]!, style: `transform:${transform};opacity:${opacity};z-index:${zIndex}` };
+});
+---
+
+<div class="plate">
+  <div class="scene drift" data-orbit-scene>
+    <div class="sphere backdrop" aria-hidden="true">
+      {meridians.map((angle) => <div class="ring" style={`transform: rotateY(${angle}deg)`} />)}
+      <div class="lat equator"></div>
+      <div class="lat mid north"></div>
+      <div class="lat mid south"></div>
+    </div>
+    <ul class="orbit" role="list" aria-label={hero.stackLabel}>
+      {
+        placed.map(({ tech, style }) => (
+          <li class="logo" style={style}>
+            <svg
+              width={tech.size}
+              height={tech.size}
+              viewBox={tech.viewBox}
+              fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d={tech.path} />
+            </svg>
+            <span class="logo-name">{tech.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .plate {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--rule);
+    background: var(--plate);
+    color: var(--figure);
+    overflow: hidden;
+  }
+  .scene {
+    --size: min(300px, 70vw);
+    position: relative;
+    perspective: 1600px;
+    width: var(--size);
+    height: var(--size);
+  }
+  .sphere {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: spin 40s linear infinite;
+  }
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+  }
+  .ring,
+  .lat {
+    position: absolute;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+  }
+  .ring {
+    inset: 0;
+  }
+  .lat {
+    opacity: 0.4;
+  }
+  .equator {
+    inset: 0;
+    transform: rotateX(90deg);
+  }
+  .mid {
+    inset: 6.7%;
+  }
+  .mid.north {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * 0.25));
+  }
+  .mid.south {
+    transform: rotateX(90deg) translateZ(calc(var(--size) * -0.25));
+  }
+  .orbit {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    will-change: transform, opacity;
+  }
+  .logo-name {
+    font-family: var(--font-label);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+  @keyframes spin {
+    from {
+      transform: rotateX(-16deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(-16deg) rotateY(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sphere {
+      animation: none;
+      transform: rotateX(-16deg) rotateY(25deg);
+    }
+  }
+</style>
+
+<script>
+  import {
+    advance,
+    fibonacciSphere,
+    IDLE_SPEED,
+    INITIAL_ANGLE,
+    ORBIT_SCENE_SIZE,
+    ORBIT_VIEW,
+    project,
+    projectionStyle,
+    rotate,
+    steerTarget,
+    type OrbitState,
+    type Vec2,
+  } from '../orbit/orbit';
+
+  const EASE = 0.06;
+
+  function init(): void {
+    const scene = document.querySelector<HTMLElement>('[data-orbit-scene]');
+    const items = scene ? [...scene.querySelectorAll<HTMLElement>('.orbit > .logo')] : [];
+    if (!scene || items.length === 0) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduced.matches) return;
+    const coarse = window.matchMedia('(pointer: coarse)');
+
+    const points = fibonacciSphere(items.length);
+    let state: OrbitState = { angle: { ...INITIAL_ANGLE }, speed: { ...IDLE_SPEED } };
+    let target: Vec2 = IDLE_SPEED;
+    let visible = false;
+    let frame = 0;
+
+    const render = (): void => {
+      // The scene shrinks on narrow screens; keep the sphere in proportion.
+      const view = { ...ORBIT_VIEW, radius: (ORBIT_VIEW.radius * scene.offsetWidth) / ORBIT_SCENE_SIZE };
+      rotate(points, state.angle.x, state.angle.y).forEach((point, index) => {
+        const { transform, opacity, zIndex } = projectionStyle(project(point, view));
+        const style = items[index]!.style;
+        style.transform = transform;
+        style.opacity = opacity;
+        style.zIndex = zIndex;
+      });
+    };
+
+    const tick = (): void => {
+      state = advance(state, target, EASE);
+      render();
+      frame = requestAnimationFrame(tick);
+    };
+
+    // Run only while the figure is on screen, the tab is visible and motion is allowed.
+    const sync = (): void => {
+      const run = visible && !document.hidden && !reduced.matches;
+      if (run && !frame) frame = requestAnimationFrame(tick);
+      if (!run && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
+
+    new IntersectionObserver((entries) => {
+      visible = entries.some((entry) => entry.isIntersecting);
+      sync();
+    }).observe(scene);
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', sync);
+
+    scene.addEventListener(
+      'pointermove',
+      (event) => {
+        // Touch and other coarse pointers only get the idle spin.
+        if (coarse.matches || event.pointerType === 'touch') return;
+        const rect = scene.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        target = steerTarget((event.clientX - rect.left) / rect.width - 0.5, (event.clientY - rect.top) / rect.height - 0.5);
+      },
+      { passive: true },
+    );
+    scene.addEventListener('pointerleave', () => {
+      target = IDLE_SPEED;
+    });
+  }
+
+  init();
+</script>

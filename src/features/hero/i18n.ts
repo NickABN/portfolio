@@ -11,6 +11,8 @@ export interface HeroStrings {
   intro2: string;
   fig: string;
   fig1: string;
+  /** Accessible name of the technology list inside Fig. 1. */
+  stackLabel: string;
   homeLink: string;
 }
 
@@ -26,7 +28,8 @@ export const heroUi: Record<Locale, HeroStrings> = {
     intro2:
       '[Second paragraph: current focus, what you are learning, and the kind of team or project you would like to join next.]',
     fig: 'Fig.',
-    fig1: 'Wireframe study. Rotates on its own axis and follows the reader’s cursor.',
+    fig1: 'The working stack. It turns on its own; move your cursor over it to steer.',
+    stackLabel: 'Technologies I work with',
     homeLink: 'Back to the front page',
   },
   es: {
@@ -40,7 +43,8 @@ export const heroUi: Record<Locale, HeroStrings> = {
     intro2:
       '[Segundo párrafo: tu enfoque actual, qué estás aprendiendo y en qué tipo de equipo o proyecto te gustaría trabajar.]',
     fig: 'Fig.',
-    fig1: 'Estudio en alambre. Gira sobre su propio eje y sigue el cursor del lector.',
+    fig1: 'El stack de trabajo. Gira por su cuenta; mueve el cursor encima para guiarlo.',
+    stackLabel: 'Tecnologías con las que trabajo',
     homeLink: 'Volver a la portada',
   },
 };

@@ -7,7 +7,7 @@ All text is placeholder content in `[brackets]`. See [Make it yours](#make-it-yo
 ## Stack
 
 - Astro 7 (static output), TypeScript strict
-- Plain CSS with custom properties as design tokens (light and dark)
+- Plain CSS with custom properties as design tokens (light by default; dark only when the visitor picks it)
 - Lenis for smooth scrolling; CSS scroll-driven animations for the rest of the motion
 - Vitest for the pure TypeScript logic
 
@@ -36,17 +36,17 @@ src/
     404.astro            Bilingual "page not found"
   features/
     home/                Composes the home page from the other slices
-    hero/                Masthead, front page, typing headline, wire sphere, pointer tilt
+    hero/                Masthead, front page, typing headline, tech sphere (orbit math, stack data)
     projects/            Content collection, selectors, Selected Work, Index, detail article
       content/en|es/     One Markdown file per project and locale
     profile/             Portrait, pull quote, story, skills
-    contact/             Correspondence block and links
+    contact/             Correspondence block, links and the floating contact rail
     motion/              Lenis smooth scroll, scroll-driven animation CSS, guards
   shared/
     config/site.ts       Owner data (name, links, site URL, copyright year)
     i18n/                Locales, shared UI strings, path helpers
     seo/                 Canonical, hreflang and Open Graph builders
-    theme/               Light/dark toggle logic
+    theme/               Light/dark choice logic (light by default)
     layouts/, ui/, styles/   Base layout, small shared components, tokens and global CSS
 public/                  Static files served as-is (favicon.svg, cv.pdf)
 ```
@@ -114,10 +114,27 @@ Spanish copy lives next to its feature in dictionaries, never in components:
 - `src/shared/i18n/ui.ts`: navigation, footer, 404 and other shared strings
 - `src/features/<feature>/i18n.ts`: strings for `hero`, `projects`, `profile` and `contact`
 
+### Tech sphere
+
+The hero figure is a rotating sphere of technology logos. The list lives in `src/features/hero/stack/techStack.ts`; the order there is the order on the sphere.
+
+To add or remove a technology, add or delete one entry with a `name`, the icon's `viewBox` and its single SVG `path` (icons are monochrome and filled with `currentColor`), plus `size` (30 for a glyph, larger for a wordmark) and a `source` note. The points are distributed automatically. Good icon sources are [Simple Icons](https://simpleicons.org) (CC0) and [Devicon](https://devicon.dev) (MIT): copy the `d` attribute of the SVG path and its `viewBox`.
+
+The projection and steering maths is plain TypeScript in `src/features/hero/orbit/orbit.ts` and is unit-tested. The animation pauses when the figure is off screen or the tab is hidden, only auto-rotates on touch devices and stays static under `prefers-reduced-motion`.
+
+## Third-party icons
+
+The technology logos on the sphere are vendored as SVG path data:
+
+- [Simple Icons](https://github.com/simple-icons/simple-icons) 16.34.0, licensed CC0-1.0, for every logo except AWS. Java is shown with the OpenJDK mark.
+- [Devicon](https://github.com/devicons/devicon) 2.17.0, licensed MIT, for AWS (`amazonwebservices-plain-wordmark`).
+
+All logos are trademarks of their respective owners. They are used here only to name technologies the author works with and do not imply endorsement.
+
 ## Motion and accessibility
 
 - Scroll-driven animations (progress bar, masthead shrink, section fades, sphere drift, pull-quote ink fill) are plain CSS behind `@supports`. Browsers without support (for example Firefox) simply show the static page.
 - Lenis smooth scroll only starts for fine pointers. It is skipped for touch devices and whenever `prefers-reduced-motion: reduce` is set; same-page anchor links then use native jumps.
-- `prefers-reduced-motion: reduce` also disables the typing caret, the sphere spin and tilt, and every scroll-driven animation. The headline is rendered in full for screen readers.
-- Without JavaScript the site stays fully readable. Only the typing effect, the theme toggle and Lenis need scripts.
+- `prefers-reduced-motion: reduce` also disables the typing caret, the tech sphere rotation, and every scroll-driven animation. The headline is rendered in full for screen readers.
+- Without JavaScript the site stays fully readable. Only the typing effect, the theme switch, the sphere animation and Lenis need scripts.
 - Anchor navigation moves focus to the target section so keyboard users land where they scrolled.
