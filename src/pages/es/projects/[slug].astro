@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../shared/layouts/BaseLayout.astro';
+import Footer from '../../../shared/ui/Footer.astro';
 import Masthead from '../../../features/hero/components/Masthead.astro';
 import ProjectArticle from '../../../features/projects/components/ProjectArticle.astro';
 import { getProjects, type ProjectItem } from '../../../features/projects/data/getProjects';
@@ -22,5 +23,6 @@ const { project } = Astro.props;
     <main id="main">
       <ProjectArticle locale="es" project={project} />
     </main>
+    <Footer locale="es" />
   </div>
 </BaseLayout>

@@ -1,0 +1,31 @@
+---
+import { site } from '../config/site';
+import type { Locale } from '../i18n/locales';
+import { useUi } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = useUi(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer label">
+  <span>© {year} {site.name}</span>
+  <span>{strings.setIn}</span>
+  <span>{strings.printed}</span>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0 var(--space-4);
+    border-top: var(--rule-double);
+    color: var(--muted);
+  }
+</style>

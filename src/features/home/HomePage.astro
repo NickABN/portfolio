@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../shared/layouts/BaseLayout.astro';
+import Footer from '../../shared/ui/Footer.astro';
+import type { Locale } from '../../shared/i18n/locales';
+import Masthead from '../hero/components/Masthead.astro';
+import FrontPage from '../hero/components/FrontPage.astro';
+import SelectedWork from '../projects/components/SelectedWork.astro';
+import ProjectIndex from '../projects/components/ProjectIndex.astro';
+import Profile from '../profile/components/Profile.astro';
+import Correspondence from '../contact/components/Correspondence.astro';
+import { getProjects } from '../projects/data/getProjects';
+import { selectArchive, selectFeatured } from '../projects/domain/project';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const projects = await getProjects(locale);
+---
+
+<BaseLayout locale={locale}>
+  <div class="page">
+    <Masthead locale={locale} />
+    <main id="main">
+      <FrontPage locale={locale} />
+      <SelectedWork locale={locale} projects={selectFeatured(projects)} />
+      <ProjectIndex locale={locale} projects={selectArchive(projects)} />
+      <Profile locale={locale} />
+      <Correspondence locale={locale} />
+    </main>
+    <Footer locale={locale} />
+  </div>
+</BaseLayout>

@@ -1,0 +1,147 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeader from '../../../shared/ui/SectionHeader.astro';
+import { site } from '../../../shared/config/site';
+import type { Locale } from '../../../shared/i18n/locales';
+import { useProfileUi } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = useProfileUi(locale);
+
+// Drop a file named `portrait.jpg|jpeg|png|webp|avif` into src/shared/assets to replace the placeholder.
+const portraits = import.meta.glob<{ default: ImageMetadata }>(
+  '../../../shared/assets/portrait.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const portrait = Object.values(portraits)[0]?.default;
+const caption = `${site.name}, ${site.city}, 2026.`;
+---
+
+<section id="profile" class="profile reveal" aria-labelledby="profile-title">
+  <SectionHeader title={strings.title} section={strings.section} headingId="profile-title" />
+  <div class="layout">
+    <figure class="portrait">
+      {
+        portrait ? (
+          <Image src={portrait} alt={`${strings.portraitLabel}: ${site.name}`} widths={[280, 560]} sizes="(min-width: 700px) 320px, 100vw" />
+        ) : (
+          <div class="plate mono">{strings.portraitPlaceholder}</div>
+        )
+      }
+      <figcaption>
+        <span class="label">{strings.portraitLabel}</span> — {caption}
+      </figcaption>
+    </figure>
+    <div class="text">
+      <blockquote class="fill-text">{strings.quote}</blockquote>
+      <div class="cols story">
+        <p class="drop">{strings.story1}</p>
+        <p>{strings.story2}</p>
+      </div>
+      <dl class="skills">
+        {
+          strings.skills.map(({ group, items }) => (
+            <div>
+              <dt class="label">{group}</dt>
+              <dd>{items}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .profile {
+    padding: var(--space-5) 0 var(--space-6);
+    border-bottom: var(--rule);
+  }
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+  }
+  .portrait {
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .portrait :global(img),
+  .plate {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    object-fit: cover;
+    filter: grayscale(1);
+  }
+  .plate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    text-align: center;
+    background: var(--plate);
+    color: var(--muted);
+  }
+  figcaption {
+    font-size: var(--text-small);
+    color: var(--muted);
+  }
+  figcaption .label {
+    color: var(--ink);
+  }
+  .text {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  /* Two layers: ink over hairline. Fully inked by default so it reads without motion;
+     the motion slice animates the ink layer's background-size. */
+  blockquote {
+    padding-bottom: var(--space-3);
+    border-bottom: var(--rule-hair);
+    background:
+      linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 100% no-repeat,
+      linear-gradient(var(--hair), var(--hair));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.2;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+  .story {
+    column-width: 260px;
+  }
+  .story p {
+    margin: 0 0 var(--space-2);
+  }
+  .story p:last-child {
+    margin: 0;
+  }
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0 32px;
+    border-top: var(--rule);
+  }
+  .skills div {
+    padding: 14px 0;
+    border-bottom: var(--rule-hair);
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 4px 0 0;
+    font-size: 17px;
+  }
+</style>
