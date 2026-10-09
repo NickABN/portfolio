@@ -34,40 +34,19 @@ const strings = useUi(locale);
 </style>
 
 <script>
-  import { nextTheme, resolveTheme, toggleLabel, type Theme } from '../theme/theme';
+  import { bindThemeToggles, type ThemeToggleButton } from '../theme/bindThemeToggles';
 
-  const root = document.documentElement;
-  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
-  const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-  function currentTheme(): Theme {
-    return resolveTheme(root.getAttribute('data-theme'), colorScheme.matches);
+  let storage: Storage | null = null;
+  try {
+    storage = localStorage;
+  } catch {
+    // Storage blocked: the choice applies for this visit only.
   }
 
-  function syncLabels(): void {
-    const theme = currentTheme();
-    toggles.forEach((button) => {
-      const { labelToDark, labelToLight } = button.dataset;
-      if (!labelToDark || !labelToLight) return;
-      button.setAttribute('aria-label', toggleLabel(theme, { toDark: labelToDark, toLight: labelToLight }));
-    });
-  }
-
-  toggles.forEach((button) => {
-    button.addEventListener('click', () => {
-      const next = nextTheme(currentTheme());
-      root.setAttribute('data-theme', next);
-      try {
-        localStorage.setItem('theme', next);
-      } catch {
-        // Storage unavailable: the choice applies for this visit only.
-      }
-      syncLabels();
-    });
+  bindThemeToggles({
+    root: document.documentElement,
+    buttons: document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]') as Iterable<ThemeToggleButton>,
+    storage,
+    colorScheme: window.matchMedia('(prefers-color-scheme: dark)'),
   });
-
-  // Without an explicit choice the theme follows the system, so keep labels in step.
-  colorScheme.addEventListener('change', syncLabels);
-
-  syncLabels();
 </script>

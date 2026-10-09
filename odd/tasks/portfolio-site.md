@@ -42,8 +42,9 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 ## Tasks
 - [x] T1 Scaffold Astro (TS strict), Vitest, scripts, .gitignore, base README. Route: delegated writer (writer trigger: config + tooling files).
 - [x] T2 Shared foundation: design tokens (light/dark), global styles, fonts, BaseLayout (lang, meta, theme toggle), i18n utilities + tests, site config. Route: delegated writer (2+ non-trivial files).
-- [ ] T2b Review follow-ups (non-blocking, from review-318740d76bf27baa): theme toggle logic extracted to tested TS + matchMedia sync + bind all toggles; stripLocale handles repeated slashes (+test); remove vitest passWithNoTests; single source for locales (astro.config imports from locales.ts). Route: folded into T3 writer.
-- [ ] T3 Projects slice: domain types and selectors + tests, content collection schema, placeholder entries EN/ES, Selected Work + Index components, project detail pages. Route: delegated writer.
+- [x] T2b Review follow-ups (non-blocking, from review-318740d76bf27baa): theme toggle logic extracted to tested TS + matchMedia sync + bind all toggles; stripLocale handles repeated slashes (+test); remove vitest passWithNoTests; single source for locales (astro.config imports from locales.ts). Route: folded into T3 writer.
+- [x] T3 Projects slice: domain types and selectors + tests, content collection schema, placeholder entries EN/ES, Selected Work + Index components, project detail pages. Route: delegated writer.
+- [ ] T3b Review follow-ups (non-blocking, from review-dfbfc0ff6e143c33): parseEntryId rejects nested slugs (single-segment [slug] routes); test that every project slug exists in both locales; theme toggle DOM wiring testable without new deps. Route: folded into T4/T5 writer.
 - [ ] T4 Hero slice: masthead (nav, EN/ES switch, theme toggle), front page, typing engine + tests, CSS-3D wire sphere with pointer tilt. Route: delegated writer.
 - [ ] T5 Profile + Contact slices and home page composition for EN and ES. Route: delegated writer.
 - [ ] T6 Motion slice: Lenis, scroll-driven animations, progress bar, reduced-motion guards + tests. Route: delegated writer.
@@ -60,6 +61,9 @@ Out: deployment, real content (owner provides later), analytics, CMS.
 - T1 `ea495d2` chore: scaffold astro project with vitest. Astro 7.3.8, TypeScript 6.0.3 (peer of @astrojs/check). build/check pass; test: no tests (passWithNoTests).
 - T2 `3bff0d3` feat(shared): tokens, base layout, i18n utils. TDD RED (utils missing → suite failed) → GREEN 10/10. Parent spot check: `pnpm test` 10 passed. check 0 errors; build 2 pages.
 - Review T1+T2 (base 336ee15, medium, review_due slice_budget_reached): consent granted by user; lens review-reliability; APPROVED, acknowledged, authority burned. Reviewed boundary → 3bff0d3. Findings non-blocking → T2b.
+- T2b `d6a77b8` fix(shared): theme toggle extracted + matchMedia sync, stripLocale hardening, no passWithNoTests, astro.config.ts imports locales. RED 2 failed/10 passed → GREEN 16/16.
+- T3 `ead8398` feat(projects): slice with content collection (glob loader, locale+slug from path), 7 EN + 7 ES placeholders, SelectedWork, ProjectIndex, ProjectArticle, detail pages. RED (missing modules) → GREEN 24/24. check 0 errors; build 16 pages. Parent spot check: `pnpm test` 24 passed.
+- Review T2b+T3 (base 3bff0d3, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → ead8398. Findings → T3b.
 
 ## Next step
-T2b + T3.
+T3b + T4 + T5.

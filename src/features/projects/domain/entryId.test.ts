@@ -13,7 +13,8 @@ describe('parseEntryId', () => {
     expect(parseEntryId('en/')).toBeNull();
   });
 
-  it('keeps nested segments inside the slug', () => {
-    expect(parseEntryId('en/a/b')).toEqual({ locale: 'en', slug: 'a/b' });
+  it('rejects nested slugs because routes are single-segment', () => {
+    expect(parseEntryId('en/a/b')).toBeNull();
+    expect(parseEntryId('en/a/')).toBeNull();
   });
 });
