@@ -8,6 +8,8 @@ export interface ContactStrings {
   github: string;
   cv: string;
   opensInNewTab: string;
+  /** Accessible name of the floating contact rail. */
+  railLabel: string;
 }
 
 export const contactUi: Record<Locale, ContactStrings> = {
@@ -19,6 +21,7 @@ export const contactUi: Record<Locale, ContactStrings> = {
     github: 'GitHub',
     cv: 'Résumé — PDF',
     opensInNewTab: '(opens in a new tab)',
+    railLabel: 'Contact links',
   },
   es: {
     kicker: 'Correspondencia',
@@ -28,6 +31,7 @@ export const contactUi: Record<Locale, ContactStrings> = {
     github: 'GitHub',
     cv: 'CV — PDF',
     opensInNewTab: '(se abre en una pestaña nueva)',
+    railLabel: 'Enlaces de contacto',
   },
 };
 
