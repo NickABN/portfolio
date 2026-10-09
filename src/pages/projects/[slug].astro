@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../shared/layouts/BaseLayout.astro';
+import ThemeToggle from '../../shared/ui/ThemeToggle.astro';
+import ProjectArticle from '../../features/projects/components/ProjectArticle.astro';
+import { getProjects, type ProjectItem } from '../../features/projects/data/getProjects';
+
+export async function getStaticPaths() {
+  const projects = await getProjects('en');
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+interface Props {
+  project: ProjectItem;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout locale="en" title={project.title}>
+  <main id="main" class="page">
+    <ThemeToggle locale="en" />
+    <ProjectArticle locale="en" project={project} />
+  </main>
+</BaseLayout>

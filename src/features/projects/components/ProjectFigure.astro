@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  figLabel: string;
+  caption?: string;
+  placeholder: string;
+  cover?: ImageMetadata;
+  coverAlt?: string;
+}
+
+const { figLabel, caption, placeholder, cover, coverAlt = '' } = Astro.props;
+---
+
+<figure>
+  {
+    cover ? (
+      <Image
+        class="plate"
+        src={cover}
+        alt={coverAlt}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 960px) 600px, 100vw"
+      />
+    ) : (
+      <div class="plate mono" role="img" aria-label={placeholder}>
+        {placeholder}
+      </div>
+    )
+  }
+  {
+    caption && (
+      <figcaption>
+        <span class="label">{figLabel}</span> — {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  figure {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plate {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: var(--plate);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+  }
+  figcaption {
+    font-size: var(--text-small);
+    color: var(--muted);
+  }
+  figcaption .label {
+    color: var(--ink);
+  }
+</style>

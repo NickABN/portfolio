@@ -3,13 +3,14 @@ interface Props {
   title: string;
   section: string;
   level?: 'major' | 'minor';
+  headingId?: string;
 }
 
-const { title, section, level = 'major' } = Astro.props;
+const { title, section, level = 'major', headingId } = Astro.props;
 ---
 
 <div class:list={['section-header', level]}>
-  <h2>{title}</h2>
+  <h2 id={headingId}>{title}</h2>
   <span class="label">{section}</span>
 </div>
 

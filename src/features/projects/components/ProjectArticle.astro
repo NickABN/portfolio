@@ -1,0 +1,85 @@
+---
+import { render } from 'astro:content';
+import type { Locale } from '../../../shared/i18n/locales';
+import { localizePath } from '../../../shared/i18n/utils';
+import type { ProjectItem } from '../data/getProjects';
+import { useProjectsUi } from '../i18n';
+import ProjectFigure from './ProjectFigure.astro';
+import ProjectLinks from './ProjectLinks.astro';
+
+interface Props {
+  locale: Locale;
+  project: ProjectItem;
+}
+
+const { locale, project } = Astro.props;
+const strings = useProjectsUi(locale);
+const { slug, entry } = project;
+const data = entry.data;
+const { Content } = await render(entry);
+---
+
+<article class="article">
+  <a class="back label" href={localizePath('/', locale)}>← {strings.backToFront}</a>
+  <span class="kicker accent">
+    {strings.feature} — {strings.status[data.status]}
+  </span>
+  <h1>{data.title}</h1>
+  <p class="deck">{data.deck}</p>
+  <p class="label meta">
+    {strings.role}: {data.role} · {data.stack.join(', ')} · {data.year}
+  </p>
+  {data.client && <p class="note">{strings.clientNote}</p>}
+  <ProjectFigure
+    figLabel={`${strings.fig} 1`}
+    caption={data.caption}
+    placeholder={strings.shot}
+    cover={data.cover}
+    coverAlt={data.coverAlt}
+  />
+  <div class="body">
+    <Content />
+  </div>
+  <ProjectLinks slug={slug} locale={locale} liveUrl={data.liveUrl} repoUrl={data.repoUrl} showCaseStudy={false} />
+</article>
+
+<style>
+  .article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 760px;
+    padding: var(--space-5) 0 var(--space-6);
+  }
+  .accent {
+    color: var(--accent);
+  }
+  h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+  }
+  .deck {
+    font-size: var(--text-deck);
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .meta,
+  .note {
+    color: var(--muted);
+  }
+  .note {
+    font-size: var(--text-small);
+  }
+  .body :global(h2) {
+    margin: var(--space-4) 0 var(--space-1);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  .body :global(p) {
+    margin: 0 0 var(--space-2);
+  }
+</style>

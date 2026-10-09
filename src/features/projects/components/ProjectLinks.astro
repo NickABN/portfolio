@@ -1,0 +1,46 @@
+---
+import type { Locale } from '../../../shared/i18n/locales';
+import { localizePath } from '../../../shared/i18n/utils';
+import { useProjectsUi } from '../i18n';
+
+interface Props {
+  slug: string;
+  locale: Locale;
+  liveUrl?: string;
+  repoUrl?: string;
+  /** Hidden on the detail page itself. */
+  showCaseStudy?: boolean;
+}
+
+const { slug, locale, liveUrl, repoUrl, showCaseStudy = true } = Astro.props;
+const strings = useProjectsUi(locale);
+---
+
+<div class="links label">
+  {
+    liveUrl && (
+      <a href={liveUrl} target="_blank" rel="noopener">
+        {strings.visit} ↗<span class="sr-only"> {strings.opensInNewTab}</span>
+      </a>
+    )
+  }
+  {showCaseStudy && <a href={localizePath(`/projects/${slug}/`, locale)}>{strings.caseStudy}</a>}
+  {
+    repoUrl && (
+      <a href={repoUrl} target="_blank" rel="noopener">
+        {strings.source} ↗<span class="sr-only"> {strings.opensInNewTab}</span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  a {
+    text-underline-offset: 4px;
+  }
+</style>

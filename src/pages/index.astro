@@ -1,12 +1,20 @@
 ---
 import BaseLayout from '../shared/layouts/BaseLayout.astro';
 import ThemeToggle from '../shared/ui/ThemeToggle.astro';
+import SelectedWork from '../features/projects/components/SelectedWork.astro';
+import ProjectIndex from '../features/projects/components/ProjectIndex.astro';
+import { getProjects } from '../features/projects/data/getProjects';
+import { selectArchive, selectFeatured } from '../features/projects/domain/project';
 import { site } from '../shared/config/site';
+
+const projects = await getProjects('en');
 ---
 
 <BaseLayout locale="en">
   <main id="main" class="page">
     <ThemeToggle locale="en" />
     <h1>{site.name}</h1>
+    <SelectedWork locale="en" projects={selectFeatured(projects)} />
+    <ProjectIndex locale="en" projects={selectArchive(projects)} />
   </main>
 </BaseLayout>

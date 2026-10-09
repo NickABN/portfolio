@@ -1,0 +1,123 @@
+---
+import SectionHeader from '../../../shared/ui/SectionHeader.astro';
+import type { Locale } from '../../../shared/i18n/locales';
+import { localizePath } from '../../../shared/i18n/utils';
+import type { ProjectItem } from '../data/getProjects';
+import { statusMeta } from '../domain/project';
+import { useProjectsUi } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  projects: ProjectItem[];
+}
+
+const { locale, projects } = Astro.props;
+const strings = useProjectsUi(locale);
+---
+
+<section class="index" aria-labelledby="index-title">
+  <div class="fade">
+    <SectionHeader title={strings.indexTitle} section={strings.indexSection} level="minor" headingId="index-title" />
+  </div>
+  <div class="scroller">
+    <div class="table">
+      <div class="row head label" aria-hidden="true">
+        <span>{strings.colYear}</span>
+        <span>{strings.colTitle}</span>
+        <span>{strings.colMedium}</span>
+        <span>{strings.colStatus}</span>
+        <span></span>
+      </div>
+      <ul>
+        {
+          projects.map(({ slug, title, year, status, entry }) => {
+            const meta = statusMeta(status);
+            return (
+              <li class="fade">
+                <a class="row entry" href={localizePath(`/projects/${slug}/`, locale)}>
+                  <span class="mono year">{year}</span>
+                  <span class="name">{title}</span>
+                  <span class="medium">{entry.data.stack.join(', ')}</span>
+                  <span class="label status">
+                    <span aria-hidden="true" class={`mark ${meta.tone}`}>
+                      {meta.mark}
+                    </span>
+                    {strings.status[status]}
+                  </span>
+                  <span aria-hidden="true" class="arrow">
+                    →
+                  </span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .index {
+    padding: var(--space-5) 0 var(--space-6);
+    border-bottom: var(--rule);
+  }
+  .scroller {
+    overflow-x: auto;
+  }
+  .table {
+    min-width: 640px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 3fr) minmax(0, 2fr) 140px 40px;
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+  .head {
+    padding: 10px 0;
+    border-top: var(--rule);
+    border-bottom: var(--rule);
+    color: var(--muted);
+  }
+  .entry {
+    padding: 18px 0;
+    border-bottom: var(--rule-hair);
+    text-decoration: none;
+  }
+  .entry:hover .name {
+    font-style: italic;
+  }
+  .year,
+  .medium {
+    color: var(--muted);
+  }
+  .medium {
+    font-size: 15px;
+  }
+  .name {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  .status {
+    display: inline-flex;
+    gap: var(--space-1);
+  }
+  .mark.live {
+    color: var(--live);
+  }
+  .mark.accent {
+    color: var(--accent);
+  }
+  .mark.muted {
+    color: var(--muted);
+  }
+  .arrow {
+    text-align: right;
+  }
+</style>

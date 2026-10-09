@@ -1,0 +1,98 @@
+---
+import SectionHeader from '../../../shared/ui/SectionHeader.astro';
+import type { Locale } from '../../../shared/i18n/locales';
+import type { ProjectItem } from '../data/getProjects';
+import { useProjectsUi } from '../i18n';
+import ProjectFigure from './ProjectFigure.astro';
+import ProjectLinks from './ProjectLinks.astro';
+
+interface Props {
+  locale: Locale;
+  projects: ProjectItem[];
+  /** Fig. 1 belongs to the front page, so features start at 2. */
+  firstFigure?: number;
+}
+
+const { locale, projects, firstFigure = 2 } = Astro.props;
+const strings = useProjectsUi(locale);
+---
+
+<section id="work" class="work" aria-labelledby="work-title">
+  <div class="fade">
+    <SectionHeader title={strings.workTitle} section={strings.workSection} headingId="work-title" />
+  </div>
+  <div class="features">
+    {
+      projects.map(({ slug, entry }, index) => {
+        const data = entry.data;
+        return (
+          <article class="fade feature">
+            <span class="kicker accent">
+              {strings.feature} — {strings.status[data.status]}
+            </span>
+            <h3>{data.title}</h3>
+            <p class="deck">{data.deck}</p>
+            <ProjectFigure
+              figLabel={`${strings.fig} ${firstFigure + index}`}
+              caption={data.caption}
+              placeholder={strings.shot}
+              cover={data.cover}
+              coverAlt={data.coverAlt}
+            />
+            <div class="foot">
+              <span class="label meta">
+                {strings.role}: {data.role} · {data.stack.join(', ')} · {data.year}
+              </span>
+              <ProjectLinks slug={slug} locale={locale} liveUrl={data.liveUrl} repoUrl={data.repoUrl} />
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .work {
+    padding: var(--space-5) 0 var(--space-6);
+    border-bottom: var(--rule);
+  }
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+  }
+  .feature {
+    flex: 1 1 480px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .accent {
+    color: var(--accent);
+  }
+  h3 {
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .deck {
+    font-size: 20px;
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: var(--rule-hair);
+  }
+  .meta {
+    color: var(--muted);
+  }
+</style>
