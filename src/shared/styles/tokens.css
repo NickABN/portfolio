@@ -1,0 +1,67 @@
+/* Design tokens. Light is the default; dark follows the system unless the
+   user picked a theme explicitly via data-theme. */
+:root {
+  color-scheme: light;
+  --paper: #eaeaea;
+  --ink: #07393c;
+  --muted: #685762;
+  --hair: #c6cdcc;
+  --plate: #dcdfde;
+  --live: #5a9367;
+  --accent: #9e5536; /* text-safe accent */
+  --display: #b86a45; /* large display accent only */
+  --figure: #07393c;
+
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-label: 'Archivo Narrow', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --text-base: 18px;
+  --text-small: 14px;
+  --text-label: 12px;
+  --text-deck: 22px;
+  --text-h2: clamp(36px, 5vw, 56px);
+  --text-display: clamp(56px, 12vw, 176px);
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 56px;
+  --space-6: 72px;
+  --gutter: clamp(16px, 4vw, 56px);
+  --page-max: 1280px;
+  --tap: 44px;
+
+  --rule: 1px solid var(--ink);
+  --rule-hair: 1px solid var(--hair);
+  --rule-double: 3px double var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #07393c;
+    --ink: #eaeaea;
+    --muted: #b9c4c2;
+    --hair: #2a5659;
+    --plate: #0d4649;
+    --live: #7fb58a;
+    --accent: #d99677;
+    --display: #c57b57;
+    --figure: #c57b57;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #07393c;
+  --ink: #eaeaea;
+  --muted: #b9c4c2;
+  --hair: #2a5659;
+  --plate: #0d4649;
+  --live: #7fb58a;
+  --accent: #d99677;
+  --display: #c57b57;
+  --figure: #c57b57;
+}

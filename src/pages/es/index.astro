@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../shared/layouts/BaseLayout.astro';
+import ThemeToggle from '../../shared/ui/ThemeToggle.astro';
+import { site } from '../../shared/config/site';
+---
+
+<BaseLayout locale="es">
+  <main id="main" class="page">
+    <ThemeToggle locale="es" />
+    <h1>{site.name}</h1>
+  </main>
+</BaseLayout>
