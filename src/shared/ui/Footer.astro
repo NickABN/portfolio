@@ -9,11 +9,10 @@ interface Props {
 
 const { locale } = Astro.props;
 const strings = useUi(locale);
-const year = new Date().getFullYear();
 ---
 
 <footer class="footer label">
-  <span>© {year} {site.name}</span>
+  <span>© {site.copyrightYear} {site.name}</span>
   <span>{strings.setIn}</span>
   <span>{strings.printed}</span>
 </footer>

@@ -15,6 +15,9 @@ export interface UiStrings {
   setIn: string;
   printed: string;
   skipToContent: string;
+  notFoundTitle: string;
+  notFoundText: string;
+  notFoundHome: string;
 }
 
 export const ui: Record<Locale, UiStrings> = {
@@ -33,6 +36,9 @@ export const ui: Record<Locale, UiStrings> = {
     setIn: 'Set in Newsreader & Archivo Narrow',
     printed: 'Printed with Astro',
     skipToContent: 'Skip to content',
+    notFoundTitle: 'Page not found',
+    notFoundText: 'The page you are looking for is not in this edition.',
+    notFoundHome: 'Back to the front page',
   },
   es: {
     siteTitle: 'Portafolio',
@@ -49,6 +55,9 @@ export const ui: Record<Locale, UiStrings> = {
     setIn: 'Compuesto en Newsreader y Archivo Narrow',
     printed: 'Impreso con Astro',
     skipToContent: 'Saltar al contenido',
+    notFoundTitle: 'Página no encontrada',
+    notFoundText: 'La página que buscas no está en esta edición.',
+    notFoundHome: 'Volver a la portada',
   },
 };
 

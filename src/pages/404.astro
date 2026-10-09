@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../shared/layouts/BaseLayout.astro';
+import Footer from '../shared/ui/Footer.astro';
+import Masthead from '../features/hero/components/Masthead.astro';
+import { locales } from '../shared/i18n/locales';
+import { useUi } from '../shared/i18n/ui';
+import { localizePath } from '../shared/i18n/utils';
+
+// Static hosts serve this one file for every unknown URL, so it shows both languages.
+const copy = locales.map((code) => ({ code, ui: useUi(code), home: localizePath('/', code) }));
+---
+
+<BaseLayout title={`${copy[0].ui.notFoundTitle} / ${copy[1].ui.notFoundTitle}`} noindex>
+  <div class="page">
+    <Masthead locale="en" variant="compact" />
+    <main id="main" class="missing">
+      <span class="kicker accent">404</span>
+      {
+        copy.map(({ code, ui, home }) => (
+          <section lang={code} class="notice">
+            <h1>{ui.notFoundTitle}</h1>
+            <p>{ui.notFoundText}</p>
+            <a class="label" href={home}>
+              {ui.notFoundHome} →
+            </a>
+          </section>
+        ))
+      }
+    </main>
+    <Footer locale="en" />
+  </div>
+</BaseLayout>
+
+<style>
+  .missing {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-6) 0;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .notice {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    padding-top: var(--space-3);
+    border-top: var(--rule);
+  }
+  h1 {
+    font-size: var(--text-h2);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  p {
+    font-size: var(--text-deck);
+    font-style: italic;
+    color: var(--muted);
+  }
+</style>

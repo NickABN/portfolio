@@ -3,16 +3,28 @@ import '../styles/global.css';
 import Motion from '../../features/motion/components/Motion.astro';
 import type { Locale } from '../i18n/locales';
 import { useUi } from '../i18n/ui';
+import { site } from '../config/site';
+import { buildSeo } from '../seo/meta';
 
 interface Props {
   title?: string;
   description?: string;
   locale?: Locale;
+  /** Keeps the page out of search results and skips canonical/hreflang (e.g. the 404 page). */
+  noindex?: boolean;
 }
 
 const { locale = 'en' } = Astro.props;
 const strings = useUi(locale);
-const { title = strings.siteTitle, description = strings.siteDescription } = Astro.props;
+const { title = strings.siteTitle, description = strings.siteDescription, noindex = false } = Astro.props;
+const seo = buildSeo({
+  siteUrl: site.url,
+  path: Astro.url.pathname,
+  locale,
+  title,
+  description,
+});
+const favicon = `${import.meta.env.BASE_URL}favicon.svg`;
 ---
 
 <!doctype html>
@@ -22,6 +34,30 @@ const { title = strings.siteTitle, description = strings.siteDescription } = Ast
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="icon" href={favicon} type="image/svg+xml" />
+    <meta name="theme-color" content="#eaeaea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#07393c" media="(prefers-color-scheme: dark)" />
+    {noindex && <meta name="robots" content="noindex" />}
+    {
+      !noindex && (
+        <>
+          <link rel="canonical" href={seo.canonical} />
+          {seo.alternates.map(({ hreflang, href }) => (
+            <link rel="alternate" hreflang={hreflang} href={href} />
+          ))}
+          <meta property="og:url" content={seo.ogUrl} />
+        </>
+      )
+    }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={seo.ogLocale} />
+    {seo.ogLocaleAlternates.map((value) => <meta property="og:locale:alternate" content={value} />)}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
