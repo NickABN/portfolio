@@ -1,6 +1,8 @@
 /* Scroll-driven animations. Every rule sits behind @supports and is switched
    off for reduced motion, so unsupported browsers (e.g. Firefox) simply render
-   the static, fully visible page. */
+   the static, fully visible page.
+   Longhands on purpose: the minifier (Lightning CSS) would otherwise fold
+   `animation-timeline` into the `animation` shorthand, which browsers reject. */
 
 .progress {
   position: fixed;
@@ -25,12 +27,16 @@
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
     .progress {
-      animation: progress-grow linear both;
+      animation-name: progress-grow;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: scroll(root);
     }
 
     .mast {
-      animation: mast-shrink linear both;
+      animation-name: mast-shrink;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: scroll(root);
       animation-range: 0 600px;
     }
@@ -40,19 +46,25 @@
     .fade,
     .reveal,
     .row-in {
-      animation: fade-cover linear both;
+      animation-name: fade-cover;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }
 
     .slide {
-      animation: slide-cover linear both;
+      animation-name: slide-cover;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }
 
     .drift {
-      animation: drift-cover linear both;
+      animation-name: drift-cover;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }
@@ -65,7 +77,9 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: ink-fill linear both;
+      animation-name: ink-fill;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 70% cover 60%;
     }
