@@ -9,8 +9,9 @@ export interface UiStrings {
   navContact: string;
   navCv: string;
   langLabel: string;
-  themeToggleToDark: string;
-  themeToggleToLight: string;
+  themeLabel: string;
+  themeLight: string;
+  themeDark: string;
   edition: string;
   setIn: string;
   printed: string;
@@ -30,8 +31,9 @@ export const ui: Record<Locale, UiStrings> = {
     navContact: 'Correspondence',
     navCv: 'Résumé (PDF)',
     langLabel: 'Language',
-    themeToggleToDark: 'Switch to dark theme',
-    themeToggleToLight: 'Switch to light theme',
+    themeLabel: 'Theme',
+    themeLight: 'Light',
+    themeDark: 'Dark',
     edition: 'Vol. 01 — Edition 2026',
     setIn: 'Set in Newsreader & Archivo Narrow',
     printed: 'Printed with Astro',
@@ -49,8 +51,9 @@ export const ui: Record<Locale, UiStrings> = {
     navContact: 'Correspondencia',
     navCv: 'CV (PDF)',
     langLabel: 'Idioma',
-    themeToggleToDark: 'Cambiar a tema oscuro',
-    themeToggleToLight: 'Cambiar a tema claro',
+    themeLabel: 'Tema',
+    themeLight: 'Claro',
+    themeDark: 'Oscuro',
     edition: 'Vol. 01 — Edición 2026',
     setIn: 'Compuesto en Newsreader y Archivo Narrow',
     printed: 'Impreso con Astro',

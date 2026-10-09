@@ -1,9 +1,10 @@
 ---
+import LanguageSwitch from '../../../shared/ui/LanguageSwitch.astro';
 import ThemeToggle from '../../../shared/ui/ThemeToggle.astro';
 import { site } from '../../../shared/config/site';
-import { locales, type Locale } from '../../../shared/i18n/locales';
+import type { Locale } from '../../../shared/i18n/locales';
 import { useUi } from '../../../shared/i18n/ui';
-import { getAlternatePaths, localizePath } from '../../../shared/i18n/utils';
+import { localizePath } from '../../../shared/i18n/utils';
 import { useHeroUi } from '../i18n';
 
 interface Props {
@@ -18,7 +19,6 @@ const { locale, variant = 'home', switchPath = Astro.url.pathname } = Astro.prop
 const ui = useUi(locale);
 const hero = useHeroUi(locale);
 const home = localizePath('/', locale);
-const alternates = getAlternatePaths(switchPath);
 ---
 
 <header class:list={['masthead', variant]}>
@@ -31,23 +31,7 @@ const alternates = getAlternatePaths(switchPath);
       <a href={site.cvPath}>{ui.navCv}</a>
     </nav>
     <div class="tools">
-      <div class="langs" role="group" aria-label={ui.langLabel}>
-        {
-          locales.map((code, index) => (
-            <>
-              {index > 0 && <span aria-hidden="true">/</span>}
-              <a
-                href={alternates[code]}
-                hreflang={code}
-                lang={code}
-                aria-current={code === locale ? 'true' : undefined}
-              >
-                {code.toUpperCase()}
-              </a>
-            </>
-          ))
-        }
-      </div>
+      <LanguageSwitch locale={locale} switchPath={switchPath} />
       <ThemeToggle locale={locale} />
     </div>
   </div>
@@ -93,8 +77,7 @@ const alternates = getAlternatePaths(switchPath);
     border-bottom: var(--rule);
   }
   nav,
-  .tools,
-  .langs {
+  .tools {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -102,21 +85,15 @@ const alternates = getAlternatePaths(switchPath);
   nav {
     gap: 0 var(--space-3);
   }
-  .strip a {
+  .tools {
+    gap: 12px;
+    padding: 6px 0;
+  }
+  .strip nav a {
     display: inline-flex;
     align-items: center;
     min-height: var(--tap);
     text-decoration: none;
-  }
-  .langs a {
-    min-width: var(--tap);
-    justify-content: center;
-  }
-  .langs a:not([aria-current]) {
-    opacity: 0.45;
-  }
-  .langs a:not([aria-current]):hover {
-    opacity: 0.8;
   }
   .nameplate {
     padding: var(--space-3) 0 var(--space-2);

@@ -1,32 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { nextTheme, resolveTheme, toggleLabel } from './theme';
+import { resolveTheme } from './theme';
 
 describe('resolveTheme', () => {
-  it('honours an explicit stored choice over the system preference', () => {
-    expect(resolveTheme('light', true)).toBe('light');
-    expect(resolveTheme('dark', false)).toBe('dark');
+  it('is dark only when the stored choice is dark', () => {
+    expect(resolveTheme('dark')).toBe('dark');
   });
 
-  it('follows the system preference when nothing valid is stored', () => {
-    expect(resolveTheme(null, true)).toBe('dark');
-    expect(resolveTheme(null, false)).toBe('light');
-    expect(resolveTheme('sepia', true)).toBe('dark');
-    expect(resolveTheme(undefined, false)).toBe('light');
+  it('defaults to light when nothing is stored', () => {
+    expect(resolveTheme(null)).toBe('light');
+    expect(resolveTheme(undefined)).toBe('light');
   });
-});
 
-describe('nextTheme', () => {
-  it('flips between light and dark', () => {
-    expect(nextTheme('light')).toBe('dark');
-    expect(nextTheme('dark')).toBe('light');
-  });
-});
-
-describe('toggleLabel', () => {
-  const labels = { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' };
-
-  it('describes the action that the next click performs', () => {
-    expect(toggleLabel('light', labels)).toBe('Switch to dark theme');
-    expect(toggleLabel('dark', labels)).toBe('Switch to light theme');
+  it('keeps an explicit light choice and ignores invalid values', () => {
+    expect(resolveTheme('light')).toBe('light');
+    expect(resolveTheme('sepia')).toBe('light');
+    expect(resolveTheme('')).toBe('light');
   });
 });

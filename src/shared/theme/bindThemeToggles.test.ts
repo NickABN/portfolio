@@ -1,13 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { bindThemeToggles, type ThemeToggleButton } from './bindThemeToggles';
 
-function fakeButton(): ThemeToggleButton & { click(): void; label: string | null } {
+type FakeButton = ThemeToggleButton & { click(): void; pressed: string | null };
+
+function fakeButton(choice: 'light' | 'dark'): FakeButton {
   let handler: () => void = () => {};
-  const button = {
-    dataset: { labelToDark: 'to dark', labelToLight: 'to light' } as ThemeToggleButton['dataset'],
-    label: null as string | null,
+  const button: FakeButton = {
+    dataset: { themeChoice: choice },
+    pressed: null,
     setAttribute(name: string, value: string) {
-      if (name === 'aria-label') button.label = value;
+      if (name === 'aria-pressed') button.pressed = value;
     },
     addEventListener(_type: 'click', listener: () => void) {
       handler = listener;
@@ -19,7 +21,7 @@ function fakeButton(): ThemeToggleButton & { click(): void; label: string | null
   return button;
 }
 
-function setup(options: { attr?: string | null; dark?: boolean; storage?: 'ok' | 'throws' } = {}) {
+function setup(options: { attr?: string | null; storage?: 'ok' | 'throws' | 'none' } = {}) {
   const attrs: Record<string, string> = options.attr ? { 'data-theme': options.attr } : {};
   const root = {
     getAttribute: (name: string) => attrs[name] ?? null,
@@ -28,49 +30,67 @@ function setup(options: { attr?: string | null; dark?: boolean; storage?: 'ok' |
     },
   };
   const stored: Record<string, string> = {};
-  const storage = {
-    setItem(key: string, value: string) {
-      if (options.storage === 'throws') throw new Error('blocked');
-      stored[key] = value;
-    },
-  };
-  let onChange: () => void = () => {};
-  const colorScheme = {
-    matches: options.dark ?? false,
-    addEventListener(_type: 'change', listener: () => void) {
-      onChange = listener;
-    },
-  };
-  const buttons = [fakeButton(), fakeButton()];
-  bindThemeToggles({ root, buttons, storage, colorScheme });
-  return { attrs, stored, buttons, colorScheme, fire: () => onChange() };
+  const storage =
+    options.storage === 'none'
+      ? null
+      : {
+          setItem(key: string, value: string) {
+            if (options.storage === 'throws') throw new Error('blocked');
+            stored[key] = value;
+          },
+        };
+  // Two instances of the control (e.g. masthead plus a second one): [light, dark, light, dark].
+  const buttons = [fakeButton('light'), fakeButton('dark'), fakeButton('light'), fakeButton('dark')];
+  bindThemeToggles({ root, buttons, storage });
+  return { attrs, stored, buttons };
 }
 
+const pressed = (buttons: FakeButton[]) => buttons.map((b) => b.pressed);
+
 describe('bindThemeToggles', () => {
-  it('labels every button with the action available from the current theme', () => {
-    const { buttons } = setup({ dark: true });
-    expect(buttons.map((b) => b.label)).toEqual(['to light', 'to light']);
+  it('marks light as pressed on every instance when nothing is chosen', () => {
+    const { buttons } = setup();
+    expect(pressed(buttons)).toEqual(['true', 'false', 'true', 'false']);
   });
 
-  it('flips the theme on click, persists it and relabels all buttons', () => {
-    const { attrs, stored, buttons } = setup({ attr: 'light' });
-    buttons[1]!.click();
+  it('marks the stored dark choice as pressed on load', () => {
+    const { buttons } = setup({ attr: 'dark' });
+    expect(pressed(buttons)).toEqual(['false', 'true', 'false', 'true']);
+  });
+
+  it('applies and persists the clicked choice and updates all instances', () => {
+    const { attrs, stored, buttons } = setup();
+    buttons[3]!.click();
     expect(attrs['data-theme']).toBe('dark');
     expect(stored['theme']).toBe('dark');
-    expect(buttons.map((b) => b.label)).toEqual(['to light', 'to light']);
-  });
+    expect(pressed(buttons)).toEqual(['false', 'true', 'false', 'true']);
 
-  it('still applies the theme when storage throws', () => {
-    const { attrs, buttons } = setup({ attr: 'dark', storage: 'throws' });
     buttons[0]!.click();
     expect(attrs['data-theme']).toBe('light');
+    expect(stored['theme']).toBe('light');
+    expect(pressed(buttons)).toEqual(['true', 'false', 'true', 'false']);
   });
 
-  it('relabels when the system preference changes without an explicit choice', () => {
-    const { colorScheme, buttons, fire } = setup({ dark: false });
-    expect(buttons[0]!.label).toBe('to dark');
-    colorScheme.matches = true;
-    fire();
-    expect(buttons[0]!.label).toBe('to light');
+  it('still applies the theme when storage throws or is unavailable', () => {
+    const blocked = setup({ storage: 'throws' });
+    blocked.buttons[1]!.click();
+    expect(blocked.attrs['data-theme']).toBe('dark');
+
+    const none = setup({ storage: 'none' });
+    none.buttons[1]!.click();
+    expect(none.attrs['data-theme']).toBe('dark');
+  });
+
+  it('ignores buttons without a valid choice', () => {
+    const attrs: Record<string, string> = {};
+    const bad = fakeButton('light');
+    bad.dataset = { themeChoice: 'sepia' };
+    bindThemeToggles({
+      root: { getAttribute: (n) => attrs[n] ?? null, setAttribute: (n, v) => void (attrs[n] = v) },
+      buttons: [bad],
+      storage: null,
+    });
+    bad.click();
+    expect(attrs['data-theme']).toBeUndefined();
   });
 });

@@ -1,7 +1,8 @@
-import { nextTheme, resolveTheme, toggleLabel, type Theme } from './theme';
+import { isTheme, resolveTheme } from './theme';
 
 export interface ThemeToggleButton {
-  dataset: { labelToDark?: string; labelToLight?: string };
+  /** `themeChoice` is the theme this button selects ("light" or "dark"). */
+  dataset: { themeChoice?: string };
   setAttribute(name: string, value: string): void;
   addEventListener(type: 'click', listener: () => void): void;
 }
@@ -10,38 +11,32 @@ export interface ThemeToggleDeps {
   root: { getAttribute(name: string): string | null; setAttribute(name: string, value: string): void };
   buttons: Iterable<ThemeToggleButton>;
   storage: { setItem(key: string, value: string): void } | null;
-  colorScheme: { matches: boolean; addEventListener(type: 'change', listener: () => void): void };
 }
 
-/** Wires every theme toggle: click flips and persists the theme, labels track the state. */
-export function bindThemeToggles({ root, buttons, storage, colorScheme }: ThemeToggleDeps): void {
+/** Wires every segmented theme button: a click selects and persists its theme, aria-pressed tracks the state. */
+export function bindThemeToggles({ root, buttons, storage }: ThemeToggleDeps): void {
   const list = [...buttons];
 
-  const currentTheme = (): Theme => resolveTheme(root.getAttribute('data-theme'), colorScheme.matches);
-
-  const syncLabels = (): void => {
-    const theme = currentTheme();
+  const syncPressed = (): void => {
+    const theme = resolveTheme(root.getAttribute('data-theme'));
     for (const button of list) {
-      const { labelToDark, labelToLight } = button.dataset;
-      if (!labelToDark || !labelToLight) continue;
-      button.setAttribute('aria-label', toggleLabel(theme, { toDark: labelToDark, toLight: labelToLight }));
+      button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme));
     }
   };
 
   for (const button of list) {
     button.addEventListener('click', () => {
-      const next = nextTheme(currentTheme());
-      root.setAttribute('data-theme', next);
+      const choice = button.dataset.themeChoice;
+      if (!isTheme(choice)) return;
+      root.setAttribute('data-theme', choice);
       try {
-        storage?.setItem('theme', next);
+        storage?.setItem('theme', choice);
       } catch {
         // Storage unavailable: the choice applies for this visit only.
       }
-      syncLabels();
+      syncPressed();
     });
   }
 
-  // Without an explicit choice the theme follows the system, so keep labels in step.
-  colorScheme.addEventListener('change', syncLabels);
-  syncLabels();
+  syncPressed();
 }

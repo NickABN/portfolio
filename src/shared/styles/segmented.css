@@ -1,0 +1,76 @@
+/* Segmented control shared by the theme and language switches.
+   Active option: ink fill with paper text. Inactive options draw an underline
+   left to right on hover/focus; hover never changes the active option. */
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+}
+
+.seg > * {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: var(--tap);
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.seg > * + * {
+  border-left: 1px solid var(--ink);
+}
+
+.seg > :focus-visible {
+  outline-offset: -4px;
+}
+
+.seg > [aria-pressed='true'],
+.seg > [aria-current='page'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.seg > a:hover {
+  opacity: 1;
+}
+
+.seg > [aria-pressed='false']::after,
+.seg > a:not([aria-current])::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 9px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.seg > [aria-pressed='false']:is(:hover, :focus-visible)::after,
+.seg > a:not([aria-current]):is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seg > *,
+  .seg > *::after {
+    transition: none !important;
+  }
+}
