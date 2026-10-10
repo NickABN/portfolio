@@ -15,7 +15,7 @@ const { locale, projects } = Astro.props;
 const strings = useProjectsUi(locale);
 ---
 
-<section class="index" aria-labelledby="index-title">
+<section id="index" class="index" aria-labelledby="index-title">
   <div class="fade">
     <SectionHeader title={strings.indexTitle} section={strings.indexSection} level="minor" headingId="index-title" />
   </div>
@@ -119,5 +119,42 @@ const strings = useProjectsUi(locale);
   }
   .arrow {
     text-align: right;
+  }
+  /* Phones: rows become cards. */
+  @media (max-width: 640px) {
+    .index {
+      padding: 40px 0 52px;
+    }
+    .table {
+      min-width: 0;
+    }
+    .head,
+    .arrow {
+      display: none;
+    }
+    .entry {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'year status'
+        'name name'
+        'stack stack';
+      gap: 6px 12px;
+      padding: 16px 0;
+    }
+    .year {
+      grid-area: year;
+    }
+    .status {
+      grid-area: status;
+      justify-self: end;
+    }
+    .name {
+      grid-area: name;
+      font-size: 26px;
+    }
+    .medium {
+      grid-area: stack;
+      font-size: 14px;
+    }
   }
 </style>

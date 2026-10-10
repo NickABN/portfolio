@@ -74,3 +74,33 @@
     transition: none !important;
   }
 }
+
+/* Phones: separate bordered chips; theme options are icon-only (the label stays as the accessible name). */
+@media (max-width: 640px) {
+  .seg {
+    border: 0;
+    gap: 6px;
+  }
+
+  .seg > *,
+  .seg > * + * {
+    min-width: var(--tap);
+    min-height: 36px;
+    border: 1px solid var(--ink);
+  }
+
+  .seg > [aria-pressed='false']::after,
+  .seg > a:not([aria-current])::after {
+    display: none;
+  }
+
+  .seg-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

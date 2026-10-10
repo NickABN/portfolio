@@ -23,7 +23,7 @@ const home = localizePath('/', locale);
 
 <header class:list={['masthead', variant]}>
   <div class="strip label">
-    <span>{ui.edition}</span>
+    <span class="edition-text">{ui.edition}</span>
     <nav aria-label={ui.navLabel}>
       <a href={`${home}#work`}>{ui.navWork}</a>
       <a href={`${home}#profile`}>{ui.navProfile}</a>
@@ -61,6 +61,13 @@ const home = localizePath('/', locale);
       ))
     }
   </div>
+
+  <nav class="section-bar label" aria-label={ui.navLabel}>
+    <a href={`${home}#work`}>{ui.navWork}</a>
+    <a href={`${home}#index`}>{ui.navIndex}</a>
+    <a href={`${home}#profile`}>{ui.navProfile}</a>
+    <a href={`${home}#correspondence`}>{ui.navContactShort}</a>
+  </nav>
 </header>
 
 <style>
@@ -120,5 +127,48 @@ const home = localizePath('/', locale);
   }
   .dot {
     color: var(--muted);
+  }
+  .section-bar {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .strip {
+      flex-wrap: nowrap;
+    }
+    .edition-text,
+    .strip nav {
+      display: none;
+    }
+    .tools {
+      width: 100%;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+    .nameplate {
+      padding: 16px 0 10px;
+    }
+    .tagline {
+      gap: 2px 10px;
+      font-size: 10px;
+      padding: 8px 0;
+    }
+    .section-bar {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 0;
+      white-space: nowrap;
+      scrollbar-width: none;
+      border-bottom: var(--rule);
+    }
+    .section-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .section-bar a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      text-decoration: none;
+    }
   }
 </style>

@@ -137,6 +137,17 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
       transform: rotateX(-16deg) rotateY(360deg);
     }
   }
+  @media (max-width: 640px) {
+    .plate {
+      aspect-ratio: 1 / 1;
+    }
+    .scene {
+      --size: 250px;
+    }
+    .logo-name {
+      font-size: 9px;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .sphere {
       animation: none;
@@ -151,12 +162,11 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
     fibonacciSphere,
     IDLE_SPEED,
     INITIAL_ANGLE,
-    ORBIT_SCENE_SIZE,
-    ORBIT_VIEW,
     project,
     projectionStyle,
     rotate,
     steerTarget,
+    viewForScene,
     type OrbitState,
     type Vec2,
   } from '../orbit/orbit';
@@ -169,7 +179,6 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
     if (!scene || items.length === 0) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (reduced.matches) return;
     const coarse = window.matchMedia('(pointer: coarse)');
 
     const points = fibonacciSphere(items.length);
@@ -180,7 +189,7 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
 
     const render = (): void => {
       // The scene shrinks on narrow screens; keep the sphere in proportion.
-      const view = { ...ORBIT_VIEW, radius: (ORBIT_VIEW.radius * scene.offsetWidth) / ORBIT_SCENE_SIZE };
+      const view = viewForScene(scene.offsetWidth);
       rotate(points, state.angle.x, state.angle.y).forEach((point, index) => {
         const { transform, opacity, zIndex } = projectionStyle(project(point, view));
         const style = items[index]!.style;
@@ -189,6 +198,12 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
         style.zIndex = zIndex;
       });
     };
+
+    // Static figure: place the logos once for the real scene size and stop.
+    if (reduced.matches) {
+      render();
+      return;
+    }
 
     const tick = (): void => {
       state = advance(state, target, EASE);

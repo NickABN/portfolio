@@ -35,6 +35,15 @@ dd {
   margin: 0;
 }
 
+/* Phones: the page can never be wider than the viewport. `clip` (unlike `hidden`) does not
+   create a scroll container, so the root scroll timelines and sticky elements keep working. */
+@media (max-width: 640px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
 a {
   color: inherit;
 }

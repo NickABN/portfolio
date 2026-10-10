@@ -125,24 +125,28 @@ const strings = useContactUi(locale);
       padding-left 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s;
   }
   @media (max-width: 640px) {
+    /* Floating round icon-only buttons, stacked at the bottom-right. */
     .rail {
       top: auto;
       bottom: 16px;
       right: 16px;
       transform: none;
-      flex-direction: row;
+      align-items: center;
+      gap: 10px;
     }
     .rail-btn {
-      margin-top: 0;
-      margin-left: -1px;
+      width: 48px;
+      justify-content: center;
+      margin: 0;
       border-right: 1px solid var(--ink);
+      border-radius: 50%;
+    }
+    .rail-icon {
+      flex: 1 1 auto;
+      height: 100%;
     }
     .rail-text {
       display: none;
-    }
-    /* Keep the footer readable above the fixed row. */
-    :global(body) {
-      padding-bottom: 80px;
     }
   }
   @media (prefers-reduced-motion: reduce) {

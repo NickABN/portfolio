@@ -5,7 +5,9 @@ export interface UiStrings {
   siteDescription: string;
   navLabel: string;
   navWork: string;
+  navIndex: string;
   navProfile: string;
+  navContactShort: string;
   navContact: string;
   navCv: string;
   langLabel: string;
@@ -27,7 +29,9 @@ export const ui: Record<Locale, UiStrings> = {
     siteDescription: 'Personal portfolio: selected work, profile and contact.',
     navLabel: 'Main',
     navWork: 'Work',
+    navIndex: 'Index',
     navProfile: 'Profile',
+    navContactShort: 'Contact',
     navContact: 'Correspondence',
     navCv: 'Résumé (PDF)',
     langLabel: 'Language',
@@ -47,7 +51,9 @@ export const ui: Record<Locale, UiStrings> = {
     siteDescription: 'Portafolio personal: trabajo seleccionado, perfil y contacto.',
     navLabel: 'Principal',
     navWork: 'Trabajo',
+    navIndex: 'Índice',
     navProfile: 'Perfil',
+    navContactShort: 'Contacto',
     navContact: 'Correspondencia',
     navCv: 'CV (PDF)',
     langLabel: 'Idioma',

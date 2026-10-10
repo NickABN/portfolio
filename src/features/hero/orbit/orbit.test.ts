@@ -10,6 +10,9 @@ import {
   project,
   rotate,
   steerTarget,
+  viewForScene,
+  ORBIT_SCENE_SIZE,
+  ORBIT_VIEW,
   type Vec3,
 } from './orbit';
 
@@ -162,5 +165,22 @@ describe('projectionStyle', () => {
       opacity: '0.625',
       zIndex: '50',
     });
+  });
+});
+
+describe('viewForScene', () => {
+  it('keeps the reference view for the reference scene size', () => {
+    expect(viewForScene(ORBIT_SCENE_SIZE)).toEqual(ORBIT_VIEW);
+  });
+
+  it('scales only the radius with the scene width', () => {
+    const view = viewForScene(250);
+    expect(view.radius).toBeCloseTo((ORBIT_VIEW.radius * 250) / ORBIT_SCENE_SIZE, 6);
+    expect(view.distance).toBe(ORBIT_VIEW.distance);
+  });
+
+  it('falls back to the reference view for an unmeasured scene', () => {
+    expect(viewForScene(0)).toEqual(ORBIT_VIEW);
+    expect(viewForScene(Number.NaN)).toEqual(ORBIT_VIEW);
   });
 });

@@ -38,6 +38,13 @@
   --rule-double: 3px double var(--ink);
 }
 
+/* Phones: fixed 22px side gutter. */
+@media (max-width: 640px) {
+  :root {
+    --gutter: 22px;
+  }
+}
+
 :root[data-theme='dark'] {
   color-scheme: dark;
   --paper: #07393c;

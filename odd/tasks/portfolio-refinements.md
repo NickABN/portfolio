@@ -39,6 +39,9 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 - [x] R2 Floating contact rail (contact slice), expanding buttons, mobile row, reduced motion. Route: delegated writer.
 - [x] R3 Tech sphere: vendored icon data, pure orbit math + tests, client loop with pointer steering, visibility pause, reduced motion, caption/i18n, README attribution. Route: delegated writer.
 
+- [ ] R4 Mobile layout (≤640px), approved in canvas v23 (artboard "Mobile — 390"): 22px side gutter; top chips bar (EN ES letter chips left, ☀ ☾ icon-only chips right, separate bordered chips, active filled, no hover underline; edition text hidden); nameplate; tagline smaller; horizontal scrollable section bar (Work · Index · Profile · Contact) under the tagline (mobile only; Index section gets id="index"); front page single column, sphere plate 1:1, scene 250px, orbit radius 100, label 9px, plate clips overflow; page never wider than viewport (overflow-x: clip); Index rows become cards (year left + status right / title 26px / stack 14px; no header row, no arrow, no horizontal scroll); sections padding 40px/52px; footer stacked; contact rail = floating 48px round icon-only buttons stacked bottom-right (16px), LinkedIn/GitHub ink border on paper, CV solid ink. Desktop unchanged. Verification includes a headless 390px measurement (no horizontal overflow; text blocks ≥ 22px from both edges). Route: delegated writer.
+- [x] R5 Fix: scroll-driven animations were dropped by the Lightning CSS minifier — DONE inline as `116931f` (longhands + regression test). Route: inline (1 CSS file + test).
+
 ## Acceptance criteria
 - First visit renders light even when the OS prefers dark; choosing Dark persists across pages; no flash.
 - Theme and language controls show the active option filled; hover draws the underline; keyboard focus shows the same.

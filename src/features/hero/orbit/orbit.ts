@@ -109,3 +109,9 @@ export function projectionStyle({ x, y, scale, opacity, z }: Projected): Project
     zIndex: String(z),
   };
 }
+
+/** View for a scene of the given pixel width: the radius follows the width, the camera distance does not. */
+export function viewForScene(sceneWidth: number): View {
+  if (!Number.isFinite(sceneWidth) || sceneWidth <= 0) return { ...ORBIT_VIEW };
+  return { ...ORBIT_VIEW, radius: (ORBIT_VIEW.radius * sceneWidth) / ORBIT_SCENE_SIZE };
+}

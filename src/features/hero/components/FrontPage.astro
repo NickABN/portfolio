@@ -113,6 +113,12 @@ const fullHeadline = `${first} ${second}${emphasis}`;
     flex-direction: column;
     gap: 12px;
   }
+  @media (max-width: 640px) {
+    .front {
+      gap: 28px;
+      padding: 28px 0 44px;
+    }
+  }
   figcaption {
     font-size: var(--text-small);
     line-height: 1.4;

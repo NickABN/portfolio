@@ -54,6 +54,11 @@ const { Content } = await render(entry);
   .accent {
     color: var(--accent);
   }
+  @media (max-width: 640px) {
+    .article {
+      padding: 40px 0 52px;
+    }
+  }
   h1 {
     font-size: clamp(40px, 6vw, 72px);
     line-height: 1;

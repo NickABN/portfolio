@@ -27,4 +27,12 @@ const strings = useUi(locale);
     border-top: var(--rule-double);
     color: var(--muted);
   }
+  @media (max-width: 640px) {
+    .footer {
+      flex-direction: column;
+      gap: 6px;
+      /* Right padding keeps the text clear of the floating contact buttons. */
+      padding: 12px 52px 40px 0;
+    }
+  }
 </style>
