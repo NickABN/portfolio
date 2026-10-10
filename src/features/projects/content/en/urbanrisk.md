@@ -11,7 +11,7 @@ repoUrl: "https://github.com/NickABN/urbanrisk-analytics"
 
 ## The problem
 
-Mexico City's C5 logs every road incident reported to emergency services. The question for our master's thesis at UNIR: can that record predict where and when risk concentrates, to help allocate resources? The catch is that the log only contains events. There is no negative class, so "accident / no accident" cannot be learned from it directly.
+Mexico City's C5 logs every road incident reported to emergency services. The question for our thesis in the Master's in Big Data Analytics & Visualization at UNIR México: can that record predict where and when risk concentrates, to help allocate resources? The catch is that the log only contains events. There is no negative class, so "accident / no accident" cannot be learned from it directly.
 
 ## What I built
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { techStack } from './techStack';
 
 describe('techStack', () => {
-  it('lists the 14 technologies in display order', () => {
+  it('lists the 22 technologies in display order', () => {
     expect(techStack.map((t) => t.name)).toEqual([
       'Flutter',
       'AWS',
@@ -18,6 +18,14 @@ describe('techStack', () => {
       'Spring Boot',
       'Apache Spark',
       'Hadoop',
+      'PostgreSQL',
+      'MySQL',
+      'MongoDB',
+      'Docker',
+      'Terraform',
+      'pandas',
+      'NumPy',
+      'scikit-learn',
     ]);
   });
 

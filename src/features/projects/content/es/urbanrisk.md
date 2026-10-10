@@ -11,7 +11,7 @@ repoUrl: "https://github.com/NickABN/urbanrisk-analytics"
 
 ## El problema
 
-El C5 de la Ciudad de México registra cada incidente vial reportado a emergencias. La pregunta de nuestro Trabajo Final de Máster en UNIR: ¿puede ese registro anticipar dónde y cuándo se concentra el riesgo, para ayudar a asignar recursos? El problema es que el registro solo contiene eventos. No existe clase negativa, así que «accidente / no accidente» no se puede aprender directamente.
+El C5 de la Ciudad de México registra cada incidente vial reportado a emergencias. La pregunta de nuestro Trabajo Final de la Maestría en Análisis y Visualización de Datos Masivos en UNIR México: ¿puede ese registro anticipar dónde y cuándo se concentra el riesgo, para ayudar a asignar recursos? El problema es que el registro solo contiene eventos. No existe clase negativa, así que «accidente / no accidente» no se puede aprender directamente.
 
 ## Qué construí
 
