@@ -24,6 +24,7 @@ const projects = defineCollection({
       coverAlt: z.string().optional(),
       caption: z.string().optional(),
       client: z.boolean().default(false),
+      highlights: z.array(z.object({ value: z.string(), label: z.string() })).max(3).optional(),
     }),
 });
 

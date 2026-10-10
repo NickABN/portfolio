@@ -9,6 +9,13 @@ featured: true
 order: 1
 liveUrl: "https://play.google.com/store/apps/details?id=com.oasisapp.user"
 client: true
+highlights:
+  - value: "25 → 150"
+    label: "Usuarios web concurrentes, misma instancia"
+  - value: "5,000+"
+    label: "Descargas en Google Play"
+  - value: "~40"
+    label: "Peticiones de una sola página al cargar"
 ---
 
 ## El problema

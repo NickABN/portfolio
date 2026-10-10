@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { selectArchive, selectFeatured, statusMeta, type ProjectSummary } from './project';
+import {
+  fileNumber,
+  getNextProject,
+  readingOrder,
+  selectArchive,
+  selectFeatured,
+  statusMeta,
+  type ProjectSummary,
+} from './project';
 
 function make(overrides: Partial<ProjectSummary> & { slug: string }): ProjectSummary {
   return {
@@ -54,5 +62,45 @@ describe('statusMeta', () => {
     expect(statusMeta('live')).toEqual({ mark: '●', tone: 'live' });
     expect(statusMeta('in-progress')).toEqual({ mark: '○', tone: 'accent' });
     expect(statusMeta('archived')).toEqual({ mark: '–', tone: 'muted' });
+  });
+});
+
+const sample = [
+  make({ slug: 'arch-new', title: 'B', year: 2025 }),
+  make({ slug: 'second', featured: true, order: 2 }),
+  make({ slug: 'first', featured: true, order: 1 }),
+  make({ slug: 'arch-old', title: 'A', year: 2020 }),
+];
+
+describe('readingOrder', () => {
+  it('lists featured projects first, then the archive', () => {
+    expect(readingOrder(sample).map((p) => p.slug)).toEqual(['first', 'second', 'arch-new', 'arch-old']);
+  });
+});
+
+describe('getNextProject', () => {
+  it('returns the following project in reading order', () => {
+    expect(getNextProject(sample, 'first')?.slug).toBe('second');
+    expect(getNextProject(sample, 'second')?.slug).toBe('arch-new');
+  });
+
+  it('wraps from the last project to the first', () => {
+    expect(getNextProject(sample, 'arch-old')?.slug).toBe('first');
+  });
+
+  it('returns undefined for an unknown slug or when there is nothing else to read', () => {
+    expect(getNextProject(sample, 'missing')).toBeUndefined();
+    expect(getNextProject([make({ slug: 'only' })], 'only')).toBeUndefined();
+  });
+});
+
+describe('fileNumber', () => {
+  it('gives the 1-based, zero-padded position in reading order', () => {
+    expect(fileNumber(sample, 'first')).toBe('01');
+    expect(fileNumber(sample, 'arch-old')).toBe('04');
+  });
+
+  it('returns undefined for an unknown slug', () => {
+    expect(fileNumber(sample, 'missing')).toBeUndefined();
   });
 });

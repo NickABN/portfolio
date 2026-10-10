@@ -7,6 +7,13 @@ stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "DynamoDB", 
 status: live
 featured: true
 order: 2
+highlights:
+  - value: "11"
+    label: "Residential communities"
+  - value: "~5,000"
+    label: "Active users"
+  - value: "4–10 → 1–3 min"
+    label: "Visitor handling time"
 ---
 
 ## The problem

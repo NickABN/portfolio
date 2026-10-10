@@ -18,6 +18,16 @@ export interface ProjectsStrings {
   caseStudy: string;
   source: string;
   opensInNewTab: string;
+  theFile: string;
+  number: string;
+  visitProduct: string;
+  sourceCode: string;
+  privateNote: string;
+  clientWork: string;
+  stack: string;
+  backToWork: string;
+  backTo: string;
+  nextFeature: string;
   backToFront: string;
   clientNote: string;
   status: Record<ProjectStatus, string>;
@@ -41,6 +51,16 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     caseStudy: 'Read case study',
     source: 'Source',
     opensInNewTab: '(opens in a new tab)',
+    theFile: 'The file',
+    number: 'No.',
+    visitProduct: 'Visit the product',
+    sourceCode: 'Source code',
+    privateNote: "Private client work. The product isn't public; this page shares the details I'm allowed to.",
+    clientWork: 'Client work',
+    stack: 'Stack',
+    backToWork: '← Selected Work',
+    backTo: 'Back to',
+    nextFeature: 'Next feature',
     backToFront: 'Back to the front page',
     clientNote: 'Client work: details are shared with permission.',
     status: { live: 'Live', 'in-progress': 'In progress', archived: 'Archived' },
@@ -62,6 +82,16 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     caseStudy: 'Leer caso de estudio',
     source: 'Código',
     opensInNewTab: '(se abre en una pestaña nueva)',
+    theFile: 'La ficha',
+    number: 'N.º',
+    visitProduct: 'Ver el producto',
+    sourceCode: 'Código fuente',
+    privateNote: 'Trabajo privado para un cliente. El producto no es público; esta página comparte los detalles que puedo mostrar.',
+    clientWork: 'Trabajo de cliente',
+    stack: 'Stack',
+    backToWork: '← Trabajo seleccionado',
+    backTo: 'Volver a',
+    nextFeature: 'Siguiente proyecto',
     backToFront: 'Volver a la portada',
     clientNote: 'Trabajo para clientes: los detalles se comparten con autorización.',
     status: { live: 'En línea', 'in-progress': 'En desarrollo', archived: 'Archivado' },
