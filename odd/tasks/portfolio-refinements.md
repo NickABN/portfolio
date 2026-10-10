@@ -39,7 +39,7 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 - [x] R2 Floating contact rail (contact slice), expanding buttons, mobile row, reduced motion. Route: delegated writer.
 - [x] R3 Tech sphere: vendored icon data, pure orbit math + tests, client loop with pointer steering, visibility pause, reduced motion, caption/i18n, README attribution. Route: delegated writer.
 
-- [ ] R4 Mobile layout (≤640px), approved in canvas v23 (artboard "Mobile — 390"): 22px side gutter; top chips bar (EN ES letter chips left, ☀ ☾ icon-only chips right, separate bordered chips, active filled, no hover underline; edition text hidden); nameplate; tagline smaller; horizontal scrollable section bar (Work · Index · Profile · Contact) under the tagline (mobile only; Index section gets id="index"); front page single column, sphere plate 1:1, scene 250px, orbit radius 100, label 9px, plate clips overflow; page never wider than viewport (overflow-x: clip); Index rows become cards (year left + status right / title 26px / stack 14px; no header row, no arrow, no horizontal scroll); sections padding 40px/52px; footer stacked; contact rail = floating 48px round icon-only buttons stacked bottom-right (16px), LinkedIn/GitHub ink border on paper, CV solid ink. Desktop unchanged. Verification includes a headless 390px measurement (no horizontal overflow; text blocks ≥ 22px from both edges). Route: delegated writer.
+- [x] R4 Mobile layout (≤640px), approved in canvas v23 (artboard "Mobile — 390"): 22px side gutter; top chips bar (EN ES letter chips left, ☀ ☾ icon-only chips right, separate bordered chips, active filled, no hover underline; edition text hidden); nameplate; tagline smaller; horizontal scrollable section bar (Work · Index · Profile · Contact) under the tagline (mobile only; Index section gets id="index"); front page single column, sphere plate 1:1, scene 250px, orbit radius 100, label 9px, plate clips overflow; page never wider than viewport (overflow-x: clip); Index rows become cards (year left + status right / title 26px / stack 14px; no header row, no arrow, no horizontal scroll); sections padding 40px/52px; footer stacked; contact rail = floating 48px round icon-only buttons stacked bottom-right (16px), LinkedIn/GitHub ink border on paper, CV solid ink. Desktop unchanged. Verification includes a headless 390px measurement (no horizontal overflow; text blocks ≥ 22px from both edges). Route: delegated writer.
 - [x] R5 Fix: scroll-driven animations were dropped by the Lightning CSS minifier — DONE inline as `116931f` (longhands + regression test). Route: inline (1 CSS file + test).
 
 ## Acceptance criteria
@@ -56,9 +56,11 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 - Review R1–R3 (base 6bfd49b, medium, slice_budget_reached): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → e1357e8.
 - Fix `e104500` fix(shared): theme-color meta follows in-session switches (bindThemeToggles onThemeChange). RED 2 failed/77 → GREEN 79/79; check 0; build 17. Assess: medium, under_budget (pending in slice).
 
+- R4 `3f59de9` feat(layout): mobile layout ≤640px (22px gutter, chips bar, section bar, index cards, 1:1 sphere plate with viewForScene radius, floating round rail, overflow-x clip). RED 3 failed → GREEN 84/84; check 0; build 17. Headless Chromium 390×844 on /, /es/, /projects/project-one/, /404 (reduced + normal motion): scrollWidth 390/390, no text block < 21.5px from either edge — 8/8 pass. Baseline showed content at 16px and index rows overflowing to x=-266 inside their scroller. Parent viewed the 390px screenshot. Assess (base e1357e8): medium, under_budget (364 lines) — pending in slice.
+
 ## Follow-ups (not blocking)
 - TechSphere: if reduced motion is on at load, the loop never starts when it is turned off mid-session (review suggestion); client loop has no automated coverage beyond pure math.
 - Not verified in a browser by the agents; owner reviews the local preview.
 
 ## Next step
-Owner reviews local preview; on approval fast-forward main and push origin.
+Owner reviews local preview (desktop + phone width); on approval fast-forward main and push origin.
