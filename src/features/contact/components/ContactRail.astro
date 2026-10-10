@@ -125,10 +125,12 @@ const strings = useContactUi(locale);
       padding-left 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.12s;
   }
   @media (max-width: 640px) {
-    /* Floating round icon-only buttons, stacked at the bottom-right. */
+    /* Floating round icon-only buttons, stacked at the bottom-right.
+       Lifted 80px so they clear the host's "Powered by Netlify" badge
+       (a 64px-tall iframe pinned to the bottom-right corner). */
     .rail {
       top: auto;
-      bottom: 16px;
+      bottom: calc(80px + env(safe-area-inset-bottom, 0px));
       right: 16px;
       transform: none;
       align-items: center;
