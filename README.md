@@ -64,7 +64,7 @@ Edit `src/shared/config/site.ts`:
 | `city` | Where you are based |
 | `email` | Contact address (rendered as a `mailto:` link) |
 | `linkedin`, `github` | Full profile URLs (currently `#`) |
-| `url` | Public origin of the deployed site. It is a placeholder (`https://example.com`) and feeds canonical and hreflang URLs and Astro's `site` option. **Replace it before deploying.** |
+| `url` | Public origin of the deployed site (`https://nickabn-portfolio.netlify.app`). Feeds canonical and hreflang URLs and Astro's `site` option. Update it if you add a custom domain. |
 | `copyrightYear` | Year shown in the footer |
 | `cvPath` | URL of the CV (default `/cv.pdf`) |
 
@@ -138,3 +138,10 @@ All logos are trademarks of their respective owners. They are used here only to 
 - `prefers-reduced-motion: reduce` also disables the typing caret, the tech sphere rotation, and every scroll-driven animation. The headline is rendered in full for screen readers.
 - Without JavaScript the site stays fully readable. Only the typing effect, the theme switch, the sphere animation and Lenis need scripts.
 - Anchor navigation moves focus to the target section so keyboard users land where they scrolled.
+
+## Deployment
+
+The site is hosted on Netlify (`https://nickabn-portfolio.netlify.app`). `netlify.toml` defines the build (`pnpm build`), the published folder (`dist`) and the Node version.
+
+- Manual deploy from this folder: `pnpm build && npx netlify deploy --prod --dir dist`.
+- Automatic deploys: connect the GitHub repository in Netlify (Project configuration → Build & deploy → Link repository); every push to `main` then publishes.
