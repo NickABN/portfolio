@@ -68,6 +68,8 @@ const caption = `${site.name}, ${site.city}, 2026.`;
   }
   .portrait {
     flex: 1 1 280px;
+    max-width: 340px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -76,7 +78,10 @@ const caption = `${site.name}, ${site.city}, 2026.`;
   .plate {
     aspect-ratio: 3 / 4;
     width: 100%;
+    /* The <img> carries the source's height attribute; let aspect-ratio drive it instead. */
+    height: auto;
     object-fit: cover;
+    object-position: center;
     filter: grayscale(1);
   }
   .plate {

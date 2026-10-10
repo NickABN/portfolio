@@ -10,7 +10,6 @@ interface Props {
 
 const { locale } = Astro.props;
 const hero = useHeroUi(locale);
-const meridians = Array.from({ length: 9 }, (_, index) => index * 20);
 
 // Server-rendered positions, so the sphere is a readable static figure without JavaScript.
 const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIAL_ANGLE.y).map((point, index) => {
@@ -21,12 +20,6 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
 
 <div class="plate">
   <div class="scene drift" data-orbit-scene>
-    <div class="sphere backdrop" aria-hidden="true">
-      {meridians.map((angle) => <div class="ring" style={`transform: rotateY(${angle}deg)`} />)}
-      <div class="lat equator"></div>
-      <div class="lat mid north"></div>
-      <div class="lat mid south"></div>
-    </div>
     <ul class="orbit" role="list" aria-label={hero.stackLabel}>
       {
         placed.map(({ tech, style }) => (
@@ -67,43 +60,6 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
     width: var(--size);
     height: var(--size);
   }
-  .sphere {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    animation: spin 40s linear infinite;
-  }
-  .backdrop {
-    position: absolute;
-    inset: 0;
-    opacity: 0.22;
-  }
-  .ring,
-  .lat {
-    position: absolute;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-  }
-  .ring {
-    inset: 0;
-  }
-  .lat {
-    opacity: 0.4;
-  }
-  .equator {
-    inset: 0;
-    transform: rotateX(90deg);
-  }
-  .mid {
-    inset: 6.7%;
-  }
-  .mid.north {
-    transform: rotateX(90deg) translateZ(calc(var(--size) * 0.25));
-  }
-  .mid.south {
-    transform: rotateX(90deg) translateZ(calc(var(--size) * -0.25));
-  }
   .orbit {
     position: absolute;
     inset: 0;
@@ -129,14 +85,6 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
     letter-spacing: 0.12em;
     white-space: nowrap;
   }
-  @keyframes spin {
-    from {
-      transform: rotateX(-16deg) rotateY(0deg);
-    }
-    to {
-      transform: rotateX(-16deg) rotateY(360deg);
-    }
-  }
   @media (max-width: 640px) {
     .plate {
       aspect-ratio: 1 / 1;
@@ -146,12 +94,6 @@ const placed = rotate(fibonacciSphere(techStack.length), INITIAL_ANGLE.x, INITIA
     }
     .logo-name {
       font-size: 9px;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .sphere {
-      animation: none;
-      transform: rotateX(-16deg) rotateY(25deg);
     }
   }
 </style>

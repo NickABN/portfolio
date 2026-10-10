@@ -3,7 +3,7 @@ title: "MYFRAC"
 year: 2024
 deck: "A residential community platform with facial and QR access control over IoT, mobile apps for residents and guards, and a WhatsApp assistant that handles about 7,000 visitor accesses a month."
 role: "Full-stack developer & squad tech lead"
-stack: ["Java", "Spring Boot", "Python", "FastAPI", "AWS IoT Core", "DynamoDB", "Flutter"]
+stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "DynamoDB", "Flutter"]
 status: live
 featured: true
 order: 2
@@ -19,7 +19,7 @@ MYFRAC runs in 11 residential communities in Mexico and Honduras, with around 5,
 
 I own most of the platform end to end: the infrastructure, the Java back end, the residents' and guards' mobile apps, the web admin panels and the residents' WhatsApp chatbots.
 
-- **The core Spring Boot back end,** backed by AWS Lambda functions for asynchronous work, with CSV, Excel and PDF reports in Java and Python.
+- **The core Spring Boot back end,** backed by AWS Lambda functions for asynchronous work, with CSV, Excel and PDF reports in Python and Java.
 - **Access control over MQTT.** Gate devices — facial recognition terminals and QR scanners — connect through AWS IoT Core. Access events flow through EventBridge to Lambda and land in DynamoDB, and faces and QR codes are managed on the devices over the same channel.
 - **The residents' WhatsApp assistant,** built on Botmaker with LLM-based language understanding (OpenAI and Anthropic). It handles about 7,000 automated visitor accesses a month and cut handling time from 4–10 minutes to 1–3, measured with operational metrics I implemented.
 - **The guards' and residents' Flutter apps** for iOS and Android, and the web panels administrators use to run each community.

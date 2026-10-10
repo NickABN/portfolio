@@ -22,7 +22,7 @@ export const heroUi: Record<Locale, HeroStrings> = {
     tags: ['Architecture', 'Interfaces', 'Systems'],
     frontKicker: 'Front page',
     headline: ['Software, written', 'with the care of ', 'good prose.'],
-    deck: 'Full-stack engineer in Mexico. I build back ends in Java and Python, serverless systems on AWS and Flutter apps, and I put them in front of real users.',
+    deck: 'Full-stack engineer in Mexico. I build back ends in Python and Java, serverless systems on AWS and Flutter apps, and I put them in front of real users.',
     intro1:
       'I like systems where software meets the physical world: gates that open from an MQTT event, a WhatsApp message that lets a visitor in, a checkout that has to survive a World Cup. I start from the bottleneck, measure before I claim, and prefer the change that removes load over the one that buys more servers.',
     intro2:
@@ -37,7 +37,7 @@ export const heroUi: Record<Locale, HeroStrings> = {
     tags: ['Arquitectura', 'Interfaces', 'Sistemas'],
     frontKicker: 'Portada',
     headline: ['Software escrito', 'con el cuidado de ', 'la buena prosa.'],
-    deck: 'Ingeniero full-stack en México. Construyo backends en Java y Python, sistemas serverless en AWS y apps en Flutter, y los pongo frente a usuarios reales.',
+    deck: 'Ingeniero full-stack en México. Construyo backends en Python y Java, sistemas serverless en AWS y apps en Flutter, y los pongo frente a usuarios reales.',
     intro1:
       'Me gustan los sistemas donde el software toca el mundo físico: una pluma que se abre con un evento MQTT, un mensaje de WhatsApp que deja pasar a una visita, un checkout que tiene que sobrevivir a un Mundial. Empiezo por el cuello de botella, mido antes de afirmar y prefiero el cambio que quita carga al que compra más servidores.',
     intro2:

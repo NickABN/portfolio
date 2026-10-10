@@ -3,7 +3,7 @@ title: "MYFRAC"
 year: 2024
 deck: "Una plataforma para comunidades residenciales con control de acceso facial y por QR sobre IoT, apps móviles para residentes y vigilantes, y un asistente de WhatsApp que gestiona unos 7,000 accesos de visitantes al mes."
 role: "Desarrollador full-stack y tech lead del squad"
-stack: ["Java", "Spring Boot", "Python", "FastAPI", "AWS IoT Core", "DynamoDB", "Flutter"]
+stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "DynamoDB", "Flutter"]
 status: live
 featured: true
 order: 2
@@ -19,7 +19,7 @@ MYFRAC opera en 11 comunidades residenciales de México y Honduras, con unos 5,0
 
 Llevo la mayor parte de la plataforma de punta a punta: la infraestructura, el backend en Java, las apps móviles de residentes y vigilantes, los paneles web de administración y los chatbots de WhatsApp para residentes.
 
-- **El backend principal en Spring Boot,** apoyado en funciones AWS Lambda para el trabajo asíncrono, con reportes en CSV, Excel y PDF en Java y Python.
+- **El backend principal en Spring Boot,** apoyado en funciones AWS Lambda para el trabajo asíncrono, con reportes en CSV, Excel y PDF en Python y Java.
 - **Control de acceso por MQTT.** Los dispositivos de las casetas —terminales de reconocimiento facial y escáneres de QR— se conectan a través de AWS IoT Core. Los eventos de acceso pasan por EventBridge a Lambda y se guardan en DynamoDB, y los rostros y códigos QR se gestionan en los dispositivos por el mismo canal.
 - **El asistente de WhatsApp para residentes,** construido sobre Botmaker con comprensión de lenguaje basada en LLMs (OpenAI y Anthropic). Gestiona unos 7,000 accesos automatizados de visitantes al mes y bajó el tiempo de atención de 4–10 minutos a 1–3, medido con métricas operativas que implementé.
 - **Las apps Flutter de vigilantes y residentes** para iOS y Android, y los paneles web con los que los administradores operan cada comunidad.
