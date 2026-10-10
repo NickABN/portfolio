@@ -3,88 +3,211 @@ import { render } from 'astro:content';
 import type { Locale } from '../../../shared/i18n/locales';
 import { localizePath } from '../../../shared/i18n/utils';
 import type { ProjectItem } from '../data/getProjects';
+import { fileNumber, getNextProject } from '../domain/project';
 import { useProjectsUi } from '../i18n';
+import NextProject from './NextProject.astro';
+import ProjectFacts from './ProjectFacts.astro';
 import ProjectFigure from './ProjectFigure.astro';
-import ProjectLinks from './ProjectLinks.astro';
+import ProjectHighlights from './ProjectHighlights.astro';
 
 interface Props {
   locale: Locale;
   project: ProjectItem;
+  /** Every project of this locale; used for the file number and the next-project link. */
+  projects: ProjectItem[];
 }
 
-const { locale, project } = Astro.props;
+const { locale, project, projects } = Astro.props;
 const strings = useProjectsUi(locale);
-const { slug, entry } = project;
-const data = entry.data;
-const { Content } = await render(entry);
+const data = project.entry.data;
+const { Content } = await render(project.entry);
+const next = getNextProject(projects, project.slug);
 ---
 
 <article class="article">
-  <a class="back label" href={localizePath('/', locale)}>← {strings.backToFront}</a>
-  <span class="kicker accent">
-    {strings.feature} — {strings.status[data.status]}
-  </span>
-  <h1>{data.title}</h1>
-  <p class="deck">{data.deck}</p>
-  <p class="label meta">
-    {strings.role}: {data.role} · {data.stack.join(', ')} · {data.year}
-  </p>
-  {data.client && <p class="note">{strings.clientNote}</p>}
-  <ProjectFigure
-    figLabel={`${strings.fig} 1`}
-    caption={data.caption}
-    placeholder={strings.shot}
-    cover={data.cover}
-    coverAlt={data.coverAlt}
-  />
-  <div class="body">
-    <Content />
+  <header class="head">
+    <a class="back label" href={localizePath('/#work', locale)}>{strings.backToWork}</a>
+    <span class="kicker accent">
+      {strings.feature} — {strings.status[data.status]}{data.client && ` · ${strings.clientWork}`}
+    </span>
+    <h1>{data.title}</h1>
+    <p class="deck">{data.deck}</p>
+  </header>
+  <div class="rule"></div>
+  <div class="hero-fig">
+    <ProjectFigure
+      hero
+      figLabel={`${strings.fig} 1`}
+      caption={data.caption}
+      placeholder={strings.shot}
+      cover={data.cover}
+      coverAlt={data.coverAlt}
+    />
   </div>
-  <ProjectLinks slug={slug} locale={locale} liveUrl={data.liveUrl} repoUrl={data.repoUrl} showCaseStudy={false} />
+  <div class="layout">
+    <ProjectFacts
+      locale={locale}
+      number={fileNumber(projects, project.slug)}
+      status={data.status}
+      year={data.year}
+      role={data.role}
+      stack={data.stack}
+      client={data.client}
+      liveUrl={data.liveUrl}
+      repoUrl={data.repoUrl}
+    />
+    <div class="content">
+      {data.highlights && data.highlights.length > 0 && <ProjectHighlights highlights={data.highlights} />}
+      <div class="body">
+        <Content />
+      </div>
+    </div>
+  </div>
+  <NextProject locale={locale} next={next && { slug: next.slug, title: next.title }} />
 </article>
 
 <style>
   .article {
+    padding-bottom: var(--space-4);
+  }
+  .head {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    max-width: 760px;
-    padding: var(--space-5) 0 var(--space-6);
+    align-items: flex-start;
+    gap: 18px;
+    max-width: 980px;
+    padding-top: 40px;
+  }
+  .back {
+    color: var(--muted);
+    text-decoration: none;
   }
   .accent {
     color: var(--accent);
   }
-  @media (max-width: 640px) {
-    .article {
-      padding: 40px 0 52px;
-    }
-  }
   h1 {
-    font-size: clamp(40px, 6vw, 72px);
-    line-height: 1;
+    font-size: clamp(52px, 9vw, 120px);
+    line-height: 0.95;
     font-weight: 400;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
   }
   .deck {
-    font-size: var(--text-deck);
+    max-width: 820px;
+    font-size: clamp(20px, 2.2vw, 26px);
     line-height: 1.4;
     font-style: italic;
     color: var(--muted);
   }
-  .meta,
-  .note {
-    color: var(--muted);
+  .rule {
+    margin: 36px 0 40px;
+    border-top: var(--rule);
   }
-  .note {
-    font-size: var(--text-small);
+  .hero-fig {
+    margin-bottom: 56px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 72px;
+    align-items: start;
+  }
+  .content {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  /* Body copy comes from Markdown, so it is styled through :global. */
+  .body {
+    counter-reset: section;
   }
   .body :global(h2) {
-    margin: var(--space-4) 0 var(--space-1);
-    font-size: 32px;
+    counter-increment: section;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin: 48px 0 18px;
+    font-size: 36px;
     font-weight: 400;
     letter-spacing: -0.015em;
   }
+  .body :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body :global(h2)::before {
+    content: counter(section, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .body :global(h2:first-of-type + p)::first-letter {
+    float: left;
+    font-size: 4.6em;
+    line-height: 0.82;
+    padding: 6px 10px 0 0;
+    font-weight: 500;
+  }
   .body :global(p) {
-    margin: 0 0 var(--space-2);
+    margin: 0 0 18px;
+  }
+  .body :global(ul) {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+  }
+  .body :global(li) {
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 12px;
+  }
+  .body :global(li)::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+  }
+  .body :global(blockquote) {
+    margin: 32px 0;
+    padding: 20px 0;
+    border-top: var(--rule);
+    border-bottom: var(--rule);
+    font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1.25;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+  .body :global(blockquote > p) {
+    margin: 0;
+  }
+
+  /* Tablet and phone: one column with the fact box straight after the deck. The grid wrapper
+     disappears (display: contents) so the figure can sit below the box without duplicate markup. */
+  @media (max-width: 900px) {
+    .article {
+      display: flex;
+      flex-direction: column;
+    }
+    .layout {
+      display: contents;
+    }
+    .content {
+      grid-column: auto;
+      grid-row: auto;
+      order: 1;
+    }
+    .hero-fig {
+      order: 1;
+      margin-bottom: 40px;
+    }
+    .body :global(h2) {
+      font-size: 32px;
+    }
+  }
+  @media (max-width: 640px) {
+    .article {
+      padding-bottom: 28px;
+    }
+    .head {
+      padding-top: 28px;
+    }
   }
 </style>

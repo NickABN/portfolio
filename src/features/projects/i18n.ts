@@ -28,8 +28,6 @@ export interface ProjectsStrings {
   backToWork: string;
   backTo: string;
   nextFeature: string;
-  backToFront: string;
-  clientNote: string;
   status: Record<ProjectStatus, string>;
 }
 
@@ -61,8 +59,6 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     backToWork: '← Selected Work',
     backTo: 'Back to',
     nextFeature: 'Next feature',
-    backToFront: 'Back to the front page',
-    clientNote: 'Client work: details are shared with permission.',
     status: { live: 'Live', 'in-progress': 'In progress', archived: 'Archived' },
   },
   es: {
@@ -92,8 +88,6 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     backToWork: '← Trabajo seleccionado',
     backTo: 'Volver a',
     nextFeature: 'Siguiente proyecto',
-    backToFront: 'Volver a la portada',
-    clientNote: 'Trabajo para clientes: los detalles se comparten con autorización.',
     status: { live: 'En línea', 'in-progress': 'En desarrollo', archived: 'Archivado' },
   },
 };

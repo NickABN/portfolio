@@ -8,21 +8,19 @@ interface Props {
   placeholder: string;
   cover?: ImageMetadata;
   coverAlt?: string;
+  /** Wide editorial crop for the detail page: 21:9 on desktop, 16:10 on tablets and phones. */
+  hero?: boolean;
 }
 
-const { figLabel, caption, placeholder, cover, coverAlt = '' } = Astro.props;
+const { figLabel, caption, placeholder, cover, coverAlt = '', hero = false } = Astro.props;
+const sizes = hero ? '(min-width: 1280px) 1168px, 100vw' : '(min-width: 960px) 600px, 100vw';
+const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
 ---
 
-<figure>
+<figure class:list={{ hero }}>
   {
     cover ? (
-      <Image
-        class="plate"
-        src={cover}
-        alt={coverAlt}
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 960px) 600px, 100vw"
-      />
+      <Image class="plate" src={cover} alt={coverAlt} widths={widths} sizes={sizes} />
     ) : (
       <div class="plate mono" role="img" aria-label={placeholder}>
         {placeholder}
@@ -53,6 +51,14 @@ const { figLabel, caption, placeholder, cover, coverAlt = '' } = Astro.props;
     align-items: center;
     justify-content: center;
     color: var(--muted);
+  }
+  .hero .plate {
+    aspect-ratio: 21 / 9;
+  }
+  @media (max-width: 900px) {
+    .hero .plate {
+      aspect-ratio: 16 / 10;
+    }
   }
   figcaption {
     font-size: var(--text-small);

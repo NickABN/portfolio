@@ -1,0 +1,86 @@
+---
+import type { Locale } from '../../../shared/i18n/locales';
+import { localizePath } from '../../../shared/i18n/utils';
+import { useProjectsUi } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Omitted when there is no other project to read. */
+  next?: { slug: string; title: string };
+}
+
+const { locale, next } = Astro.props;
+const strings = useProjectsUi(locale);
+---
+
+<nav class:list={['pn', { single: !next }]} aria-label={strings.workTitle}>
+  <a class="next" href={localizePath('/#work', locale)}>
+    <span class="label muted">← {strings.backTo}</span>
+    <span class="t">{strings.workTitle}</span>
+  </a>
+  {
+    next && (
+      <a class="next forward" href={localizePath(`/projects/${next.slug}/`, locale)}>
+        <span class="label muted">{strings.nextFeature} →</span>
+        <span class="t">{next.title}</span>
+      </a>
+    )
+  }
+</nav>
+
+<style>
+  .pn {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 72px;
+    border-top: var(--rule-double);
+    border-bottom: var(--rule);
+  }
+  .pn.single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .next {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 28px 0;
+    text-decoration: none;
+  }
+  .next:hover {
+    opacity: 1;
+  }
+  .forward {
+    padding-left: 24px;
+    text-align: right;
+    border-left: var(--rule-hair);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .t {
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    transition: font-style 0.2s;
+  }
+  .next:hover .t,
+  .next:focus-visible .t {
+    font-style: italic;
+  }
+  @media (max-width: 900px) {
+    .pn {
+      order: 2;
+    }
+  }
+  @media (max-width: 640px) {
+    .pn {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .forward {
+      padding-left: 0;
+      text-align: left;
+      border-left: 0;
+      border-top: var(--rule-hair);
+    }
+  }
+</style>

@@ -95,9 +95,25 @@ Frontmatter fields:
 | `liveUrl`, `repoUrl` | no | Full URLs. The sample entries use `https://example.com`; replace them |
 | `cover`, `coverAlt` | no | Cover image path relative to the Markdown file, and its alt text |
 | `caption` | no | Figure caption |
-| `client` | no | `true` marks client work. Default `false` |
+| `client` | no | `true` marks client work. Default `false`. A client project with no `liveUrl`/`repoUrl` shows a "private client work" note in its fact box instead of link buttons |
+| `highlights` | no | Up to three headline figures shown as a strip above the case study (see below). Only use numbers the text already states |
 
-The Markdown body becomes the case study on the detail page.
+`highlights` example:
+
+```yaml
+highlights:
+  - value: "25 → 150"
+    label: "Concurrent web users, same instance"
+  - value: "5,000+"
+    label: "Downloads on Google Play"
+```
+
+The Markdown body becomes the case study on the detail page:
+
+- Each `##` heading becomes an automatically numbered section (01, 02, ...); do not number them by hand.
+- A Markdown quote (`> text`) renders as a large pull quote between two rules. Add one where you want it.
+- The first paragraph after the first `##` gets a drop cap, and `-` bullets render with an em dash.
+- `liveUrl` and `repoUrl` appear first, as buttons in the fact box next to the article (on phones, right after the deck).
 
 ### Portrait
 

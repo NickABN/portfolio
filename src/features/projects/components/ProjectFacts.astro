@@ -1,0 +1,198 @@
+---
+import type { Locale } from '../../../shared/i18n/locales';
+import { statusMeta, type ProjectStatus } from '../domain/project';
+import { useProjectsUi } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  /** Zero-padded position in the site's reading order, e.g. "01". */
+  number?: string;
+  status: ProjectStatus;
+  year: number;
+  role: string;
+  stack: string[];
+  client: boolean;
+  liveUrl?: string;
+  repoUrl?: string;
+}
+
+const { locale, number, status, year, role, stack, client, liveUrl, repoUrl } = Astro.props;
+const strings = useProjectsUi(locale);
+const meta = statusMeta(status);
+const hasLinks = Boolean(liveUrl || repoUrl);
+---
+
+<aside class="facts" aria-label={strings.theFile}>
+  <div class="box">
+    <div class="label head">
+      <span>{strings.theFile}</span>
+      {number && <span class="mono muted">{strings.number} {number}</span>}
+    </div>
+    {
+      hasLinks && (
+        <div class="links">
+          {liveUrl && (
+            <a class="btn solid" href={liveUrl} target="_blank" rel="noopener noreferrer">
+              <span>
+                {strings.visitProduct}
+                <span class="sr-only"> {strings.opensInNewTab}</span>
+              </span>
+              <span class="arr" aria-hidden="true">↗</span>
+            </a>
+          )}
+          {repoUrl && (
+            <a class:list={['btn outline', { stacked: Boolean(liveUrl) }]} href={repoUrl} target="_blank" rel="noopener noreferrer">
+              <span>
+                {strings.sourceCode}
+                <span class="sr-only"> {strings.opensInNewTab}</span>
+              </span>
+              <span class="arr" aria-hidden="true">↗</span>
+            </a>
+          )}
+        </div>
+      )
+    }
+    {!hasLinks && client && <p class="private">{strings.privateNote}</p>}
+    <dl>
+      <div class="row">
+        <dt class="label muted">{strings.colStatus}</dt>
+        <dd class="label">
+          <span class={`mark ${meta.tone}`} aria-hidden="true">{meta.mark}</span> {strings.status[status]}
+        </dd>
+      </div>
+      <div class="row">
+        <dt class="label muted">{strings.colYear}</dt>
+        <dd class="mono year">{year}</dd>
+      </div>
+      <div class="row">
+        <dt class="label muted">{strings.role}</dt>
+        <dd class="role">{role}</dd>
+      </div>
+      <div class="row">
+        <dt class="label muted">{strings.stack}</dt>
+        <dd class="stack">
+          {stack.map((item) => <span class="mono chip">{item}</span>)}
+        </dd>
+      </div>
+    </dl>
+  </div>
+</aside>
+
+<style>
+  .facts {
+    position: sticky;
+    top: 24px;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .box {
+    border: var(--rule);
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: var(--rule);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    border-bottom: var(--rule);
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    padding: 0 18px;
+    text-decoration: none;
+    font-family: var(--font-label);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition:
+      background-color 0.3s ease 0.05s,
+      color 0.3s ease 0.05s;
+  }
+  .btn:hover {
+    opacity: 1;
+  }
+  .solid {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .solid:hover,
+  .solid:focus-visible {
+    background: var(--accent);
+  }
+  .outline.stacked {
+    border-top: var(--rule);
+  }
+  .outline:hover,
+  .outline:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .arr {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s;
+  }
+  .btn:hover .arr,
+  .btn:focus-visible .arr {
+    transform: translate(3px, -3px);
+  }
+  .private {
+    padding: 16px 18px;
+    font-size: 15px;
+    line-height: 1.45;
+    font-style: italic;
+    color: var(--muted);
+    border-bottom: var(--rule);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: var(--rule-hair);
+  }
+  .row:last-child {
+    border-bottom: 0;
+  }
+  .year {
+    font-size: 14px;
+  }
+  .role {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    padding: 3px 8px;
+    border: var(--rule-hair);
+  }
+  .mark.live {
+    color: var(--live);
+  }
+  .mark.accent {
+    color: var(--accent);
+  }
+  .mark.muted {
+    color: var(--muted);
+  }
+  @media (max-width: 900px) {
+    .facts {
+      position: static;
+      grid-column: auto;
+      grid-row: auto;
+      margin-bottom: 32px;
+    }
+  }
+</style>

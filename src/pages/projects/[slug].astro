@@ -7,21 +7,22 @@ import { getProjects, type ProjectItem } from '../../features/projects/data/getP
 
 export async function getStaticPaths() {
   const projects = await getProjects('en');
-  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project, projects } }));
 }
 
 interface Props {
   project: ProjectItem;
+  projects: ProjectItem[];
 }
 
-const { project } = Astro.props;
+const { project, projects } = Astro.props;
 ---
 
 <BaseLayout locale="en" title={project.title}>
   <div class="page">
     <Masthead locale="en" variant="compact" />
     <main id="main">
-      <ProjectArticle locale="en" project={project} />
+      <ProjectArticle locale="en" project={project} projects={projects} />
     </main>
     <Footer locale="en" />
   </div>
