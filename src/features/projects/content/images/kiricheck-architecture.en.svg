@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Kiricheck architecture</title>
+  <desc id="d">Employees check in over WhatsApp to a Lambda check-in service that records attendance in DynamoDB. Administrators use a Nuxt front end served from S3 and CloudFront, which calls a FastAPI admin API on Lambda. The API reads and writes DynamoDB, runs the bonus, pre-payroll and incident-monitor services, produces Excel, CSV and PDF reports, and notifies the front end of changes over a WebSocket.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">Kiricheck · Architecture</text>
+  <text x="56" y="108" class="serif" font-size="38">From a WhatsApp message to payroll</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <!-- Lane labels -->
+  <text x="56" y="178" class="sans" font-size="12" fill="#685762">01 — The clock</text>
+  <text x="56" y="414" class="sans" font-size="12" fill="#685762">02 — The back office</text>
+
+  <!-- Lane 1 -->
+  <rect x="56" y="196" width="224" height="132" class="box"/>
+  <text x="76" y="232" class="serif" font-size="24">Employees</text>
+  <text x="76" y="266" class="mono" font-size="14">Shift workers</text>
+  <text x="76" y="290" class="mono" font-size="14">check in and out</text>
+  <text x="76" y="314" class="mono" font-size="14">no hardware</text>
+
+  <path d="M280 262 H 372" class="flow" marker-end="url(#acc)"/>
+  <text x="288" y="250" class="mono" font-size="13">WhatsApp</text>
+
+  <rect x="376" y="216" width="280" height="92" class="hot"/>
+  <text x="396" y="256" class="serif" font-size="24">Check-in service</text>
+  <text x="396" y="284" class="mono" font-size="14">AWS Lambda · Python</text>
+
+  <path d="M656 262 H 748" class="flow" marker-end="url(#acc)"/>
+
+  <rect x="752" y="196" width="348" height="132" class="hot"/>
+  <text x="772" y="232" class="serif" font-size="24">DynamoDB</text>
+  <text x="772" y="266" class="mono" font-size="14">attendance log · employees</text>
+  <text x="772" y="290" class="mono" font-size="14">roles · schedules · workplaces</text>
+  <text x="772" y="314" class="mono" font-size="14">incidents · bonuses</text>
+
+  <!-- Lane 2 -->
+  <rect x="56" y="432" width="224" height="92" class="box"/>
+  <text x="76" y="468" class="serif" font-size="24">Administrators</text>
+  <text x="76" y="496" class="mono" font-size="14">Company admins</text>
+  <text x="76" y="514" class="mono" font-size="14">Superadmin</text>
+
+  <path d="M280 478 H 372" class="link" marker-end="url(#ink)"/>
+
+  <rect x="376" y="432" width="280" height="92" class="box"/>
+  <text x="396" y="468" class="serif" font-size="24">Admin front</text>
+  <text x="396" y="496" class="mono" font-size="14">Nuxt 3 · Vue · Vuetify</text>
+  <text x="396" y="514" class="mono" font-size="14">S3 + CloudFront</text>
+
+  <path d="M656 478 H 748" class="link" marker-end="url(#ink)"/>
+  <text x="680" y="466" class="mono" font-size="13">JWT</text>
+
+  <rect x="752" y="432" width="260" height="92" class="box"/>
+  <text x="772" y="468" class="serif" font-size="24">Admin API</text>
+  <text x="772" y="496" class="mono" font-size="14">FastAPI · Mangum</text>
+  <text x="772" y="514" class="mono" font-size="14">AWS Lambda</text>
+
+  <!-- API reads/writes the same store -->
+  <path d="M880 432 V 332" class="link" marker-start="url(#ink)" marker-end="url(#ink)"/>
+  <text x="896" y="388" class="mono" font-size="13">reads · writes</text>
+
+  <path d="M1012 478 H 1096" class="link" marker-end="url(#ink)"/>
+
+  <rect x="1100" y="432" width="240" height="92" class="box"/>
+  <text x="1120" y="468" class="serif" font-size="24">Domain services</text>
+  <text x="1120" y="496" class="mono" font-size="14">bonuses · pre-payroll</text>
+  <text x="1120" y="514" class="mono" font-size="14">incident monitor</text>
+
+  <path d="M1220 524 V 548" class="link" marker-end="url(#ink)"/>
+
+  <rect x="1100" y="552" width="240" height="72" class="box"/>
+  <text x="1120" y="580" class="serif" font-size="22">Reports</text>
+  <text x="1120" y="602" class="mono" font-size="14">Excel · CSV · PDF</text>
+
+  <!-- Live updates -->
+  <path d="M800 524 V 588 H 660" class="link" stroke-dasharray="6 6" marker-end="url(#ink)"/>
+  <text x="812" y="578" class="mono" font-size="13">on every change</text>
+
+  <rect x="376" y="552" width="280" height="72" class="box"/>
+  <text x="396" y="580" class="serif" font-size="22">Live updates</text>
+  <text x="396" y="602" class="mono" font-size="14">WebSocket notifier</text>
+
+  <path d="M516 552 V 528" class="link" stroke-dasharray="6 6" marker-end="url(#ink)"/>
+
+  <!-- Design notes column -->
+  <line x1="1384" y1="196" x2="1384" y2="624" class="rule"/>
+  <text x="1404" y="236" class="serif" font-size="28">By company</text>
+  <text x="1404" y="262" class="sans" font-size="11" fill="#685762">every table is keyed</text>
+  <text x="1404" y="280" class="sans" font-size="11" fill="#685762">by company ID</text>
+  <text x="1404" y="356" class="serif" font-size="28">By period</text>
+  <text x="1404" y="382" class="sans" font-size="11" fill="#685762">attendance read</text>
+  <text x="1404" y="400" class="sans" font-size="11" fill="#685762">through a date index</text>
+  <text x="1404" y="476" class="serif" font-size="28">Serverless</text>
+  <text x="1404" y="502" class="sans" font-size="11" fill="#685762">peaks absorbed,</text>
+  <text x="1404" y="520" class="sans" font-size="11" fill="#685762">no idle servers</text>
+
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Delivery and tests</text>
+  <text x="430" y="682" class="mono" font-size="14">Nuxt static build → S3 + CloudFront · Playwright end-to-end tests on the admin front</text>
+</svg>
