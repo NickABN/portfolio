@@ -19,9 +19,13 @@ ON (session configuration); Vitest. Pure capture helpers (config validation, out
 Branch `feat/project-covers` from `main` at `e866b27`. Owner approves via Netlify draft deploy, then fast-forward main, push, deploy production. GitHub issue created for phase 2 (owner authorized).
 
 ## Tasks
-- [ ] C1 `coverFit` schema field (`cover` | `contain`, default `cover`) + ProjectFigure support; MYFRAC diagram EN/ES wired with alt text and caption. Route: delegated writer.
-- [ ] C2 Capture tool: `scripts/capture/` Playwright script + `captures.config.json` + `pnpm capture` (+ tests for pure helpers) + README section. Route: delegated writer.
-- [ ] C3 GitHub issue with phase-2 tasks per project. Route: inline (gh).
+- [x] C1 `coverFit` schema field (`cover` | `contain`, default `cover`) + ProjectFigure support; MYFRAC diagram EN/ES wired with alt text and caption. Route: delegated writer.
+- [x] C2 Capture tool: `scripts/capture/` Playwright script + `captures.config.json` + `pnpm capture` (+ tests for pure helpers) + README section. Route: delegated writer.
+- [x] C3 GitHub issue with phase-2 tasks per project. Route: inline (gh).
 
 ## Progress / evidence
-(updated per task)
+- C1 `a7f72d8` coverFit + MYFRAC diagram EN/ES; `.plate{height:auto}` fix for Astro's height attr. Headless: detail 1440 1168×501 full diagram, 390 346×216 contain, home card 560×350; naturalWidth 1680; no overflow. Parent viewed detail screenshot.
+- C2 `625d2da` pnpm capture (playwright 1.64.0 devDependency), lib.mjs + tests. RED → GREEN 101/101.
+- Review C1–C2 (base f69580a, medium, slice_budget_reached): consent granted; APPROVED with 3 warnings (hide selectors fail open, login race, validation gaps), acknowledged. Boundary → 625d2da.
+- Fix `d29a2d1` fix(tooling): fail-closed redactions (invalid selector aborts, zero-match warns), deterministic login wait, stricter validation, loadEnv ENOENT-only, --config flag. RED 6 failed → GREEN 109/109; check 0; build 17. Live run proved abort on `div[`.
+- C3 GitHub issue https://github.com/NickABN/portfolio/issues/1 (phase 2 per project).
