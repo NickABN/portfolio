@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { captureEnvName, frontmatterHint, outputPath, validateConfig } from './lib.mjs';
+import { captureEnvName, frontmatterHint, hideRules, outputPath, validateConfig } from './lib.mjs';
 
 const shot = (extra = {}) => ({
   slug: 'my-app',
@@ -52,9 +52,56 @@ describe('validateConfig', () => {
   });
 });
 
+describe('validateConfig strictness', () => {
+  const login = {
+    url: 'https://example.com/login',
+    emailSelector: '#e',
+    passwordSelector: '#p',
+    submitSelector: '#s',
+  };
+  it('rejects non-boolean enabled and fullPage', () => {
+    expect(() => validateConfig([shot({ enabled: 'false' })])).toThrow(/enabled/);
+    expect(() => validateConfig([shot({ fullPage: 1 })])).toThrow(/fullPage/);
+    expect(validateConfig([shot({ enabled: false, fullPage: true })])[0]).toMatchObject({ enabled: false, fullPage: true });
+  });
+  it('rejects negative or non-integer delayMs', () => {
+    expect(() => validateConfig([shot({ delayMs: -1 })])).toThrow(/delayMs/);
+    expect(() => validateConfig([shot({ delayMs: 1.5 })])).toThrow(/delayMs/);
+  });
+  it('rejects non-string waitFor and output', () => {
+    expect(() => validateConfig([shot({ waitFor: 3 })])).toThrow(/waitFor/);
+    expect(() => validateConfig([shot({ output: 3 })])).toThrow(/output/);
+  });
+  it('rejects a non-object login and a non-http(s) login url', () => {
+    expect(() => validateConfig([shot({ login: 'x' })])).toThrow(/login/);
+    expect(() => validateConfig([shot({ login: { ...login, url: 'file:///etc/passwd' } })])).toThrow(/login\.url/);
+  });
+  it('rejects a non-string login.waitFor', () => {
+    expect(() => validateConfig([shot({ login: { ...login, waitFor: 1 } })])).toThrow(/login\.waitFor/);
+    expect(validateConfig([shot({ login: { ...login, waitFor: 'main' } })])).toHaveLength(1);
+  });
+  it('rejects a bad output extension at startup', () => {
+    expect(() => validateConfig([shot({ output: 'shot.gif' })])).toThrow(/\.png/);
+    expect(validateConfig([shot({ output: 'shot.JPG' })])).toHaveLength(1);
+  });
+  it('rejects an output escaping the images folder at startup', () => {
+    expect(() => validateConfig([shot({ output: '../../x.png' })])).toThrow(/inside/);
+  });
+});
+
+describe('hideRules', () => {
+  it('builds one rule per selector so one bad selector cannot void the rest', () => {
+    expect(hideRules(['.a', '[data-x]'])).toEqual([
+      '.a { visibility: hidden !important; }',
+      '[data-x] { visibility: hidden !important; }',
+    ]);
+    expect(hideRules([])).toEqual([]);
+  });
+});
+
 describe('frontmatterHint', () => {
   it('prints the frontmatter lines to paste', () => {
-    expect(frontmatterHint('my-app', 'my-app-1600.png')).toBe(
+    expect(frontmatterHint('my-app-1600.png')).toBe(
       'cover: ../images/my-app-1600.png\ncoverAlt: "Describe what the screenshot shows"',
     );
   });

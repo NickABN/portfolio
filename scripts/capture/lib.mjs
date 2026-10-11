@@ -2,6 +2,9 @@
 import path from 'node:path';
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+/** Folder (relative to the repo root) where screenshots are written. */
+export const IMAGES_DIR = 'src/features/projects/content/images';
+const OUTPUT_EXTENSION = /\.(png|jpe?g)$/i;
 const LOGIN_FIELDS = ['url', 'emailSelector', 'passwordSelector', 'submitSelector'];
 
 /** `captureEnvName('olly-weather', 'email')` -> `CAPTURE_OLLY_WEATHER_EMAIL`. */
@@ -22,8 +25,13 @@ export function outputPath(shot, baseDir) {
   return full;
 }
 
+/** One CSS rule per selector, so a single invalid selector can never void the others. */
+export function hideRules(selectors) {
+  return selectors.map((selector) => `${selector} { visibility: hidden !important; }`);
+}
+
 /** Frontmatter lines the owner pastes into the project's Markdown files. */
-export function frontmatterHint(_slug, fileName) {
+export function frontmatterHint(fileName) {
   return `cover: ../images/${fileName}\ncoverAlt: "Describe what the screenshot shows"`;
 }
 
@@ -47,6 +55,9 @@ function validateLogin(login, label) {
     }
   }
   if (!isHttpUrl(login.url)) fail(label, '"login.url" must be an http(s) URL');
+  if (login.waitFor !== undefined && typeof login.waitFor !== 'string') {
+    fail(label, '"login.waitFor" must be a string');
+  }
 }
 
 /** Validates the config and returns the shots with defaults applied. Throws a readable error. */
@@ -76,6 +87,13 @@ export function validateConfig(config) {
     }
     if (raw.delayMs !== undefined && (!Number.isInteger(raw.delayMs) || raw.delayMs < 0)) {
       fail(label, '"delayMs" must be a non-negative integer');
+    }
+    for (const field of ['enabled', 'fullPage']) {
+      if (raw[field] !== undefined && typeof raw[field] !== 'boolean') fail(label, `"${field}" must be true or false`);
+    }
+    if (raw.output !== undefined) {
+      if (!OUTPUT_EXTENSION.test(raw.output)) fail(label, '"output" must end in .png, .jpg or .jpeg');
+      outputPath(raw, IMAGES_DIR);
     }
     if (raw.login !== undefined) validateLogin(raw.login, label);
     return {

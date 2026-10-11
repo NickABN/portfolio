@@ -4,15 +4,17 @@
 import { readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { captureEnvName, frontmatterHint, outputPath, validateConfig } from './lib.mjs';
+import { IMAGES_DIR, captureEnvName, frontmatterHint, hideRules, outputPath, validateConfig } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../..');
-const imagesDir = 'src/features/projects/content/images';
+const imagesDir = IMAGES_DIR;
 
-const USAGE = `Usage: pnpm capture [slug...]
+const LOGIN_TIMEOUT_MS = 30_000;
 
-Reads scripts/capture/captures.config.json and saves screenshots to ${imagesDir}/.
+const USAGE = `Usage: pnpm capture [--config <file>] [slug...]
+
+Reads scripts/capture/captures.config.json (or --config <file>) and saves screenshots to ${imagesDir}/.
 Without slugs, every shot with "enabled" not set to false is captured.
 Logins read CAPTURE_<SLUG>_EMAIL and CAPTURE_<SLUG>_PASSWORD from the environment or a local .env file.
 First time on a machine: pnpm exec playwright install chromium`;
@@ -20,13 +22,15 @@ First time on a machine: pnpm exec playwright install chromium`;
 function loadEnv() {
   try {
     process.loadEnvFile(path.join(root, '.env'));
-  } catch {
-    // No .env file: credentials may come from the shell environment.
+  } catch (error) {
+    // No .env file is fine: credentials may come from the shell environment.
+    if (error?.code === 'ENOENT') return;
+    throw new Error(`Cannot load ${path.join(root, '.env')}: ${error.message}`);
   }
 }
 
-async function readConfig() {
-  const file = path.join(here, 'captures.config.json');
+async function readConfig(configPath) {
+  const file = configPath ? path.resolve(configPath) : path.join(here, 'captures.config.json');
   let text;
   try {
     text = await readFile(file, 'utf8');
@@ -53,8 +57,39 @@ async function login(page, shot) {
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.fill(emailSelector, email);
   await page.fill(passwordSelector, password);
-  await Promise.all([page.waitForLoadState('networkidle'), page.click(submitSelector)]);
-  if (waitFor) await page.waitForSelector(waitFor);
+  await page.click(submitSelector);
+  // Wait deterministically for the post-login state: the configured selector, or else a navigation.
+  if (waitFor) {
+    await page.waitForSelector(waitFor, { timeout: LOGIN_TIMEOUT_MS }).catch(() => {
+      throw new Error(`login did not reach "${waitFor}" within ${LOGIN_TIMEOUT_MS / 1000}s (wrong credentials?)`);
+    });
+  } else {
+    await page.waitForURL((next) => next.href !== url, { timeout: LOGIN_TIMEOUT_MS }).catch(() => {
+      throw new Error(`login did not leave ${url} within ${LOGIN_TIMEOUT_MS / 1000}s (wrong credentials?). Set login.waitFor for single-page apps`);
+    });
+  }
+  await page.waitForLoadState('networkidle');
+}
+
+/** Fails closed: every redaction selector must be valid, otherwise the shot is aborted. */
+async function applyHide(page, shot) {
+  if (shot.hide.length === 0) return;
+  const report = await page.evaluate((selectors) =>
+    selectors.map((selector) => {
+      try {
+        return { selector, matches: document.querySelectorAll(selector).length };
+      } catch {
+        return { selector, matches: -1 };
+      }
+    }), shot.hide);
+  const invalid = report.filter((entry) => entry.matches < 0).map((entry) => entry.selector);
+  if (invalid.length > 0) {
+    throw new Error(`invalid "hide" selector(s), nothing captured: ${invalid.map((s) => JSON.stringify(s)).join(', ')}`);
+  }
+  for (const entry of report.filter((item) => item.matches === 0)) {
+    console.warn(`${shot.slug}: warning: hide selector ${JSON.stringify(entry.selector)} matched no elements`);
+  }
+  await page.addStyleTag({ content: hideRules(shot.hide).join('\n') });
 }
 
 async function capture(browser, shot) {
@@ -68,9 +103,7 @@ async function capture(browser, shot) {
     if (shot.login) await login(page, shot);
     await page.goto(shot.url, { waitUntil: 'networkidle' });
     if (shot.waitFor) await page.waitForSelector(shot.waitFor);
-    if (shot.hide.length > 0) {
-      await page.addStyleTag({ content: `${shot.hide.join(', ')} { visibility: hidden !important; }` });
-    }
+    await applyHide(page, shot);
     if (shot.delayMs) await page.waitForTimeout(shot.delayMs);
     const relative = outputPath(shot, imagesDir);
     const target = path.join(root, relative);
@@ -84,12 +117,19 @@ async function capture(browser, shot) {
 
 async function main() {
   const args = process.argv.slice(2);
+  let configPath;
+  const flag = args.indexOf('--config');
+  if (flag !== -1) {
+    configPath = args[flag + 1];
+    if (!configPath || configPath.startsWith('-')) throw new Error('--config needs a file path');
+    args.splice(flag, 2);
+  }
   if (args.includes('--help') || args.includes('-h')) {
     console.log(USAGE);
     return;
   }
   loadEnv();
-  const shots = await readConfig();
+  const shots = await readConfig(configPath);
   const known = new Set(shots.map((shot) => shot.slug));
   const unknown = args.filter((slug) => !known.has(slug));
   if (unknown.length > 0) {
@@ -121,7 +161,7 @@ async function main() {
         const relative = await capture(browser, shot);
         console.log(`\n${shot.slug}: saved ${relative}`);
         console.log('Paste into src/features/projects/content/{en,es}/' + shot.slug + '.md:');
-        console.log(frontmatterHint(shot.slug, path.posix.basename(relative)));
+        console.log(frontmatterHint(path.posix.basename(relative)));
       } catch (error) {
         failed += 1;
         console.error(`\n${shot.slug}: failed: ${error.message}`);

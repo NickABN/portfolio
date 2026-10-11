@@ -157,10 +157,10 @@ Each shot in `scripts/capture/captures.config.json`:
 | `enabled` | no | Default `true`. Disabled shots only run when named: `pnpm capture <slug>` |
 | `waitFor` | no | CSS selector to wait for before the shot |
 | `delayMs` | no | Extra wait, e.g. for animations |
-| `hide` | no | CSS selectors made invisible (cookie banners, personal data) |
-| `fullPage` | no | Capture the whole scrollable page. Default `false` |
-| `output` | no | File name inside `content/images/`. Default `<slug>-<width>.png` |
-| `login` | no | `{ url, emailSelector, passwordSelector, submitSelector, waitFor? }` for projects behind a login |
+| `hide` | no | CSS selectors made invisible (cookie banners, personal data). **Fails closed**: the shot is aborted, and nothing saved, if any selector is invalid. A valid selector that matches nothing only prints a warning, so check it still targets what you meant to hide |
+| `fullPage` | no | Boolean. Capture the whole scrollable page. Default `false` |
+| `output` | no | File name inside `content/images/`, ending in `.png`, `.jpg` or `.jpeg`. Default `<slug>-<width>.png` |
+| `login` | no | `{ url, emailSelector, passwordSelector, submitSelector, waitFor? }` for projects behind a login. After submitting, the script waits for `waitFor` (30 s), or, if it is not set, for the page to navigate away from `login.url`. Single-page apps that stay on the same URL need `waitFor` |
 
 Example (the seeded `olly-weather` entry is disabled until you fill in the real URL and selectors):
 
@@ -180,6 +180,8 @@ Example (the seeded `olly-weather` entry is disabled until you fill in the real 
   }
 }
 ```
+
+The whole config is validated before any browser starts (types, URLs, output path and extension). To try a config without touching the real one, pass `pnpm capture --config <file> [slug...]`.
 
 Credentials never go in the config. For a project with `login`, set `CAPTURE_<SLUG>_EMAIL` and `CAPTURE_<SLUG>_PASSWORD`, where `<SLUG>` is the slug in upper case with hyphens turned into underscores (`olly-weather` becomes `CAPTURE_OLLY_WEATHER_EMAIL`). Put them in a local `.env` file at the repo root (already ignored by git through `.env*`) or export them in your shell. Use a read-only or demo account, and review the screenshot before committing it.
 
