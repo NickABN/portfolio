@@ -86,7 +86,7 @@
   <text x="492" y="544" class="mono" font-size="14">una transacción por tabla</text>
 
   <rect x="888" y="414" width="320" height="150" class="box"/>
-  <text x="908" y="450" class="serif" font-size="24">Primero, corrida de prueba</text>
+  <text x="908" y="450" class="serif" font-size="24">Corrida en seco</text>
   <text x="908" y="478" class="mono" font-size="14">solo resumen por defecto</text>
   <text x="908" y="500" class="mono" font-size="14">escribe solo con --write</text>
   <text x="908" y="522" class="mono" font-size="14">visto bueno del operador al mapeo</text>

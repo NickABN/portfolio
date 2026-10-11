@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Oasis architecture</title>
+  <desc id="d">Guests book a box from a Flutter app or a React web app. Both call a Node and Express REST API on AWS Elastic Beanstalk, which saves the booking and its payment in one MySQL transaction after checking the charge with Stripe. A committed booking fires an event that sends push and email notifications and refreshes live prices over a server-sent stream. MongoDB backs scheduled jobs. An Angular admin panel talks to a GraphQL service, and the web apps are served from S3 and CloudFront.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">Oasis · Architecture</text>
+  <text x="56" y="108" class="serif" font-size="38">From a guest’s tap to a confirmed box</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <text x="56" y="166" class="sans" font-size="12" fill="#685762">01 — The booking path</text>
+  <rect x="56" y="184" width="268" height="96" class="hot"/>
+  <text x="76" y="218" class="serif" font-size="24">Guests</text>
+  <text x="76" y="242" class="mono" font-size="14">Flutter app, iOS and Android</text>
+  <text x="76" y="262" class="mono" font-size="14">React web app</text>
+  <rect x="424" y="184" width="268" height="96" class="hot"/>
+  <text x="444" y="218" class="serif" font-size="24">REST API</text>
+  <text x="444" y="242" class="mono" font-size="14">Node · Express · TypeScript</text>
+  <text x="444" y="262" class="mono" font-size="14">AWS Elastic Beanstalk</text>
+  <rect x="792" y="184" width="268" height="96" class="hot"/>
+  <text x="812" y="218" class="serif" font-size="24">MySQL</text>
+  <text x="812" y="242" class="mono" font-size="14">Bookings and payments</text>
+  <text x="812" y="262" class="mono" font-size="14">saved in one transaction</text>
+  <rect x="1160" y="184" width="268" height="96" class="hot"/>
+  <text x="1180" y="218" class="serif" font-size="24">Booking event</text>
+  <text x="1180" y="242" class="mono" font-size="14">Dispatched on commit</text>
+  <text x="1180" y="262" class="mono" font-size="14">fans out to notices</text>
+  <path d="M324 232 H 420" class="flow" marker-end="url(#acc)"/>
+  <text x="332" y="222" class="mono" font-size="13">REST · JWT</text>
+  <path d="M692 232 H 788" class="flow" marker-end="url(#acc)"/>
+  <text x="700" y="222" class="mono" font-size="13">saves</text>
+  <path d="M1060 232 H 1156" class="flow" marker-end="url(#acc)"/>
+  <text x="1068" y="222" class="mono" font-size="13">commit</text>
+  <text x="56" y="326" class="sans" font-size="12" fill="#685762">02 — Around the API</text>
+  <rect x="56" y="344" width="268" height="96" class="box"/>
+  <text x="76" y="378" class="serif" font-size="24">Live prices</text>
+  <text x="76" y="402" class="mono" font-size="14">Server-sent stream</text>
+  <text x="76" y="422" class="mono" font-size="14">price and seats refresh</text>
+  <rect x="424" y="344" width="268" height="96" class="box"/>
+  <text x="444" y="378" class="serif" font-size="24">Stripe</text>
+  <text x="444" y="402" class="mono" font-size="14">The client confirms payment</text>
+  <text x="444" y="422" class="mono" font-size="14">the API verifies the charge</text>
+  <rect x="792" y="344" width="268" height="96" class="box"/>
+  <text x="812" y="378" class="serif" font-size="24">MongoDB</text>
+  <text x="812" y="402" class="mono" font-size="14">Backs scheduled jobs</text>
+  <text x="812" y="422" class="mono" font-size="14">Agenda · Node</text>
+  <rect x="1160" y="344" width="268" height="96" class="box"/>
+  <text x="1180" y="378" class="serif" font-size="24">Notifications</text>
+  <text x="1180" y="402" class="mono" font-size="14">Firebase push</text>
+  <text x="1180" y="422" class="mono" font-size="14">Email provider</text>
+  <path d="M306 344 V 284" class="link" marker-end="url(#ink)"/>
+  <path d="M524 280 V 340" class="link" marker-end="url(#ink)"/>
+  <path d="M926 344 V 312 H 624 V 284" class="link" stroke-dasharray="6 6" marker-end="url(#ink)"/>
+  <path d="M1294 280 V 340" class="flow" marker-end="url(#acc)"/>
+  <text x="56" y="486" class="sans" font-size="12" fill="#685762">03 — The back office</text>
+  <rect x="56" y="504" width="268" height="96" class="box"/>
+  <text x="76" y="538" class="serif" font-size="24">Admin panel</text>
+  <text x="76" y="562" class="mono" font-size="14">Angular · Apollo client</text>
+  <text x="76" y="582" class="mono" font-size="14">Tailwind UI</text>
+  <rect x="424" y="504" width="268" height="96" class="box"/>
+  <text x="444" y="538" class="serif" font-size="24">GraphQL service</text>
+  <text x="444" y="562" class="mono" font-size="14">Endpoint the admin</text>
+  <text x="444" y="582" class="mono" font-size="14">panel reads and writes</text>
+  <rect x="792" y="504" width="268" height="96" class="box"/>
+  <text x="812" y="538" class="serif" font-size="24">S3 · CloudFront</text>
+  <text x="812" y="562" class="mono" font-size="14">Static hosting for the</text>
+  <text x="812" y="582" class="mono" font-size="14">React web and the admin</text>
+  <rect x="1160" y="504" width="268" height="96" class="box"/>
+  <text x="1180" y="538" class="serif" font-size="24">CodeBuild</text>
+  <text x="1180" y="562" class="mono" font-size="14">buildspec per project</text>
+  <text x="1180" y="582" class="mono" font-size="14">builds, syncs, invalidates</text>
+  <path d="M324 552 H 420" class="link" marker-end="url(#ink)"/>
+  <text x="332" y="542" class="mono" font-size="13">GraphQL</text>
+  <line x1="1472" y1="196" x2="1472" y2="600" class="rule"/>
+  <text x="1490" y="236" class="serif" font-size="36">25 → 150</text>
+  <text x="1490" y="262" class="sans" font-size="11" fill="#685762">concurrent web users,</text>
+  <text x="1490" y="280" class="sans" font-size="11" fill="#685762">same instance</text>
+  <text x="1490" y="356" class="serif" font-size="36">5,000+</text>
+  <text x="1490" y="382" class="sans" font-size="11" fill="#685762">downloads on</text>
+  <text x="1490" y="400" class="sans" font-size="11" fill="#685762">Google Play</text>
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Payments — Stripe</text>
+  <text x="560" y="682" class="mono" font-size="14">intent confirmed by the client · charge verified by the API · stored with the booking</text>
+</svg>
