@@ -7,6 +7,9 @@ stack: ["NestJS", "Nuxt 3", "PostgreSQL", "Prisma", "TypeScript"]
 status: in-progress
 featured: true
 order: 4
+cover: ../images/agendly-booking.webp
+coverAlt: "Booking flow on a phone for a fictional barbershop: a list of services with prices, a choice of specialist, and a day and time grid with a selected slot."
+caption: "The booking flow, three taps from link to slot: no account, no app."
 ---
 
 ## The problem
@@ -19,6 +22,10 @@ A multi-tenant SaaS with two sides:
 
 - **A public booking page** at a shareable URL per business. The client picks a service, a staff member and a free slot, leaves only a name and a phone number, and gets an email confirmation. No account required.
 - **A mobile-first admin dashboard** with day and week views of every appointment, manual bookings for walk-ins, and cancel or reschedule actions that notify the client automatically.
+
+![Admin agenda for a day of eight appointments with client, service, time and status, plus no-show risk flags on two upcoming bookings that explain why they may not show up.](../images/agendly-admin.webp)
+
+![Impact metrics dashboard: appointments, share booked by the client alone, no-show rate, median booking time, returning clients, weekly appointments, reminder results and the no-show prediction model's accuracy.](../images/agendly-insights.webp)
 
 It is a pnpm monorepo with three packages: a NestJS backend (Prisma, PostgreSQL, Passport with JWT and Google OAuth), a Nuxt 3 frontend (Vue 3, Tailwind CSS, Pinia), and a shared package of TypeScript DTOs and types used by both. Email goes through Resend, CI runs on GitHub Actions and deployment targets Railway.
 
