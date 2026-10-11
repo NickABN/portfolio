@@ -21,6 +21,7 @@ All text is placeholder content in `[brackets]`. See [Make it yours](#make-it-yo
 | `pnpm check` | Type-check with `astro check` |
 | `pnpm test` | Run the unit tests once |
 | `pnpm test:watch` | Run the tests in watch mode |
+| `pnpm capture [slug]` | Take project screenshots with Playwright (see [Project images](#project-images)) |
 
 Before publishing changes, run `pnpm test && pnpm check && pnpm build`.
 
@@ -93,7 +94,8 @@ Frontmatter fields:
 | `featured` | no | `true` shows it in Selected Work; otherwise it appears in The Index. Default `false` |
 | `order` | no | Sort position among featured projects (lower first) |
 | `liveUrl`, `repoUrl` | no | Full URLs. The sample entries use `https://example.com`; replace them |
-| `cover`, `coverAlt` | no | Cover image path relative to the Markdown file, and its alt text |
+| `cover`, `coverAlt` | no | Cover image path relative to the Markdown file, and its alt text. See [Project images](#project-images) |
+| `coverFit` | no | `cover` (default) crops the image to fill the frame; `contain` shows it whole on a grey plate. Use `contain` for diagrams |
 | `caption` | no | Figure caption |
 | `client` | no | `true` marks client work. Default `false`. A client project with no `liveUrl`/`repoUrl` shows a "private client work" note in its fact box instead of link buttons |
 | `highlights` | no | Up to three headline figures shown as a strip above the case study (see below). Only use numbers the text already states |
@@ -114,6 +116,72 @@ The Markdown body becomes the case study on the detail page:
 - A Markdown quote (`> text`) renders as a large pull quote between two rules. Add one where you want it.
 - The first paragraph after the first `##` gets a drop cap, and `-` bullets render with an em dash.
 - `liveUrl` and `repoUrl` appear first, as buttons in the fact box next to the article (on phones, right after the deck).
+
+### Project images
+
+Every project can carry one cover figure, shown on its home card (16:10) and as the wide hero of its detail page (21:9 on desktop, 16:10 on tablets and phones). Without a `cover`, a grey placeholder is shown. Three ways to get one:
+
+1. **Screenshot with the capture script.** Describe the shot in `scripts/capture/captures.config.json` and run `pnpm capture <slug>`. It saves `src/features/projects/content/images/<slug>-<width>.png` at 2x and prints the frontmatter lines to paste.
+2. **Your own screenshots or screen recordings.** Drop the file in `src/features/projects/content/images/` and point `cover` at it.
+3. **An editorial diagram.** An SVG for projects that cannot be shown (private or client work). See `myfrac-architecture.en.svg` for the style. Set `coverFit: contain` so it is never cropped.
+
+Frontmatter (paths are relative to the Markdown file; use the same image or a localized one in each language):
+
+```yaml
+cover: ../images/my-project-1600.png
+coverAlt: "What the image shows, for screen readers"
+caption: "Short figure caption"
+coverFit: cover   # or contain, for diagrams
+```
+
+Recommended sizes: diagrams at **21:9, 1680x720**, with their own background colour (`#DCDFDE`, the plate colour); screenshots at **16:10, at least 1600x1000**. SVGs are served as-is; raster images are optimised and resized at build time.
+
+**Privacy.** Never publish client data: no real names, emails, tokens, customer records or internal URLs. Redact or hide them (the `hide` option below blanks elements before the shot) and check the image at full size before committing.
+
+#### Capture script
+
+One-time setup on the machine that has access to the projects (browsers are not stored in the repo):
+
+```
+pnpm install
+pnpm exec playwright install chromium
+```
+
+Each shot in `scripts/capture/captures.config.json`:
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `slug` | yes | Project slug (lower-case, hyphens). Names the output file |
+| `url` | yes | Page to capture |
+| `viewport` | yes | `{ "width": 1600, "height": 1000 }` |
+| `enabled` | no | Default `true`. Disabled shots only run when named: `pnpm capture <slug>` |
+| `waitFor` | no | CSS selector to wait for before the shot |
+| `delayMs` | no | Extra wait, e.g. for animations |
+| `hide` | no | CSS selectors made invisible (cookie banners, personal data) |
+| `fullPage` | no | Capture the whole scrollable page. Default `false` |
+| `output` | no | File name inside `content/images/`. Default `<slug>-<width>.png` |
+| `login` | no | `{ url, emailSelector, passwordSelector, submitSelector, waitFor? }` for projects behind a login |
+
+Example (the seeded `olly-weather` entry is disabled until you fill in the real URL and selectors):
+
+```json
+{
+  "slug": "olly-weather",
+  "url": "https://app.example.com/dashboard",
+  "viewport": { "width": 1600, "height": 1000 },
+  "waitFor": "main",
+  "hide": [".cookie-banner", "[data-private]"],
+  "login": {
+    "url": "https://app.example.com/login",
+    "emailSelector": "input[type=email]",
+    "passwordSelector": "input[type=password]",
+    "submitSelector": "button[type=submit]",
+    "waitFor": "main"
+  }
+}
+```
+
+Credentials never go in the config. For a project with `login`, set `CAPTURE_<SLUG>_EMAIL` and `CAPTURE_<SLUG>_PASSWORD`, where `<SLUG>` is the slug in upper case with hyphens turned into underscores (`olly-weather` becomes `CAPTURE_OLLY_WEATHER_EMAIL`). Put them in a local `.env` file at the repo root (already ignored by git through `.env*`) or export them in your shell. Use a read-only or demo account, and review the screenshot before committing it.
 
 ### Portrait
 

@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "capture": "node scripts/capture/capture.mjs"
   },
   "dependencies": {
     "astro": "^7.3.8",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "playwright": "1.64.0",
     "typescript": "^6.0.3",
     "vitest": "^5.0.3"
   }

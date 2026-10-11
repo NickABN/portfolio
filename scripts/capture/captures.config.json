@@ -1,0 +1,19 @@
+[
+  {
+    "slug": "olly-weather",
+    "enabled": false,
+    "url": "https://example.com/app",
+    "viewport": { "width": 1600, "height": 1000 },
+    "waitFor": "main",
+    "delayMs": 800,
+    "hide": [".cookie-banner", "[data-private]"],
+    "fullPage": false,
+    "login": {
+      "url": "https://example.com/login",
+      "emailSelector": "input[type=email]",
+      "passwordSelector": "input[type=password]",
+      "submitSelector": "button[type=submit]",
+      "waitFor": "main"
+    }
+  }
+]
