@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Arquitectura de MYFRAC</title>
+  <desc id="d">Los dispositivos de acceso publican eventos por MQTT a AWS IoT Core; EventBridge los enruta a Lambda y DynamoDB. Residentes, guardias y administradores usan apps en Flutter, un asistente de WhatsApp y paneles web respaldados por una API en Spring Boot y un servicio FastAPI para invitaciones QR.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">MYFRAC · Arquitectura</text>
+  <text x="56" y="108" class="serif" font-size="38">De la caseta a la nube, como eventos</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <!-- Lane labels -->
+  <text x="56" y="178" class="sans" font-size="12" fill="#685762">01 — La caseta</text>
+  <text x="56" y="414" class="sans" font-size="12" fill="#685762">02 — Las personas</text>
+
+  <!-- Lane 1: event path -->
+  <rect x="56" y="196" width="232" height="132" class="box"/>
+  <text x="76" y="232" class="serif" font-size="24">Dispositivos</text>
+  <text x="76" y="266" class="mono" font-size="15">Reconocimiento facial</text>
+  <text x="76" y="290" class="mono" font-size="15">Lectores QR</text>
+  <text x="76" y="314" class="mono" font-size="15">11 comunidades</text>
+
+  <path d="M288 262 H 380" class="flow" marker-end="url(#acc)"/>
+  <text x="296" y="250" class="mono" font-size="13">MQTT</text>
+  <text x="296" y="286" class="mono" font-size="13">HMAC</text>
+
+  <rect x="384" y="216" width="200" height="92" class="hot"/>
+  <text x="404" y="256" class="serif" font-size="24">AWS IoT Core</text>
+  <text x="404" y="284" class="mono" font-size="14">canal de dispositivos</text>
+
+  <path d="M584 262 H 676" class="flow" marker-end="url(#acc)"/>
+
+  <rect x="680" y="216" width="200" height="92" class="hot"/>
+  <text x="700" y="256" class="serif" font-size="24">EventBridge</text>
+  <text x="700" y="284" class="mono" font-size="14">enruta cada evento</text>
+
+  <path d="M880 262 H 972" class="flow" marker-end="url(#acc)"/>
+
+  <rect x="976" y="216" width="180" height="92" class="hot"/>
+  <text x="996" y="256" class="serif" font-size="24">Lambda</text>
+  <text x="996" y="284" class="mono" font-size="14">trabajo asíncrono</text>
+
+  <path d="M1156 262 H 1248" class="flow" marker-end="url(#acc)"/>
+
+  <rect x="1252" y="216" width="180" height="92" class="box"/>
+  <text x="1272" y="256" class="serif" font-size="24">DynamoDB</text>
+  <text x="1272" y="284" class="mono" font-size="14">bitácora de accesos</text>
+
+  <!-- Lane 2: people -->
+  <rect x="56" y="432" width="232" height="84" class="box"/>
+  <text x="76" y="466" class="serif" font-size="22">Residentes</text>
+  <text x="76" y="496" class="mono" font-size="14">Flutter · WhatsApp + LLM</text>
+
+  <rect x="56" y="532" width="232" height="84" class="box"/>
+  <text x="76" y="566" class="serif" font-size="22">Guardias y admins</text>
+  <text x="76" y="596" class="mono" font-size="14">Flutter · paneles web</text>
+
+  <path d="M288 474 H 380" class="link" marker-end="url(#ink)"/>
+  <path d="M288 574 H 334 V 490 H 380" class="link" marker-end="url(#ink)"/>
+  <text x="296" y="462" class="mono" font-size="13">OAuth2</text>
+
+  <rect x="384" y="432" width="272" height="92" class="box"/>
+  <text x="404" y="472" class="serif" font-size="24">Spring Boot API</text>
+  <text x="404" y="500" class="mono" font-size="14">núcleo · Spring Security</text>
+
+  <path d="M656 478 H 724" class="link" marker-end="url(#ink)"/>
+
+  <rect x="728" y="432" width="248" height="92" class="box"/>
+  <text x="748" y="472" class="serif" font-size="24">Servicio FastAPI</text>
+  <text x="748" y="500" class="mono" font-size="14">invitaciones QR</text>
+
+  <!-- API reads/writes the same store -->
+  <path d="M976 478 H 1342 V 312" class="link" marker-end="url(#ink)"/>
+  <text x="1000" y="466" class="mono" font-size="13">lee · escribe</text>
+
+  <!-- Faces and QR codes pushed back to the devices -->
+  <path d="M520 432 V 400 H 172 V 332" class="link" stroke-dasharray="6 6" marker-end="url(#ink)"/>
+  <text x="196" y="392" class="mono" font-size="13">rostros y QR sincronizados a dispositivos</text>
+
+  <!-- Figures -->
+  <line x1="1472" y1="196" x2="1472" y2="616" class="rule"/>
+  <text x="1490" y="236" class="serif" font-size="36">~7,000</text>
+  <text x="1490" y="262" class="sans" font-size="11" fill="#685762">accesos al mes</text>
+  <text x="1490" y="262" class="sans" font-size="11" fill="#685762" dy="18">por WhatsApp</text>
+  <text x="1490" y="356" class="serif" font-size="36">1–3 min</text>
+  <text x="1490" y="382" class="sans" font-size="11" fill="#685762">por visita,</text>
+  <text x="1490" y="382" class="sans" font-size="11" fill="#685762" dy="18">antes 4–10</text>
+  <text x="1490" y="476" class="serif" font-size="36">~5,000</text>
+  <text x="1490" y="502" class="sans" font-size="11" fill="#685762">usuarios activos</text>
+
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Infraestructura como código — AWS CDK</text>
+  <text x="430" y="682" class="mono" font-size="14">Lambda · API Gateway · DynamoDB · EventBridge · IoT Core · S3 · Secrets Manager</text>
+</svg>

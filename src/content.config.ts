@@ -22,6 +22,8 @@ const projects = defineCollection({
       repoUrl: z.url().optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      // `contain` shows the whole image on the plate (diagrams); `cover` crops to fill (screenshots).
+      coverFit: z.enum(['cover', 'contain']).default('cover'),
       caption: z.string().optional(),
       client: z.boolean().default(false),
       highlights: z.array(z.object({ value: z.string(), label: z.string() })).max(3).optional(),

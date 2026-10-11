@@ -8,19 +8,29 @@ interface Props {
   placeholder: string;
   cover?: ImageMetadata;
   coverAlt?: string;
+  /** `contain` never crops the image (diagrams); `cover` fills the plate (screenshots). */
+  fit?: 'cover' | 'contain';
   /** Wide editorial crop for the detail page: 21:9 on desktop, 16:10 on tablets and phones. */
   hero?: boolean;
 }
 
-const { figLabel, caption, placeholder, cover, coverAlt = '', hero = false } = Astro.props;
+const { figLabel, caption, placeholder, cover, coverAlt = '', fit = 'cover', hero = false } = Astro.props;
 const sizes = hero ? '(min-width: 1280px) 1168px, 100vw' : '(min-width: 960px) 600px, 100vw';
+// SVG is served as-is, so responsive widths only apply to raster covers.
+const isSvg = cover?.format === 'svg';
 const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
 ---
 
 <figure class:list={{ hero }}>
   {
     cover ? (
-      <Image class="plate" src={cover} alt={coverAlt} widths={widths} sizes={sizes} />
+      <Image
+        class:list={['plate', { contain: fit === 'contain' }]}
+        src={cover}
+        alt={coverAlt}
+        widths={isSvg ? undefined : widths}
+        sizes={isSvg ? undefined : sizes}
+      />
     ) : (
       <div class="plate mono" role="img" aria-label={placeholder}>
         {placeholder}
@@ -44,6 +54,8 @@ const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
   }
   .plate {
     width: 100%;
+    /* The <img> carries intrinsic height attributes that would otherwise beat aspect-ratio. */
+    height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     background: var(--plate);
@@ -51,6 +63,9 @@ const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
     align-items: center;
     justify-content: center;
     color: var(--muted);
+  }
+  .plate.contain {
+    object-fit: contain;
   }
   .hero .plate {
     aspect-ratio: 21 / 9;

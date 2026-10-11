@@ -7,6 +7,10 @@ stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "DynamoDB", 
 status: live
 featured: true
 order: 2
+cover: ../images/myfrac-architecture.en.svg
+coverFit: contain
+coverAlt: "Architecture diagram: gate devices publish access events over MQTT to AWS IoT Core, EventBridge routes them to Lambda and DynamoDB; residents, guards and admins reach a Spring Boot API and a FastAPI QR-invitation service."
+caption: "How a visit gets through the gate: devices publish events, the cloud routes them."
 highlights:
   - value: "11"
     label: "Residential communities"
