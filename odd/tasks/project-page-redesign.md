@@ -34,8 +34,8 @@ ON (session configuration "Strict TDD Mode: enabled"); runner Vitest (`pnpm test
 Branch `feat/project-page` from `main` at `a3d789d`. The user authorizes push to `main` after they approve the result (fast-forward) and redeploy to Netlify (`nickabn-portfolio`). RDD on.
 
 ## Tasks
-- [ ] P1 Schema `highlights`, domain helper `getNextProject` (+ tests), i18n strings, highlights for MYFRAC and Oasis (EN/ES). Route: delegated writer.
-- [ ] P2 ProjectArticle redesign (header, hero figure, grid, fact box, highlights strip, numbered body, pull quote, next nav, mobile order) + README update + headless verification. Route: delegated writer.
+- [x] P1 Schema `highlights`, domain helper `getNextProject` (+ tests), i18n strings, highlights for MYFRAC and Oasis (EN/ES). Route: delegated writer.
+- [x] P2 ProjectArticle redesign (header, hero figure, grid, fact box, highlights strip, numbered body, pull quote, next nav, mobile order) + README update + headless verification. Route: delegated writer.
 
 ## Acceptance criteria
 - Links are the first interactive content after the deck on every viewport.
@@ -44,7 +44,14 @@ Branch `feat/project-page` from `main` at `a3d789d`. The user authorizes push to
 - `pnpm test`, `pnpm check`, `pnpm build` pass; headless checks pass on `/projects/oasis/`, `/es/projects/myfrac/`, `/projects/olly-weather/`, `/projects/club-system/`.
 
 ## Progress / evidence
-(updated per task)
+- P1 `aed6a1a` feat(projects): highlights schema (≤3), readingOrder/getNextProject/fileNumber (+tests), EN/ES strings, highlights for oasis and myfrac verified against case-study text. RED 6 failed → GREEN 90/90.
+- P2 `f69580a` feat(projects): ProjectArticle rewrite + ProjectFacts, ProjectHighlights, NextProject; hero ProjectFigure 21:9/16:10; README. check 0; build 17. Headless: 1440 box right of content, sticky top 24, hero 1168 wide, no overflow; 390 no overflow, min edge 22px, links/note/box before figure on oasis, olly-weather, club-system, es/myfrac. Parent viewed both screenshots.
+- Review (base e1357e8, includes unreviewed slice + owner commits a4f55ab..a3d789d; medium, slice_budget_reached, 2143 lines): consent granted; review-reliability; APPROVED, acknowledged, burned. Boundary → f69580a.
+
+## Follow-ups (not blocking)
+- TechSphere under reduced motion is not re-rendered on resize/orientation change; loop does not start if reduced motion is turned off mid-session.
+- Sphere crowding with ~20 logos (owner added data/infra logos).
+- Highlights schema and private-note logic only validated at build time.
 
 ## Next step
-P1 + P2 (one writer, one commit per task).
+Owner reviews; on approval fast-forward main, push, redeploy Netlify.
