@@ -11,6 +11,15 @@ cover: ../images/agendly-booking.webp
 coverFit: contain
 coverAlt: "Flujo de reserva en un teléfono para una barbería ficticia: lista de servicios con precios, elección de especialista y una cuadrícula de día y horario con un horario seleccionado."
 caption: "El flujo de reserva, de enlace a horario en tres toques: sin cuenta y sin app."
+figures:
+  - src: ../images/agendly-admin.webp
+    alt: "Agenda del administrador con un día de ocho citas, con cliente, servicio, horario y estado, y alertas de riesgo de inasistencia en dos citas próximas que explican por qué podrían faltar."
+    caption: "La agenda del día, con el riesgo de inasistencia señalado y explicado."
+    kind: screen
+  - src: ../images/agendly-insights.webp
+    alt: "Panel de métricas de impacto: citas, porcentaje reservado por el propio cliente, inasistencias, tiempo mediano de reserva, clientes que regresan, citas por semana, resultados de los recordatorios y precisión del modelo de predicción de inasistencias."
+    caption: "Lo que la herramienta hace por el dueño: reservas, inasistencias, recordatorios y la precisión del modelo de riesgo."
+    kind: screen
 ---
 
 ## El problema
@@ -25,10 +34,6 @@ Un SaaS multi-tenant con dos caras:
 - **Un panel de administración mobile-first** con vistas de agenda por día, semana y mes, citas manuales para clientes sin reserva y cambios de estado (completada, no asistió, cancelada). Al cancelar, el cliente recibe un email, si dejó su correo, con un enlace para agendar otro horario.
 - **Alerta temprana de inasistencias.** Las citas próximas reciben una puntuación de riesgo de inasistencia y se marcan en la agenda con los motivos a la vista (por ejemplo, el cliente faltó a citas anteriores o es nuevo). El día antes de la cita, Agendly envía un recordatorio por email; en las citas de riesgo alto el correo pide con más claridad confirmar o llamar para liberar el horario.
 - **Una pantalla de impacto** que le muestra al dueño qué está haciendo la herramienta: cuántas reservas llegan solas por el enlace, la tasa de inasistencias, cuánto tardan los clientes en reservar, clientes que regresan, volumen semanal y cómo se desempeñan los recordatorios y el modelo de riesgo frente a los resultados del propio negocio.
-
-![Agenda del administrador con un día de ocho citas, con cliente, servicio, horario y estado, y alertas de riesgo de inasistencia en dos citas próximas que explican por qué podrían faltar.](../images/agendly-admin.webp)
-
-![Panel de métricas de impacto: citas, porcentaje reservado por el propio cliente, inasistencias, tiempo mediano de reserva, clientes que regresan, citas por semana, resultados de los recordatorios y precisión del modelo de predicción de inasistencias.](../images/agendly-insights.webp)
 
 Es un monorepo pnpm con tres paquetes: un backend en NestJS (Prisma, PostgreSQL, Passport con JWT y Google OAuth), un frontend en Nuxt 3 (Vue 3, Tailwind CSS, Pinia) y un paquete compartido de DTOs y tipos TypeScript que usan ambos. El email sale por Resend y la integración continua corre en GitHub Actions. El frontend se despliega en Netlify y la API en Render, sobre un PostgreSQL gestionado en Neon, con logo y banner optimizados a WebP en Cloudflare R2. Sentry, logs estructurados en JSON con ID de petición y health checks cubren la observabilidad.
 

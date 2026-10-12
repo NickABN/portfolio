@@ -28,6 +28,10 @@ export interface ProjectsStrings {
   backToWork: string;
   backTo: string;
   nextFeature: string;
+  howItWorks: string;
+  plates: string;
+  openLarger: string;
+  closeViewer: string;
   status: Record<ProjectStatus, string>;
 }
 
@@ -59,6 +63,10 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     backToWork: '← Selected Work',
     backTo: 'Back to',
     nextFeature: 'Next feature',
+    howItWorks: 'How it works',
+    plates: 'Plates',
+    openLarger: 'Open larger view',
+    closeViewer: 'Close',
     status: { live: 'Live', 'in-progress': 'In progress', archived: 'Archived' },
   },
   es: {
@@ -88,6 +96,10 @@ export const projectsUi: Record<Locale, ProjectsStrings> = {
     backToWork: '← Trabajo seleccionado',
     backTo: 'Volver a',
     nextFeature: 'Siguiente proyecto',
+    howItWorks: 'Cómo funciona',
+    plates: 'Láminas',
+    openLarger: 'Abrir vista ampliada',
+    closeViewer: 'Cerrar',
     status: { live: 'En línea', 'in-progress': 'En desarrollo', archived: 'Archivado' },
   },
 };

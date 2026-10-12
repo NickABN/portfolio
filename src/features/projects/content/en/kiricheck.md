@@ -6,10 +6,15 @@ role: "Back-end developer"
 stack: ["Python", "FastAPI", "AWS Lambda", "DynamoDB", "Playwright"]
 status: live
 featured: false
-cover: ../images/kiricheck-architecture.en.svg
+cover: ../images/kiricheck-card.en.svg
 coverFit: contain
-coverAlt: "Architecture diagram: employees check in over WhatsApp to a Lambda service that writes to DynamoDB; administrators use a Nuxt front end that calls a FastAPI admin API on Lambda, with bonus, pre-payroll, incident-monitor and report modules."
-caption: "From the check-in to the payroll report: one table store, one admin API on top."
+coverAlt: "Employees check in over WhatsApp to a Lambda service that writes to DynamoDB. A FastAPI admin API on Lambda reads it and feeds bonuses, pre-payroll and Excel, CSV and PDF reports."
+caption: "A check-in on WhatsApp ends up as a number on the payroll report."
+figures:
+  - src: ../images/kiricheck-architecture.en.svg
+    alt: "Architecture diagram: employees check in over WhatsApp to a Lambda service that writes to DynamoDB; administrators use a Nuxt front end that calls a FastAPI admin API on Lambda, with bonus, pre-payroll, incident-monitor and report modules."
+    caption: "From the check-in to the payroll report: one table store, one admin API on top."
+    kind: diagram
 ---
 
 ## The problem

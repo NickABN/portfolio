@@ -8,10 +8,19 @@ status: in-progress
 featured: true
 order: 3
 client: true
-cover: ../images/club-system-architecture.en.svg
+cover: ../images/club-system-card.en.svg
 coverFit: contain
-coverAlt: "Architecture diagram: staff and operators use a React app on S3 and CloudFront that calls a FastAPI back end over PostgreSQL on RDS, with an OpenAPI contract, Goose migrations, Terraform and a Python ETL from the legacy database around it."
-caption: "One contract, one schema: the web app, the API and the data migration all hang from them."
+coverAlt: "A React app on S3 and CloudFront calls a FastAPI back end over PostgreSQL on RDS. An OpenAPI contract is written first, and a Python ETL loads the legacy database. Terraform reviewed like code delivers it all on AWS."
+caption: "The platform on one line: browser, API, database, and the contract that binds them."
+figures:
+  - src: ../images/club-system-architecture.en.svg
+    alt: "Architecture diagram: staff and operators use a React app on S3 and CloudFront that calls a FastAPI back end over PostgreSQL on RDS, with an OpenAPI contract, Goose migrations, Terraform and a Python ETL from the legacy database around it."
+    caption: "One contract, one schema: the web app, the API and the data migration all hang from them."
+    kind: diagram
+  - src: ../images/club-system-etl.en.svg
+    alt: "Legacy migration flow: the legacy database is read, staged raw, transformed and mapped in a dry run, then written to the new PostgreSQL schema, with validation, idempotent reruns and a run ledger with rollback."
+    caption: "How a legacy row becomes a member record: read-only, staged raw, mapped in a dry run, validated, then written."
+    kind: diagram
 ---
 
 ## The problem
@@ -25,8 +34,6 @@ A private golf and country club needed one system to run its shared amenities â€
 - **The Terraform infrastructure** on AWS, iterated with the client's infrastructure team through their reviews, and Docker containers as part of the deployment workflow.
 - **The data migration from the legacy club database.** A Python ETL that reads the old system without ever writing to it, stages every row untouched, maps it into the new schema and checks the result before it counts.
 - **Tests for the reservation web app:** unit tests with Vitest and end-to-end tests with Playwright.
-
-![Legacy migration flow: the legacy database is read, staged raw, transformed and mapped in a dry run, then written to the new PostgreSQL schema, with validation, idempotent reruns and a run ledger with rollback.](../images/club-system-etl.en.svg)
 
 ## Decisions
 
