@@ -21,19 +21,26 @@ Salons, barbershops and spas in Mexico book appointments by hand over WhatsApp. 
 
 A multi-tenant SaaS with two sides:
 
-- **A public booking page** at a shareable URL per business. The client picks a service, a staff member and a free slot, leaves only a name and a phone number, and gets an email confirmation. No account required.
-- **A mobile-first admin dashboard** with day and week views of every appointment, manual bookings for walk-ins, and cancel or reschedule actions that notify the client automatically.
+- **A public booking page** at a shareable URL per business. The client picks a service, a staff member and a free slot, leaves a name and a phone number (an email is optional, and brings a confirmation), and is done. No account required.
+- **A mobile-first admin dashboard** with day, week and month views of every appointment, manual bookings for walk-ins, and status changes (completed, no-show, cancelled). Cancelling emails the client, when they left an address, with a link to book a new time.
+- **No-show early warning.** Upcoming bookings are scored for no-show risk and flagged in the agenda, with the reasons spelled out (for example, the client missed earlier appointments or is new). The day before the appointment, Agendly emails a reminder; for high-risk bookings the email asks more directly for a confirmation or a call to free the slot.
+- **An impact screen** that shows the owner what the tool is doing: how many bookings arrive on their own through the link, the no-show rate, how long clients take to book, returning clients, weekly volume, and how reminders and the risk model are performing against the business's own results.
 
 ![Admin agenda for a day of eight appointments with client, service, time and status, plus no-show risk flags on two upcoming bookings that explain why they may not show up.](../images/agendly-admin.webp)
 
 ![Impact metrics dashboard: appointments, share booked by the client alone, no-show rate, median booking time, returning clients, weekly appointments, reminder results and the no-show prediction model's accuracy.](../images/agendly-insights.webp)
 
-It is a pnpm monorepo with three packages: a NestJS backend (Prisma, PostgreSQL, Passport with JWT and Google OAuth), a Nuxt 3 frontend (Vue 3, Tailwind CSS, Pinia), and a shared package of TypeScript DTOs and types used by both. Email goes through Resend, CI runs on GitHub Actions and deployment targets Railway.
+It is a pnpm monorepo with three packages: a NestJS backend (Prisma, PostgreSQL, Passport with JWT and Google OAuth), a Nuxt 3 frontend (Vue 3, Tailwind CSS, Pinia), and a shared package of TypeScript DTOs and types used by both. Email goes through Resend and CI runs on GitHub Actions. The front end deploys to Netlify and the API to Render, on a managed Neon PostgreSQL, with logo and banner uploads optimised to WebP on Cloudflare R2. Sentry, structured JSON logs with request IDs and health checks cover observability.
+
+Around the core, the account basics are in place: sign-up with email or Google, password reset by a single-use link that expires in 30 minutes, and Terms, Privacy notice and ARCO pages, with terms acceptance stored per user.
 
 ## Decisions
 
-- **Tenant isolation in the data model.** Every table carries a `tenantId`, so each business is an isolated tenant from the first migration.
+- **Tenant isolation in the data model.** Every table carries a `tenantId`, so each business is an isolated tenant from the first migration, with its own timezone for availability, booking validation and every displayed time.
 - **A channel-agnostic booking engine.** The engine does not know whether an appointment came from the web form, a manual entry or, later, WhatsApp. New channels plug in without touching the scheduling rules.
-- **Polling before WebSockets.** The admin refreshes every 10–15 seconds, and only while the tab is visible. It is enough for the MVP and keeps the infrastructure simple; WebSockets are planned for the next version.
 - **Soft deletes for staff and services,** so past appointments keep their history when the catalogue changes.
-- **Shared contracts.** One package of DTOs keeps the API and the UI from drifting apart.
+- **An interpretable no-show model, not a black box.** The score is a logistic formula over a few visible signals: the client's earlier no-shows and completed visits, whether they are new, how far ahead they booked, the booking channel and whether they left an email. The weights are informed priors rather than trained values, because one small business has too little history to fit a model without overfitting, and the owner needs to see why a booking is flagged. The metrics screen backtests the score on past appointments, using only the history that existed before each one, so the weights can be re-fitted once there is enough data. It is only an aid: it never blocks or refuses a booking.
+- **Reminders from an external scheduler.** The free API host sleeps when idle, so an in-process cron would not fire. A GitHub Actions job calls a secret-protected endpoint every hour, and each appointment is claimed atomically before sending, so two overlapping runs never email the same client twice.
+- **Double-booking blocked in the database.** A PostgreSQL exclusion constraint rejects overlapping confirmed appointments for the same employee, so the guarantee holds even when two requests arrive at once.
+- **Cookie sessions with rotating refresh tokens.** The login token lives in an httpOnly cookie that scripts cannot read, short-lived and renewed through a refresh token that rotates on every use; reusing an old one revokes the whole chain.
+- **Billing built, switched off.** Stripe subscriptions, a 14-day trial and access enforcement exist, but a single server flag keeps them off while Agendly is free; the page becomes a voluntary-support link instead. The flag stays off until payment terms and invoicing are settled.
