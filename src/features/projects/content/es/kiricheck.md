@@ -15,6 +15,18 @@ figures:
     alt: "Diagrama de arquitectura: los empleados registran asistencia por WhatsApp en un servicio Lambda que escribe en DynamoDB; los administradores usan un front en Nuxt que llama a una API de administración en FastAPI sobre Lambda, con módulos de bonos, prenómina, monitor de incidencias y reportes."
     caption: "Del registro de asistencia al reporte de nómina: un almacén de tablas y una API de administración encima."
     kind: diagram
+  - src: ../images/kiricheck-monitor.webp
+    alt: "Panel de administración, monitor de inasistencia: tabla de empleados del día con lugar de trabajo, horario esperado y estado detectado (sin entrada, retardo de varios minutos, salida anticipada), con una columna de gestión para justificar cada incidencia. Todos los datos mostrados son ficticios."
+    caption: "El monitor de incidencias: quién llegó tarde, faltó o salió antes hoy, listo para justificar."
+    kind: screen
+  - src: ../images/kiricheck-bonuses.webp
+    alt: "Panel de administración, asignación de bonos: tabla de bonos asignados a empleados en el periodo de pago, como puntualidad, asistencia perfecta y productividad de línea, en monto fijo, porcentaje o días. Todos los datos mostrados son ficticios."
+    caption: "Bonos asignados por periodo de pago, la entrada sobre la que se construye el cálculo de prenómina."
+    kind: screen
+  - src: ../images/kiricheck-reports.webp
+    alt: "Panel de administración, reportes: gráficas de horas trabajadas y horas extra del periodo, distribución de personal por lugar de trabajo y por rol, y una tabla detallada con primera entrada, última salida y horas por empleado, con menú de descarga. Todos los datos mostrados son ficticios."
+    caption: "La asistencia convertida en números de nómina: el periodo de un vistazo y el detalle de las horas de cada empleado."
+    kind: screen
 ---
 
 ## El problema
