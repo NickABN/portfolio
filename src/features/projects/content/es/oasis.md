@@ -6,7 +6,7 @@ role: "Desarrollador full-stack (equipo)"
 stack: ["Flutter", "React", "Python", "GraphQL", "Redis", "Stripe"]
 status: live
 featured: true
-order: 1
+order: 4
 liveUrl: "https://play.google.com/store/apps/details?id=com.oasisapp.user"
 client: true
 cover: ../images/oasis-card.es.svg

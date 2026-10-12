@@ -6,7 +6,7 @@ role: "Fundador y único desarrollador"
 stack: ["NestJS", "Nuxt 3", "PostgreSQL", "Prisma", "TypeScript"]
 status: in-progress
 featured: true
-order: 4
+order: 2
 cover: ../images/agendly-booking.webp
 coverFit: contain
 coverAlt: "Flujo de reserva en un teléfono para una barbería ficticia: lista de servicios con precios, elección de especialista y una cuadrícula de día y horario con un horario seleccionado."
