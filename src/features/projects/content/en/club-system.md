@@ -6,7 +6,7 @@ role: "Full-stack developer"
 stack: ["React", "Python", "FastAPI", "PostgreSQL", "Terraform", "Docker", "AWS"]
 status: in-progress
 featured: true
-order: 3
+order: 1
 client: true
 cover: ../images/club-system-card.en.svg
 coverFit: contain

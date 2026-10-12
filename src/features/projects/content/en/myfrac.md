@@ -6,11 +6,11 @@ role: "Full-stack developer & squad tech lead"
 stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter", "spaCy"]
 status: live
 featured: true
-order: 2
-cover: ../images/myfrac-card.en.svg
+order: 3
+cover: ../images/myfrac-apps.webp
 coverFit: contain
-coverAlt: "Gate devices (facial terminals and QR scanners) call a Spring Boot API over HMAC-signed HTTPS, and the API keeps residents and the visit log in MySQL. A WhatsApp chatbot sends temporary QR codes to the scanners through AWS IoT Core over MQTT, about 7,000 accesses a month."
-caption: "The platform in one view: the gate, the core API and the WhatsApp QR path."
+coverAlt: "Two phones of the residents' app, today's visits with confirmations and the arrival and departure notifications, next to the guards' tablet app listing the day's QR guests and providers, all with fictional data."
+caption: "The residents' app and the guards' tablet, one source of truth: every invitation a resident makes shows up at the gate."
 figures:
   - src: ../images/myfrac-architecture.en.svg
     alt: "Architecture diagram: gate devices call a Spring Boot API over HMAC-signed HTTPS; the API stores data in MySQL and photos in S3, apps and web panels sit on top of it, and a WhatsApp chatbot and a Lambda MQTT service push temporary QR codes through AWS IoT Core."

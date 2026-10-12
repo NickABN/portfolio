@@ -6,11 +6,11 @@ role: "Desarrollador full-stack y tech lead del squad"
 stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter", "spaCy"]
 status: live
 featured: true
-order: 2
-cover: ../images/myfrac-card.es.svg
+order: 3
+cover: ../images/myfrac-apps.webp
 coverFit: contain
-coverAlt: "Los dispositivos de la caseta (terminales faciales y escáneres QR) llaman a una API Spring Boot por HTTPS firmado con HMAC, y la API guarda residentes y bitácora de visitas en MySQL. Un chatbot de WhatsApp envía QR temporales a los escáneres por AWS IoT Core sobre MQTT, unos 7,000 accesos al mes."
-caption: "La plataforma en una vista: la caseta, la API central y el camino de los QR por WhatsApp."
+coverAlt: "Dos teléfonos de la app de residentes, con las visitas del día y sus confirmaciones y las notificaciones de entrada y salida, junto a la app en tableta de los vigilantes con la lista de invitados QR y proveedores del día, todo con datos ficticios."
+caption: "La app de residentes y la tableta de vigilancia, una sola fuente de verdad: cada invitación que hace un residente aparece en la caseta."
 figures:
   - src: ../images/myfrac-architecture.es.svg
     alt: "Diagrama de arquitectura: los dispositivos de la caseta llaman a una API en Spring Boot por HTTPS firmado con HMAC; la API guarda datos en MySQL y fotos en S3, las apps y paneles web se apoyan en ella, y un chatbot de WhatsApp y un servicio MQTT en Lambda envían QR temporales a través de AWS IoT Core."
