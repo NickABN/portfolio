@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Flujo de migración desde la base heredada</title>
+  <desc id="d">Un ETL en Python lee la base Firebird heredada del club sin escribir en ella, carga las filas sin transformar en un esquema de staging crudo en PostgreSQL con un hash por fila, las transforma y mapea primero en una corrida de prueba, y solo entonces escribe en el esquema nuevo. La validación de conteos, las re-ejecuciones idempotentes y un registro de corridas con rollback protegen cada etapa.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">Sistema de Clubes · Migración heredada</text>
+  <text x="56" y="108" class="serif" font-size="38">De la base heredada al esquema nuevo, sin riesgos</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <!-- Lane labels -->
+  <text x="56" y="178" class="sans" font-size="12" fill="#685762">01 — El camino de los datos</text>
+  <text x="56" y="394" class="sans" font-size="12" fill="#685762">02 — Lo que lo mantiene seguro</text>
+
+  <!-- Lane 1 -->
+  <rect x="56" y="196" width="320" height="148" class="box"/>
+  <text x="76" y="232" class="serif" font-size="24">BD heredada del club</text>
+  <text x="76" y="260" class="mono" font-size="14">Firebird · acceso solo lectura</text>
+  <text x="76" y="282" class="mono" font-size="14">socios · spa · canchas</text>
+  <text x="76" y="304" class="mono" font-size="14">movimientos de cobranza</text>
+
+  <path d="M376 270 H 468" class="flow" marker-end="url(#acc)"/>
+  <text x="384" y="258" class="mono" font-size="13">load-raw</text>
+
+  <rect x="472" y="196" width="320" height="148" class="hot"/>
+  <text x="492" y="232" class="serif" font-size="24">Staging crudo</text>
+  <text x="492" y="260" class="mono" font-size="14">filas sin transformar, en JSONB</text>
+  <text x="492" y="282" class="mono" font-size="14">un hash SHA-256 por fila</text>
+  <text x="492" y="304" class="mono" font-size="14">blobs guardados como huella</text>
+
+  <path d="M792 270 H 884" class="flow" marker-end="url(#acc)"/>
+  <text x="800" y="258" class="mono" font-size="13">canonical</text>
+  <text x="800" y="294" class="mono" font-size="13">--dry-run</text>
+
+  <rect x="888" y="196" width="320" height="148" class="hot"/>
+  <text x="908" y="232" class="serif" font-size="24">Transformar y mapear</text>
+  <text x="908" y="260" class="mono" font-size="14">códigos de estatus a estados</text>
+  <text x="908" y="282" class="mono" font-size="14">códigos de familia a relaciones</text>
+  <text x="908" y="304" class="mono" font-size="14">valores de relleno anulados</text>
+  <text x="908" y="326" class="mono" font-size="14">IDs de persona deterministas</text>
+
+  <path d="M1208 270 H 1300" class="flow" marker-end="url(#acc)"/>
+  <text x="1216" y="258" class="mono" font-size="13">canonical</text>
+  <text x="1216" y="294" class="mono" font-size="13">--write</text>
+
+  <rect x="1304" y="196" width="320" height="148" class="box"/>
+  <text x="1324" y="232" class="serif" font-size="24">Esquema PostgreSQL</text>
+  <text x="1324" y="260" class="mono" font-size="14">personas · membresías</text>
+  <text x="1324" y="282" class="mono" font-size="14">recursos · disponibilidad</text>
+  <text x="1324" y="304" class="mono" font-size="14">libro de cargos de socios</text>
+
+  <!-- Connectors -->
+  <path d="M316 344 V 410" class="link" marker-end="url(#ink)"/>
+  <path d="M732 344 V 410" class="link" marker-end="url(#ink)"/>
+  <path d="M1148 344 V 410" class="link" marker-end="url(#ink)"/>
+  <path d="M1564 344 V 410" class="link" marker-end="url(#ink)"/>
+
+  <!-- Lane 2 -->
+  <rect x="56" y="414" width="320" height="150" class="box"/>
+  <text x="76" y="450" class="serif" font-size="24">Validar</text>
+  <text x="76" y="478" class="mono" font-size="14">conteo de filas: origen vs staging</text>
+  <text x="76" y="500" class="mono" font-size="14">paridad de llaves primarias</text>
+  <text x="76" y="522" class="mono" font-size="14">se detiene con códigos sin mapear</text>
+  <text x="76" y="544" class="mono" font-size="14">sale con error si no coincide</text>
+
+  <rect x="472" y="414" width="320" height="150" class="box"/>
+  <text x="492" y="450" class="serif" font-size="24">Corridas repetibles</text>
+  <text x="492" y="478" class="mono" font-size="14">único por tabla, llave y hash</text>
+  <text x="492" y="500" class="mono" font-size="14">filas sin cambios no hacen nada</text>
+  <text x="492" y="522" class="mono" font-size="14">los cambios quedan como historial</text>
+  <text x="492" y="544" class="mono" font-size="14">una transacción por tabla</text>
+
+  <rect x="888" y="414" width="320" height="150" class="box"/>
+  <text x="908" y="450" class="serif" font-size="24">Corrida en seco</text>
+  <text x="908" y="478" class="mono" font-size="14">solo resumen por defecto</text>
+  <text x="908" y="500" class="mono" font-size="14">escribe solo con --write</text>
+  <text x="908" y="522" class="mono" font-size="14">visto bueno del operador al mapeo</text>
+  <text x="908" y="544" class="mono" font-size="14">códigos sin mapear se rechazan</text>
+
+  <rect x="1304" y="414" width="320" height="150" class="box"/>
+  <text x="1324" y="450" class="serif" font-size="24">Registro y rollback</text>
+  <text x="1324" y="478" class="mono" font-size="14">cada fila lleva su ID de corrida</text>
+  <text x="1324" y="500" class="mono" font-size="14">IDs de corrida deterministas</text>
+  <text x="1324" y="522" class="mono" font-size="14">el rollback borra solo esa corrida</text>
+  <text x="1324" y="544" class="mono" font-size="14">nunca se escribe en el origen</text>
+
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Solo lectura por diseño</text>
+  <text x="430" y="682" class="mono" font-size="14">Python · Docker Compose · la base heredada solo se lee, nunca se escribe</text>
+</svg>

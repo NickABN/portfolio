@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Acceso facial de MYFRAC</title>
+  <desc id="d">Los administradores cargan fotos de residentes, una por una o en un ZIP, a una API en Spring Boot que conserva hasta dos fotos activas por residente en S3 y MySQL. Las terminales faciales de la caseta descargan la lista activa por HTTPS con firmas HMAC y reconocen los rostros de forma local. Cada entrada o salida se envía de vuelta a la API, se verifica y se guarda como bitácora de visitas en MySQL, donde los administradores la filtran y exportan. Los QR temporales de visitantes viajan aparte: un chatbot llama a un servicio Lambda que los publica por MQTT a través de AWS IoT Core hacia los escáneres de QR.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">MYFRAC · Acceso facial</text>
+  <text x="56" y="108" class="serif" font-size="38">De una foto cargada a una decisión en la caseta</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <text x="56" y="164" class="sans" font-size="12" fill="#685762">01 — Alta y sincronización</text>
+  <rect x="56" y="176" width="308" height="88" class="hot"/>
+  <text x="76" y="210" class="serif" font-size="24">Panel web</text>
+  <text x="76" y="234" class="mono" font-size="14">Una foto por residente</text>
+  <text x="76" y="254" class="mono" font-size="14">o un ZIP, con avance en vivo</text>
+  <rect x="476" y="176" width="308" height="88" class="hot"/>
+  <text x="496" y="210" class="serif" font-size="24">API Spring Boot</text>
+  <text x="496" y="234" class="mono" font-size="14">Hasta 2 fotos por residente</text>
+  <text x="496" y="254" class="mono" font-size="14">la más antigua se reemplaza</text>
+  <rect x="896" y="176" width="308" height="88" class="hot"/>
+  <text x="916" y="210" class="serif" font-size="24">S3 · MySQL</text>
+  <text x="916" y="234" class="mono" font-size="14">Archivo de foto en S3</text>
+  <text x="916" y="254" class="mono" font-size="14">Estado y posición en MySQL</text>
+  <rect x="1316" y="176" width="308" height="88" class="hot"/>
+  <text x="1336" y="210" class="serif" font-size="24">Terminal facial</text>
+  <text x="1336" y="234" class="mono" font-size="14">Descarga la lista activa</text>
+  <text x="1336" y="254" class="mono" font-size="14">Reconoce rostros en local</text>
+  <path d="M364 220 H 472" class="flow" marker-end="url(#acc)"/>
+  <text x="372" y="210" class="mono" font-size="13">carga</text>
+  <path d="M784 220 H 892" class="flow" marker-end="url(#acc)"/>
+  <text x="792" y="210" class="mono" font-size="13">guarda</text>
+  <path d="M1204 220 H 1312" class="flow" marker-end="url(#acc)"/>
+  <text x="1212" y="210" class="mono" font-size="13">lista</text>
+  <text x="1212" y="242" class="mono" font-size="13">HTTPS · HMAC</text>
+  <text x="56" y="296" class="sans" font-size="12" fill="#685762">02 — La caseta</text>
+  <text x="250" y="296" class="mono" font-size="13">rostros por HTTPS · códigos QR por MQTT</text>
+  <rect x="56" y="308" width="308" height="88" class="hot"/>
+  <text x="76" y="342" class="serif" font-size="24">Terminal facial</text>
+  <text x="76" y="366" class="mono" font-size="14">Reconoce en el equipo</text>
+  <text x="76" y="386" class="mono" font-size="14">y envía la decisión</text>
+  <rect x="476" y="308" width="308" height="88" class="hot"/>
+  <text x="496" y="342" class="serif" font-size="24">API Spring Boot</text>
+  <text x="496" y="366" class="mono" font-size="14">Verifica la firma, el</text>
+  <text x="496" y="386" class="mono" font-size="14">estado y el nonce único</text>
+  <rect x="896" y="308" width="308" height="88" class="hot"/>
+  <text x="916" y="342" class="serif" font-size="24">Bitácora en MySQL</text>
+  <text x="916" y="366" class="mono" font-size="14">Un registro por evento</text>
+  <text x="916" y="386" class="mono" font-size="14">rostro · QR · tag · manual</text>
+  <path d="M364 352 H 472" class="flow" marker-end="url(#acc)"/>
+  <text x="372" y="342" class="mono" font-size="13">in / out</text>
+  <text x="372" y="374" class="mono" font-size="13">firmado</text>
+  <path d="M784 352 H 892" class="flow" marker-end="url(#acc)"/>
+  <text x="1316" y="342" class="mono" font-size="14">Cada registro guarda</text>
+  <text x="1316" y="364" class="mono" font-size="14">confianza, decisión,</text>
+  <text x="1316" y="386" class="mono" font-size="14">motivo de rechazo y puerta</text>
+  <rect x="56" y="416" width="308" height="80" class="box"/>
+  <text x="76" y="448" class="serif" font-size="24">Chatbot</text>
+  <text x="76" y="470" class="mono" font-size="14">QR temporal de visita</text>
+  <rect x="476" y="416" width="308" height="80" class="box"/>
+  <text x="496" y="448" class="serif" font-size="24">Servicio Lambda</text>
+  <text x="496" y="470" class="mono" font-size="14">Publica en el tema</text>
+  <text x="496" y="488" class="mono" font-size="14">de la comunidad</text>
+  <rect x="896" y="416" width="308" height="80" class="box"/>
+  <text x="916" y="448" class="serif" font-size="24">AWS IoT Core</text>
+  <text x="916" y="470" class="mono" font-size="14">Broker MQTT</text>
+  <rect x="1316" y="416" width="308" height="80" class="box"/>
+  <text x="1336" y="448" class="serif" font-size="24">Escáner de QR</text>
+  <text x="1336" y="470" class="mono" font-size="14">Recibe el código</text>
+  <text x="1336" y="488" class="mono" font-size="14">y devuelve un ACK</text>
+  <path d="M364 456 H 472" class="link" marker-end="url(#ink)"/>
+  <text x="372" y="446" class="mono" font-size="13">HTTPS</text>
+  <path d="M784 456 H 892" class="link" marker-end="url(#ink)"/>
+  <text x="792" y="446" class="mono" font-size="13">MQTT</text>
+  <path d="M1204 456 H 1312" class="link" marker-end="url(#ink)"/>
+  <text x="1212" y="446" class="mono" font-size="13">MQTT</text>
+  <text x="56" y="526" class="sans" font-size="12" fill="#685762">03 — Lo que ve la administración</text>
+  <rect x="56" y="538" width="308" height="88" class="box"/>
+  <text x="76" y="572" class="serif" font-size="24">Bitácora</text>
+  <text x="76" y="596" class="mono" font-size="14">MySQL</text>
+  <text x="76" y="616" class="mono" font-size="14">Cada evento de caseta</text>
+  <rect x="476" y="538" width="308" height="88" class="box"/>
+  <text x="496" y="572" class="serif" font-size="24">API Spring Boot</text>
+  <text x="496" y="596" class="mono" font-size="14">Filtra por texto, entrada/</text>
+  <text x="496" y="616" class="mono" font-size="14">salida, puerta y fechas</text>
+  <rect x="896" y="538" width="308" height="88" class="box"/>
+  <text x="916" y="572" class="serif" font-size="24">Panel de administración</text>
+  <text x="916" y="596" class="mono" font-size="14">Reporte de visitas faciales</text>
+  <text x="916" y="616" class="mono" font-size="14">Exporta a Excel o CSV</text>
+  <path d="M364 582 H 472" class="link" marker-end="url(#ink)"/>
+  <path d="M784 582 H 892" class="link" marker-end="url(#ink)"/>
+  <text x="1316" y="572" class="mono" font-size="14">El acceso facial es una</text>
+  <text x="1316" y="594" class="mono" font-size="14">función activable por</text>
+  <text x="1316" y="616" class="mono" font-size="14">comunidad</text>
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Confianza en dispositivos — HMAC</text>
+  <text x="560" y="682" class="mono" font-size="14">ID de dispositivo · marca de tiempo · nonce único · hash del cuerpo en cada llamada</text>
+</svg>

@@ -162,11 +162,11 @@ Each shot in `scripts/capture/captures.config.json`:
 | `output` | no | File name inside `content/images/`, ending in `.png`, `.jpg` or `.jpeg`. Default `<slug>-<width>.png` |
 | `login` | no | `{ url, emailSelector, passwordSelector, submitSelector, waitFor? }` for projects behind a login. After submitting, the script waits for `waitFor` (30 s), or, if it is not set, for the page to navigate away from `login.url`. Single-page apps that stay on the same URL need `waitFor` |
 
-Example (the seeded `olly-weather` entry is disabled until you fill in the real URL and selectors):
+Example of a shot behind a login:
 
 ```json
 {
-  "slug": "olly-weather",
+  "slug": "my-app",
   "url": "https://app.example.com/dashboard",
   "viewport": { "width": 1600, "height": 1000 },
   "waitFor": "main",
@@ -183,7 +183,7 @@ Example (the seeded `olly-weather` entry is disabled until you fill in the real 
 
 The whole config is validated before any browser starts (types, URLs, output path and extension). To try a config without touching the real one, pass `pnpm capture --config <file> [slug...]`.
 
-Credentials never go in the config. For a project with `login`, set `CAPTURE_<SLUG>_EMAIL` and `CAPTURE_<SLUG>_PASSWORD`, where `<SLUG>` is the slug in upper case with hyphens turned into underscores (`olly-weather` becomes `CAPTURE_OLLY_WEATHER_EMAIL`). Put them in a local `.env` file at the repo root (already ignored by git through `.env*`) or export them in your shell. Use a read-only or demo account, and review the screenshot before committing it.
+Credentials never go in the config. For a project with `login`, set `CAPTURE_<SLUG>_EMAIL` and `CAPTURE_<SLUG>_PASSWORD`, where `<SLUG>` is the slug in upper case with hyphens turned into underscores (`my-app` becomes `CAPTURE_MY_APP_EMAIL`). Put them in a local `.env` file at the repo root (already ignored by git through `.env*`) or export them in your shell. Use a read-only or demo account, and review the screenshot before committing it.
 
 ### Portrait
 

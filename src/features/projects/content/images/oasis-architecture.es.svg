@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Arquitectura de Oasis</title>
+  <desc id="d">Los huéspedes reservan un palco desde una app Flutter o una app web en React. Ambas llaman a una API REST en Node y Express sobre AWS Elastic Beanstalk, que guarda la reserva y su pago en una sola transacción de MySQL tras verificar el cargo con Stripe. Una reserva confirmada dispara un evento que envía notificaciones push y correo, y actualiza los precios en vivo con un flujo de eventos del servidor. MongoDB respalda las tareas programadas. Un panel de administración en Angular habla con un servicio GraphQL, y las apps web se sirven desde S3 y CloudFront.</desc>
+  <defs>
+    <marker id="ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#07393C"/></marker>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:1.5}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:2}
+      .rule{stroke:#07393C;stroke-width:1}
+      .flow{stroke:#9E5536;stroke-width:2;fill:none}
+      .link{stroke:#07393C;stroke-width:1.5;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+
+  <!-- Header -->
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">Oasis · Arquitectura</text>
+  <text x="56" y="108" class="serif" font-size="38">Del toque de un huésped a un palco confirmado</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+
+  <text x="56" y="166" class="sans" font-size="12" fill="#685762">01 — El camino de la reserva</text>
+  <rect x="56" y="184" width="268" height="96" class="hot"/>
+  <text x="76" y="218" class="serif" font-size="24">Huéspedes</text>
+  <text x="76" y="242" class="mono" font-size="14">App Flutter, iOS y Android</text>
+  <text x="76" y="262" class="mono" font-size="14">App web en React</text>
+  <rect x="424" y="184" width="268" height="96" class="hot"/>
+  <text x="444" y="218" class="serif" font-size="24">API REST</text>
+  <text x="444" y="242" class="mono" font-size="14">Node · Express · TypeScript</text>
+  <text x="444" y="262" class="mono" font-size="14">AWS Elastic Beanstalk</text>
+  <rect x="792" y="184" width="268" height="96" class="hot"/>
+  <text x="812" y="218" class="serif" font-size="24">MySQL</text>
+  <text x="812" y="242" class="mono" font-size="14">Reservas y pagos</text>
+  <text x="812" y="262" class="mono" font-size="14">en una sola transacción</text>
+  <rect x="1160" y="184" width="268" height="96" class="hot"/>
+  <text x="1180" y="218" class="serif" font-size="24">Evento de reserva</text>
+  <text x="1180" y="242" class="mono" font-size="14">Se emite al confirmar</text>
+  <text x="1180" y="262" class="mono" font-size="14">y reparte avisos</text>
+  <path d="M324 232 H 420" class="flow" marker-end="url(#acc)"/>
+  <text x="332" y="222" class="mono" font-size="13">REST · JWT</text>
+  <path d="M692 232 H 788" class="flow" marker-end="url(#acc)"/>
+  <text x="700" y="222" class="mono" font-size="13">guarda</text>
+  <path d="M1060 232 H 1156" class="flow" marker-end="url(#acc)"/>
+  <text x="1068" y="222" class="mono" font-size="13">commit</text>
+  <text x="56" y="326" class="sans" font-size="12" fill="#685762">02 — Alrededor de la API</text>
+  <rect x="56" y="344" width="268" height="96" class="box"/>
+  <text x="76" y="378" class="serif" font-size="24">Precios en vivo</text>
+  <text x="76" y="402" class="mono" font-size="14">Flujo de eventos (SSE)</text>
+  <text x="76" y="422" class="mono" font-size="14">precio y lugares al día</text>
+  <rect x="424" y="344" width="268" height="96" class="box"/>
+  <text x="444" y="378" class="serif" font-size="24">Stripe</text>
+  <text x="444" y="402" class="mono" font-size="14">El cliente confirma el pago</text>
+  <text x="444" y="422" class="mono" font-size="14">la API verifica el cargo</text>
+  <rect x="792" y="344" width="268" height="96" class="box"/>
+  <text x="812" y="378" class="serif" font-size="24">MongoDB</text>
+  <text x="812" y="402" class="mono" font-size="14">Respalda tareas programadas</text>
+  <text x="812" y="422" class="mono" font-size="14">Agenda · Node</text>
+  <rect x="1160" y="344" width="268" height="96" class="box"/>
+  <text x="1180" y="378" class="serif" font-size="24">Notificaciones</text>
+  <text x="1180" y="402" class="mono" font-size="14">Push con Firebase</text>
+  <text x="1180" y="422" class="mono" font-size="14">Proveedor de correo</text>
+  <path d="M306 344 V 284" class="link" marker-end="url(#ink)"/>
+  <path d="M524 280 V 340" class="link" marker-end="url(#ink)"/>
+  <path d="M926 344 V 312 H 624 V 284" class="link" stroke-dasharray="6 6" marker-end="url(#ink)"/>
+  <path d="M1294 280 V 340" class="flow" marker-end="url(#acc)"/>
+  <text x="56" y="486" class="sans" font-size="12" fill="#685762">03 — La administración</text>
+  <rect x="56" y="504" width="268" height="96" class="box"/>
+  <text x="76" y="538" class="serif" font-size="24">Panel admin</text>
+  <text x="76" y="562" class="mono" font-size="14">Angular · cliente Apollo</text>
+  <text x="76" y="582" class="mono" font-size="14">Interfaz con Tailwind</text>
+  <rect x="424" y="504" width="268" height="96" class="box"/>
+  <text x="444" y="538" class="serif" font-size="24">Servicio GraphQL</text>
+  <text x="444" y="562" class="mono" font-size="14">Endpoint que el panel</text>
+  <text x="444" y="582" class="mono" font-size="14">de admin lee y escribe</text>
+  <rect x="792" y="504" width="268" height="96" class="box"/>
+  <text x="812" y="538" class="serif" font-size="24">S3 · CloudFront</text>
+  <text x="812" y="562" class="mono" font-size="14">Hosting estático de la</text>
+  <text x="812" y="582" class="mono" font-size="14">web en React y el admin</text>
+  <rect x="1160" y="504" width="268" height="96" class="box"/>
+  <text x="1180" y="538" class="serif" font-size="24">CodeBuild</text>
+  <text x="1180" y="562" class="mono" font-size="14">buildspec por proyecto</text>
+  <text x="1180" y="582" class="mono" font-size="14">compila, sube, invalida</text>
+  <path d="M324 552 H 420" class="link" marker-end="url(#ink)"/>
+  <text x="332" y="542" class="mono" font-size="13">GraphQL</text>
+  <line x1="1472" y1="196" x2="1472" y2="600" class="rule"/>
+  <text x="1490" y="236" class="serif" font-size="36">25 → 150</text>
+  <text x="1490" y="262" class="sans" font-size="11" fill="#685762">usuarios web</text>
+  <text x="1490" y="280" class="sans" font-size="11" fill="#685762">concurrentes, misma</text>
+  <text x="1490" y="298" class="sans" font-size="11" fill="#685762">instancia</text>
+  <text x="1490" y="356" class="serif" font-size="36">5,000+</text>
+  <text x="1490" y="382" class="sans" font-size="11" fill="#685762">descargas en</text>
+  <text x="1490" y="400" class="sans" font-size="11" fill="#685762">Google Play</text>
+  <!-- Footer band -->
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="682" class="sans" font-size="12" fill="#07393C">Pagos — Stripe</text>
+  <text x="480" y="682" class="mono" font-size="14">intención confirmada por el cliente · cargo verificado por la API · guardado con la reserva</text>
+</svg>

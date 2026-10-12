@@ -8,6 +8,10 @@ status: live
 featured: false
 liveUrl: "https://olly-olly-weather.netlify.app"
 repoUrl: "https://github.com/NickABN/olly-weather-app"
+cover: ../images/olly-weather-cover.webp
+coverFit: contain
+coverAlt: "Olly Weather on a phone: the sign-in screen, and the forecast for Morelia, Mexico, with wind, humidity, rain, UV index, air quality and an hourly strip that ends in an afternoon storm."
+caption: "Sign-in with the demo account, then the live forecast for the place you are standing."
 ---
 
 ## The problem

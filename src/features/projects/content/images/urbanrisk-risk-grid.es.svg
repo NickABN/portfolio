@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 720" width="1680" height="720" role="img" aria-labelledby="t d">
+  <title id="t">Riesgo predicho por alcaldía y franja horaria</title>
+  <desc id="d">Mapa de calor del índice de riesgo predicho por el modelo (0 a 100) para las 16 alcaldías de la Ciudad de México en cuatro franjas de seis horas, ordenadas por riesgo global. Iztapalapa, Cuauhtémoc y Gustavo A. Madero son las más altas, con un máximo de 98,8 en Iztapalapa por la noche; Milpa Alta se mantiene por debajo de 7 todo el día. Todas las alcaldías están más tranquilas entre la medianoche y las 6 h.</desc>
+  <defs><style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .rule{stroke:#07393C;stroke-width:1}
+    </style>
+  <linearGradient id="ramp" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#EAEAEA"/><stop offset="1" stop-color="#9E5536"/></linearGradient></defs>
+  <rect width="1680" height="720" fill="#DCDFDE"/>
+  <text x="56" y="66" class="sans" font-size="14" fill="#9E5536">UrbanRisk Analytics · Rejilla de predicción</text>
+  <text x="56" y="108" class="serif" font-size="38">Dónde y cuándo espera el modelo más riesgo</text>
+  <line x1="56" y1="132" x2="1624" y2="132" class="rule"/>
+  <text x="387.0" y="156" text-anchor="middle" class="sans" font-size="13" fill="#07393C">Madrugada</text>
+  <text x="387.0" y="173" text-anchor="middle" class="mono" font-size="12">00–05 h</text>
+  <text x="540.0" y="156" text-anchor="middle" class="sans" font-size="13" fill="#07393C">Mañana</text>
+  <text x="540.0" y="173" text-anchor="middle" class="mono" font-size="12">06–11 h</text>
+  <text x="693.0" y="156" text-anchor="middle" class="sans" font-size="13" fill="#07393C">Tarde</text>
+  <text x="693.0" y="173" text-anchor="middle" class="mono" font-size="12">12–17 h</text>
+  <text x="846.0" y="156" text-anchor="middle" class="sans" font-size="13" fill="#07393C">Noche</text>
+  <text x="846.0" y="173" text-anchor="middle" class="mono" font-size="12">18–23 h</text>
+  <text x="994.0" y="156" text-anchor="middle" class="sans" font-size="13" fill="#07393C">Todo el día</text>
+  <text x="56" y="202.0" class="serif" font-size="18">Iztapalapa</text>
+  <rect x="312" y="184" width="150" height="26" fill="#BD917F"/><text x="387.0" y="202.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">59,5</text>
+  <rect x="465" y="184" width="150" height="26" fill="#A25C3F"/><text x="540.0" y="202.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">95,0</text>
+  <rect x="618" y="184" width="150" height="26" fill="#A0593A"/><text x="693.0" y="202.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">97,6</text>
+  <rect x="771" y="184" width="150" height="26" fill="#9F5738"/><text x="846.0" y="202.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">98,8</text>
+  <rect x="942" y="184" width="104" height="26" fill="#A7674C"/><text x="994.0" y="202.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">87,7</text>
+  <text x="56" y="230.0" class="serif" font-size="18">Cuauhtémoc</text>
+  <rect x="312" y="212" width="150" height="26" fill="#C39E8E"/><text x="387.0" y="230.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">51,0</text>
+  <rect x="465" y="212" width="150" height="26" fill="#A66449"/><text x="540.0" y="230.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">89,7</text>
+  <rect x="618" y="212" width="150" height="26" fill="#A0593B"/><text x="693.0" y="230.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">97,0</text>
+  <rect x="771" y="212" width="150" height="26" fill="#A25D40"/><text x="846.0" y="230.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">94,3</text>
+  <rect x="942" y="212" width="104" height="26" fill="#AB6E55"/><text x="994.0" y="230.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">83,0</text>
+  <text x="56" y="258.0" class="serif" font-size="18">Gustavo A. Madero</text>
+  <rect x="312" y="240" width="150" height="26" fill="#CCAEA2"/><text x="387.0" y="258.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">40,1</text>
+  <rect x="465" y="240" width="150" height="26" fill="#AA6D53"/><text x="540.0" y="258.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">83,9</text>
+  <rect x="618" y="240" width="150" height="26" fill="#A25D3F"/><text x="693.0" y="258.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">94,9</text>
+  <rect x="771" y="240" width="150" height="26" fill="#A35E41"/><text x="846.0" y="258.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">93,7</text>
+  <rect x="942" y="240" width="104" height="26" fill="#AF765D"/><text x="994.0" y="258.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">78,2</text>
+  <text x="56" y="286.0" class="serif" font-size="18">Venustiano Carranza</text>
+  <rect x="312" y="268" width="150" height="26" fill="#D3BCB3"/><text x="387.0" y="286.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">30,7</text>
+  <rect x="465" y="268" width="150" height="26" fill="#B6836E"/><text x="540.0" y="286.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">68,9</text>
+  <rect x="618" y="268" width="150" height="26" fill="#AC7057"/><text x="693.0" y="286.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">81,6</text>
+  <rect x="771" y="268" width="150" height="26" fill="#AD735A"/><text x="846.0" y="286.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">79,9</text>
+  <rect x="942" y="268" width="104" height="26" fill="#B88974"/><text x="994.0" y="286.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">65,3</text>
+  <text x="56" y="314.0" class="serif" font-size="18">Benito Juárez</text>
+  <rect x="312" y="296" width="150" height="26" fill="#D5C0B7"/><text x="387.0" y="314.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">28,2</text>
+  <rect x="465" y="296" width="150" height="26" fill="#B6846F"/><text x="540.0" y="314.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">68,6</text>
+  <rect x="618" y="296" width="150" height="26" fill="#AB6E55"/><text x="693.0" y="314.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">82,9</text>
+  <rect x="771" y="296" width="150" height="26" fill="#B47F69"/><text x="846.0" y="314.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">71,6</text>
+  <rect x="942" y="296" width="104" height="26" fill="#BA8C79"/><text x="994.0" y="314.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">62,8</text>
+  <text x="56" y="342.0" class="serif" font-size="18">Coyoacán</text>
+  <rect x="312" y="324" width="150" height="26" fill="#D4BFB6"/><text x="387.0" y="342.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">29,0</text>
+  <rect x="465" y="324" width="150" height="26" fill="#BA8C78"/><text x="540.0" y="342.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">63,2</text>
+  <rect x="618" y="324" width="150" height="26" fill="#AE755D"/><text x="693.0" y="342.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">78,3</text>
+  <rect x="771" y="324" width="150" height="26" fill="#B07861"/><text x="846.0" y="342.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">76,4</text>
+  <rect x="942" y="324" width="104" height="26" fill="#BB8E7B"/><text x="994.0" y="342.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">61,7</text>
+  <text x="56" y="370.0" class="serif" font-size="18">Miguel Hidalgo</text>
+  <rect x="312" y="352" width="150" height="26" fill="#D6C2BA"/><text x="387.0" y="370.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">26,6</text>
+  <rect x="465" y="352" width="150" height="26" fill="#B88874"/><text x="540.0" y="370.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">65,8</text>
+  <rect x="618" y="352" width="150" height="26" fill="#AD7259"/><text x="693.0" y="370.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">80,8</text>
+  <rect x="771" y="352" width="150" height="26" fill="#B37F68"/><text x="846.0" y="370.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">72,1</text>
+  <rect x="942" y="352" width="104" height="26" fill="#BB8F7C"/><text x="994.0" y="370.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">61,4</text>
+  <text x="56" y="398.0" class="serif" font-size="18">Tlalpan</text>
+  <rect x="312" y="380" width="150" height="26" fill="#D2BBB1"/><text x="387.0" y="398.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">31,6</text>
+  <rect x="465" y="380" width="150" height="26" fill="#C29B8A"/><text x="540.0" y="398.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">53,3</text>
+  <rect x="618" y="380" width="150" height="26" fill="#B4806A"/><text x="693.0" y="398.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">71,1</text>
+  <rect x="771" y="380" width="150" height="26" fill="#B07860"/><text x="846.0" y="398.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">76,4</text>
+  <rect x="942" y="380" width="104" height="26" fill="#BE9381"/><text x="994.0" y="398.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">58,1</text>
+  <text x="56" y="426.0" class="serif" font-size="18">Álvaro Obregón</text>
+  <rect x="312" y="408" width="150" height="26" fill="#D7C5BD"/><text x="387.0" y="426.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">24,8</text>
+  <rect x="465" y="408" width="150" height="26" fill="#BF9685"/><text x="540.0" y="426.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">56,3</text>
+  <rect x="618" y="408" width="150" height="26" fill="#B5836D"/><text x="693.0" y="426.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">69,3</text>
+  <rect x="771" y="408" width="150" height="26" fill="#B17B64"/><text x="846.0" y="426.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#FFFFFF">74,5</text>
+  <rect x="942" y="408" width="104" height="26" fill="#BF9685"/><text x="994.0" y="426.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">56,2</text>
+  <text x="56" y="454.0" class="serif" font-size="18">Azcapotzalco</text>
+  <rect x="312" y="436" width="150" height="26" fill="#DBCDC8"/><text x="387.0" y="454.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">19,1</text>
+  <rect x="465" y="436" width="150" height="26" fill="#C7A698"/><text x="540.0" y="454.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">45,6</text>
+  <rect x="618" y="436" width="150" height="26" fill="#BC907D"/><text x="693.0" y="454.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">60,5</text>
+  <rect x="771" y="436" width="150" height="26" fill="#BF9584"/><text x="846.0" y="454.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">56,7</text>
+  <rect x="942" y="436" width="104" height="26" fill="#C7A698"/><text x="994.0" y="454.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">45,5</text>
+  <text x="56" y="482.0" class="serif" font-size="18">Iztacalco</text>
+  <rect x="312" y="464" width="150" height="26" fill="#DDD0CA"/><text x="387.0" y="482.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">17,6</text>
+  <rect x="465" y="464" width="150" height="26" fill="#CDB0A4"/><text x="540.0" y="482.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">38,7</text>
+  <rect x="618" y="464" width="150" height="26" fill="#C39E8E"/><text x="693.0" y="482.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">51,3</text>
+  <rect x="771" y="464" width="150" height="26" fill="#C39E8E"/><text x="846.0" y="482.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">51,2</text>
+  <rect x="942" y="464" width="104" height="26" fill="#CCAFA3"/><text x="994.0" y="482.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">39,7</text>
+  <text x="56" y="510.0" class="serif" font-size="18">Xochimilco</text>
+  <rect x="312" y="492" width="150" height="26" fill="#DFD4CF"/><text x="387.0" y="510.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">14,8</text>
+  <rect x="465" y="492" width="150" height="26" fill="#D4C0B7"/><text x="540.0" y="510.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">28,3</text>
+  <rect x="618" y="492" width="150" height="26" fill="#D2BBB1"/><text x="693.0" y="510.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">31,8</text>
+  <rect x="771" y="492" width="150" height="26" fill="#CAAB9D"/><text x="846.0" y="510.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">42,6</text>
+  <rect x="942" y="492" width="104" height="26" fill="#D4BEB5"/><text x="994.0" y="510.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">29,4</text>
+  <text x="56" y="538.0" class="serif" font-size="18">Tláhuac</text>
+  <rect x="312" y="520" width="150" height="26" fill="#E1D9D6"/><text x="387.0" y="538.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">11,3</text>
+  <rect x="465" y="520" width="150" height="26" fill="#D7C4BC"/><text x="540.0" y="538.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">25,4</text>
+  <rect x="618" y="520" width="150" height="26" fill="#CDB1A5"/><text x="693.0" y="538.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">38,3</text>
+  <rect x="771" y="520" width="150" height="26" fill="#CCAFA3"/><text x="846.0" y="538.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">39,4</text>
+  <rect x="942" y="520" width="104" height="26" fill="#D4BFB7"/><text x="994.0" y="538.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">28,6</text>
+  <text x="56" y="566.0" class="serif" font-size="18">Cuajimalpa de Morelos</text>
+  <rect x="312" y="548" width="150" height="26" fill="#E6E2E1"/><text x="387.0" y="566.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">5,3</text>
+  <rect x="465" y="548" width="150" height="26" fill="#E1D8D5"/><text x="540.0" y="566.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">11,8</text>
+  <rect x="618" y="548" width="150" height="26" fill="#DDD0CB"/><text x="693.0" y="566.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">17,3</text>
+  <rect x="771" y="548" width="150" height="26" fill="#DACCC5"/><text x="846.0" y="566.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">20,4</text>
+  <rect x="942" y="548" width="104" height="26" fill="#E0D6D1"/><text x="994.0" y="566.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">13,7</text>
+  <text x="56" y="594.0" class="serif" font-size="18">La Magdalena Contreras</text>
+  <rect x="312" y="576" width="150" height="26" fill="#E6E2E1"/><text x="387.0" y="594.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">5,1</text>
+  <rect x="465" y="576" width="150" height="26" fill="#E3DDDA"/><text x="540.0" y="594.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">9,0</text>
+  <rect x="618" y="576" width="150" height="26" fill="#E0D6D2"/><text x="693.0" y="594.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">13,6</text>
+  <rect x="771" y="576" width="150" height="26" fill="#DCCFC9"/><text x="846.0" y="594.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">18,1</text>
+  <rect x="942" y="576" width="104" height="26" fill="#E1D9D5"/><text x="994.0" y="594.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">11,4</text>
+  <text x="56" y="622.0" class="serif" font-size="18">Milpa Alta</text>
+  <rect x="312" y="604" width="150" height="26" fill="#E9E7E7"/><text x="387.0" y="622.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">1,7</text>
+  <rect x="465" y="604" width="150" height="26" fill="#E8E6E5"/><text x="540.0" y="622.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">2,6</text>
+  <rect x="618" y="604" width="150" height="26" fill="#E6E3E1"/><text x="693.0" y="622.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">4,9</text>
+  <rect x="771" y="604" width="150" height="26" fill="#E5E1DF"/><text x="846.0" y="622.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">6,2</text>
+  <rect x="942" y="604" width="104" height="26" fill="#E7E4E3"/><text x="994.0" y="622.0" text-anchor="middle" class="mono" font-size="15" font-weight="600" style="fill:#07393C">3,8</text>
+  <text x="1130" y="156" class="sans" font-size="13" fill="#07393C">Índice de riesgo</text>
+  <rect x="1130" y="168" width="400" height="14" fill="url(#ramp)" stroke="#07393C" stroke-width="1"/>
+  <line x1="1130.0" y1="182" x2="1130.0" y2="188" class="rule"/><text x="1130.0" y="204" text-anchor="middle" class="mono" font-size="12">0</text>
+  <line x1="1230.0" y1="182" x2="1230.0" y2="188" class="rule"/><text x="1230.0" y="204" text-anchor="middle" class="mono" font-size="12">25</text>
+  <line x1="1330.0" y1="182" x2="1330.0" y2="188" class="rule"/><text x="1330.0" y="204" text-anchor="middle" class="mono" font-size="12">50</text>
+  <line x1="1430.0" y1="182" x2="1430.0" y2="188" class="rule"/><text x="1430.0" y="204" text-anchor="middle" class="mono" font-size="12">75</text>
+  <line x1="1530.0" y1="182" x2="1530.0" y2="188" class="rule"/><text x="1530.0" y="204" text-anchor="middle" class="mono" font-size="12">100</text>
+  <text x="1130" y="224" class="mono" font-size="12">bajo</text><text x="1530" y="224" text-anchor="end" class="mono" font-size="12">alto</text>
+  <line x1="1130" y1="254" x2="1624" y2="254" class="rule"/>
+  <text x="1130" y="312" class="serif" font-size="52" style="fill:#9E5536">98,8</text>
+  <text x="1280" y="288" class="sans" font-size="13" fill="#07393C">Iztapalapa, 18–23 h</text>
+  <text x="1280" y="312" class="mono" font-size="14">La celda más alta de la rejilla</text>
+  <line x1="1130" y1="372" x2="1624" y2="372" class="rule"/>
+  <text x="1130" y="430" class="serif" font-size="52" style="fill:#9E5536">3,8</text>
+  <text x="1280" y="406" class="sans" font-size="13" fill="#07393C">Milpa Alta, todo el día</text>
+  <text x="1280" y="430" class="mono" font-size="14">La alcaldía más baja; nunca supera</text>
+  <text x="1280" y="450" class="mono" font-size="14">6,2</text>
+  <line x1="1130" y1="490" x2="1624" y2="490" class="rule"/>
+  <text x="1130" y="548" class="serif" font-size="52" style="fill:#9E5536">16/16</text>
+  <text x="1280" y="524" class="sans" font-size="13" fill="#07393C">El mismo patrón en todas</text>
+  <text x="1280" y="548" class="mono" font-size="14">La madrugada es la franja más</text>
+  <text x="1280" y="568" class="mono" font-size="14">tranquila en las 16 alcaldías</text>
+  <line x1="56" y1="648" x2="1624" y2="648" class="rule"/>
+  <text x="56" y="674" class="mono" font-size="14">Fuente: registro de incidentes del C5, datos abiertos CDMX, 2022–2024 · modelo: rejilla XGBoost estructural, 10 752 filas precalculadas</text>
+  <text x="56" y="696" class="mono" font-size="14">Índice = 100 × (½ · P(medio) + P(alto)), promediado sobre día de la semana, mes y quincena · lo que mostrarían el mapa y el ranking del tablero previsto</text>
+</svg>
