@@ -7,10 +7,27 @@ stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Fl
 status: live
 featured: true
 order: 2
-cover: ../images/myfrac-architecture.es.svg
+cover: ../images/myfrac-card.es.svg
 coverFit: contain
-coverAlt: "Diagrama de arquitectura: los dispositivos de la caseta llaman a una API en Spring Boot por HTTPS firmado con HMAC; la API guarda datos en MySQL y fotos en S3, las apps y paneles web se apoyan en ella, y un chatbot de WhatsApp y un servicio MQTT en Lambda envían QR temporales a través de AWS IoT Core."
-caption: "Cómo encaja la plataforma: la caseta habla con una sola API y los QR viajan por MQTT."
+coverAlt: "Los dispositivos de la caseta (terminales faciales y escáneres QR) llaman a una API Spring Boot por HTTPS firmado con HMAC, y la API guarda residentes y bitácora de visitas en MySQL. Un chatbot de WhatsApp envía QR temporales a los escáneres por AWS IoT Core sobre MQTT, unos 7,000 accesos al mes."
+caption: "La plataforma en una vista: la caseta, la API central y el camino de los QR por WhatsApp."
+figures:
+  - src: ../images/myfrac-architecture.es.svg
+    alt: "Diagrama de arquitectura: los dispositivos de la caseta llaman a una API en Spring Boot por HTTPS firmado con HMAC; la API guarda datos en MySQL y fotos en S3, las apps y paneles web se apoyan en ella, y un chatbot de WhatsApp y un servicio MQTT en Lambda envían QR temporales a través de AWS IoT Core."
+    caption: "Cómo encaja la plataforma: la caseta habla con una sola API y los QR viajan por MQTT."
+    kind: diagram
+  - src: ../images/myfrac-facial-access.es.svg
+    alt: "Diagrama: los administradores cargan fotos de residentes a la API Spring Boot, las terminales de la caseta descargan la lista activa por HTTPS y reportan cada entrada a una bitácora de visitas en MySQL, y los QR temporales de visitantes llegan a los escáneres por MQTT."
+    caption: "Cómo pasa una visita por la caseta: las terminales descargan la lista activa, comparan rostros en el dispositivo y reportan cada entrada a la API."
+    kind: diagram
+  - src: ../images/myfrac-facial-ingest.webp
+    alt: "Panel de administración, revisión de la carga masiva de fotos: cada foto del ZIP se asigna a un residente, con estados pendiente, rechazada y lista para activar antes de entrar en producción. Todos los datos mostrados son ficticios."
+    caption: "Carga masiva de fotos, revisada antes de entrar en producción: cada foto del ZIP se asigna a un residente."
+    kind: screen
+  - src: ../images/myfrac-facial-visits.webp
+    alt: "Panel de administración, bitácora de accesos faciales: tabla filtrable de entradas y salidas con el residente, la puerta y la hora de cada evento, alimentada por las terminales de la caseta. Todos los datos mostrados son ficticios."
+    caption: "La bitácora de visitas que los administradores filtran y exportan: quién entró o salió, por qué puerta y cuándo."
+    kind: screen
 highlights:
   - value: "11"
     label: "Comunidades residenciales"
@@ -38,13 +55,6 @@ Llevo la mayor parte de la plataforma de punta a punta: la infraestructura, el b
 - **Seguridad para dispositivos y personas:** firmas HMAC para autenticar los dispositivos IoT contra la API, y el flujo propio de login y tokens OAuth2 de la plataforma con Spring Security.
 
 **El acceso facial, de punta a punta.** Los administradores cargan las fotos de los residentes, una por una o en un ZIP, y la API conserva hasta dos fotos activas por residente. Cada terminal de la caseta descarga la lista activa por HTTPS, reconoce los rostros en el propio equipo y reporta cada entrada y salida a la API con una petición firmada con HMAC, que queda en una bitácora de visitas que los administradores pueden filtrar y exportar. Los códigos QR de visitantes viajan en sentido contrario, como mensajes MQTT a través de AWS IoT Core.
-
-![Diagrama: los administradores cargan fotos de residentes a la API Spring Boot, las terminales de la caseta descargan la lista activa por HTTPS y reportan cada entrada a una bitácora de visitas en MySQL, y los QR temporales de visitantes llegan a los escáneres por MQTT.](../images/myfrac-facial-access.es.svg)
-
-![Panel de administración, revisión de la carga masiva de fotos: cada foto del ZIP se asigna a un residente, con estados pendiente, rechazada y lista para activar antes de entrar en producción. Todos los datos mostrados son ficticios.](../images/myfrac-facial-ingest.webp)
-
-![Panel de administración, bitácora de accesos faciales: tabla filtrable de entradas y salidas con el residente, la puerta y la hora de cada evento, alimentada por las terminales de la caseta. Todos los datos mostrados son ficticios.](../images/myfrac-facial-visits.webp)
-
 
 ## Decisiones
 

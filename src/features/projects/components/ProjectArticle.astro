@@ -8,6 +8,7 @@ import { useProjectsUi } from '../i18n';
 import NextProject from './NextProject.astro';
 import ProjectFacts from './ProjectFacts.astro';
 import ProjectFigure from './ProjectFigure.astro';
+import ProjectFigures from './ProjectFigures.astro';
 import ProjectHighlights from './ProjectHighlights.astro';
 
 interface Props {
@@ -20,7 +21,8 @@ interface Props {
 const { locale, project, projects } = Astro.props;
 const strings = useProjectsUi(locale);
 const data = project.entry.data;
-const { Content } = await render(project.entry);
+const { Content, headings } = await render(project.entry);
+const bodySections = headings.filter((heading) => heading.depth === 2).length;
 const next = getNextProject(projects, project.slug);
 ---
 
@@ -64,6 +66,7 @@ const next = getNextProject(projects, project.slug);
       </div>
     </div>
   </div>
+  <ProjectFigures locale={locale} figures={data.figures} sectionsBefore={bodySections} />
   <NextProject locale={locale} next={next && { slug: next.slug, title: next.title }} />
 </article>
 
@@ -165,13 +168,6 @@ const next = getNextProject(projects, project.slug);
     content: '—';
     position: absolute;
     left: 0;
-  }
-  .body :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: 32px 0;
-    background: var(--plate);
   }
   .body :global(blockquote) {
     margin: 32px 0;

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-labelledby="t d">
+  <title id="t">UrbanRisk Analytics, card cover</title>
+  <desc id="d">Simplified heatmap of predicted risk for Mexico City boroughs by time of day: Iztapalapa, Cuauhtémoc and Gustavo A. Madero are darkest in the afternoon and evening, while Milpa Alta stays pale all day and every borough is calmest at dawn.</desc>
+  <defs>
+    <marker id="acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9E5536"/></marker>
+    <style>
+      .serif{font-family:Newsreader,Georgia,'Times New Roman',serif;fill:#07393C}
+      .sans{font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+      .mono{font-family:'IBM Plex Mono',Consolas,'Courier New',monospace;fill:#685762}
+      .box{fill:#EAEAEA;stroke:#07393C;stroke-width:3}
+      .hot{fill:#EAEAEA;stroke:#9E5536;stroke-width:4}
+      .rule{stroke:#07393C;stroke-width:2}
+      .flow{stroke:#9E5536;stroke-width:4;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#DCDFDE"/>
+  <text x="60" y="76" class="sans" font-size="28" fill="#9E5536">UrbanRisk Analytics · Risk index</text>
+  <text x="60" y="176" class="serif" font-size="80">Where and when the model</text>
+  <text x="60" y="264" class="serif" font-size="80">expects the most risk</text>
+  <line x1="60" y1="292" x2="1540" y2="292" class="rule"/>
+  <text x="682.5" y="362" text-anchor="middle" class="sans" font-size="26" fill="#07393C">Dawn</text>
+  <text x="933.5" y="362" text-anchor="middle" class="sans" font-size="26" fill="#07393C">Morning</text>
+  <text x="1184.5" y="362" text-anchor="middle" class="sans" font-size="26" fill="#07393C">Afternoon</text>
+  <text x="1435.5" y="362" text-anchor="middle" class="sans" font-size="26" fill="#07393C">Evening</text>
+  <text x="60" y="460" class="serif" font-size="40">Iztapalapa</text>
+  <rect x="560" y="390" width="245" height="104" fill="#BD917F"/>
+  <rect x="811" y="390" width="245" height="104" fill="#A25C3F"/>
+  <rect x="1062" y="390" width="245" height="104" fill="#A0593A"/>
+  <rect x="1313" y="390" width="245" height="104" fill="#9F5738"/>
+  <text x="60" y="572" class="serif" font-size="40">Cuauhtémoc</text>
+  <rect x="560" y="502" width="245" height="104" fill="#C39E8E"/>
+  <rect x="811" y="502" width="245" height="104" fill="#A66449"/>
+  <rect x="1062" y="502" width="245" height="104" fill="#A0593B"/>
+  <rect x="1313" y="502" width="245" height="104" fill="#A25D40"/>
+  <text x="60" y="684" class="serif" font-size="40">Gustavo A. Madero</text>
+  <rect x="560" y="614" width="245" height="104" fill="#CCAEA2"/>
+  <rect x="811" y="614" width="245" height="104" fill="#AA6D53"/>
+  <rect x="1062" y="614" width="245" height="104" fill="#A25D3F"/>
+  <rect x="1313" y="614" width="245" height="104" fill="#A25D40"/>
+  <text x="60" y="764" class="mono" font-size="40">···</text>
+  <text x="60" y="852" class="serif" font-size="40">Milpa Alta</text>
+  <rect x="560" y="782" width="245" height="104" fill="#E9E7E7"/>
+  <rect x="811" y="782" width="245" height="104" fill="#E8E6E5"/>
+  <rect x="1062" y="782" width="245" height="104" fill="#E6E3E1"/>
+  <rect x="1313" y="782" width="245" height="104" fill="#E5E1DF"/>
+</svg>

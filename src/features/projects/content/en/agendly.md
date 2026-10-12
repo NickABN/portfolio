@@ -11,6 +11,15 @@ cover: ../images/agendly-booking.webp
 coverFit: contain
 coverAlt: "Booking flow on a phone for a fictional barbershop: a list of services with prices, a choice of specialist, and a day and time grid with a selected slot."
 caption: "The booking flow, three taps from link to slot: no account, no app."
+figures:
+  - src: ../images/agendly-admin.webp
+    alt: "Admin agenda for a day of eight appointments with client, service, time and status, plus no-show risk flags on two upcoming bookings that explain why they may not show up."
+    caption: "The day’s agenda, with no-show risk flagged and explained."
+    kind: screen
+  - src: ../images/agendly-insights.webp
+    alt: "Impact metrics dashboard: appointments, share booked by the client alone, no-show rate, median booking time, returning clients, weekly appointments, reminder results and the no-show prediction model's accuracy."
+    caption: "What the tool does for the owner: bookings, no-shows, reminders and how accurate the risk model is."
+    kind: screen
 ---
 
 ## The problem
@@ -25,10 +34,6 @@ A multi-tenant SaaS with two sides:
 - **A mobile-first admin dashboard** with day, week and month views of every appointment, manual bookings for walk-ins, and status changes (completed, no-show, cancelled). Cancelling emails the client, when they left an address, with a link to book a new time.
 - **No-show early warning.** Upcoming bookings are scored for no-show risk and flagged in the agenda, with the reasons spelled out (for example, the client missed earlier appointments or is new). The day before the appointment, Agendly emails a reminder; for high-risk bookings the email asks more directly for a confirmation or a call to free the slot.
 - **An impact screen** that shows the owner what the tool is doing: how many bookings arrive on their own through the link, the no-show rate, how long clients take to book, returning clients, weekly volume, and how reminders and the risk model are performing against the business's own results.
-
-![Admin agenda for a day of eight appointments with client, service, time and status, plus no-show risk flags on two upcoming bookings that explain why they may not show up.](../images/agendly-admin.webp)
-
-![Impact metrics dashboard: appointments, share booked by the client alone, no-show rate, median booking time, returning clients, weekly appointments, reminder results and the no-show prediction model's accuracy.](../images/agendly-insights.webp)
 
 It is a pnpm monorepo with three packages: a NestJS backend (Prisma, PostgreSQL, Passport with JWT and Google OAuth), a Nuxt 3 frontend (Vue 3, Tailwind CSS, Pinia), and a shared package of TypeScript DTOs and types used by both. Email goes through Resend and CI runs on GitHub Actions. The front end deploys to Netlify and the API to Render, on a managed Neon PostgreSQL, with logo and banner uploads optimised to WebP on Cloudflare R2. Sentry, structured JSON logs with request IDs and health checks cover observability.
 

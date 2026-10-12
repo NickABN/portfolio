@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
@@ -12,25 +12,68 @@ interface Props {
   fit?: 'cover' | 'contain';
   /** Wide editorial crop for the detail page: 21:9 on desktop, 16:10 on tablets and phones. */
   hero?: boolean;
+  /** Body figure: keeps the image's own proportions instead of a fixed plate ratio. */
+  natural?: boolean;
+  /** Wraps the image in a minimal browser frame (screenshots). */
+  frame?: boolean;
+  /** Makes the image a link to its larger version; the lightbox script upgrades it to a dialog. */
+  zoomLabel?: string;
+  /** `sizes` for raster images; defaults depend on `hero`. */
+  sizes?: string;
 }
 
-const { figLabel, caption, placeholder, cover, coverAlt = '', fit = 'cover', hero = false } = Astro.props;
-const sizes = hero ? '(min-width: 1280px) 1168px, 100vw' : '(min-width: 960px) 600px, 100vw';
+const {
+  figLabel,
+  caption,
+  placeholder,
+  cover,
+  coverAlt = '',
+  fit = 'cover',
+  hero = false,
+  natural = false,
+  frame = false,
+  zoomLabel,
+  sizes: sizesProp,
+} = Astro.props;
+const sizes = sizesProp ?? (hero ? '(min-width: 1280px) 1168px, 100vw' : '(min-width: 960px) 600px, 100vw');
 // SVG is served as-is, so responsive widths only apply to raster covers.
 const isSvg = cover?.format === 'svg';
-const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
+const widths = hero ? [800, 1200, 1600, 2000] : natural ? [480, 800, 1200, 1600] : [480, 800, 1200];
+const zoomHref = cover && zoomLabel ? (isSvg ? cover.src : (await getImage({ src: cover, width: 2000 })).src) : undefined;
 ---
 
-<figure class:list={{ hero }}>
+<figure class:list={{ hero, natural }}>
   {
     cover ? (
-      <Image
-        class:list={['plate', { contain: fit === 'contain' }]}
-        src={cover}
-        alt={coverAlt}
-        widths={isSvg ? undefined : widths}
-        sizes={isSvg ? undefined : sizes}
-      />
+      <div class:list={['shot', { frame }]}>
+        {frame && (
+          <div class="bar" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+        )}
+        {zoomHref ? (
+          <a class="zoom" href={zoomHref} data-lightbox data-caption={`${figLabel} — ${caption ?? ''}`}>
+            <Image
+              class:list={['plate', { contain: fit === 'contain' }]}
+              src={cover}
+              alt={coverAlt}
+              widths={isSvg ? undefined : widths}
+              sizes={isSvg ? undefined : sizes}
+            />
+            <span class="sr-only"> ({zoomLabel})</span>
+          </a>
+        ) : (
+          <Image
+            class:list={['plate', { contain: fit === 'contain' }]}
+            src={cover}
+            alt={coverAlt}
+            widths={isSvg ? undefined : widths}
+            sizes={isSvg ? undefined : sizes}
+          />
+        )}
+      </div>
     ) : (
       <div class="plate mono" role="img" aria-label={placeholder}>
         {placeholder}
@@ -51,6 +94,7 @@ const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin: 0;
   }
   .plate {
     width: 100%;
@@ -67,6 +111,13 @@ const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
   .plate.contain {
     object-fit: contain;
   }
+  .natural .plate {
+    aspect-ratio: auto;
+    object-fit: fill;
+  }
+  .shot img {
+    display: block;
+  }
   .hero .plate {
     aspect-ratio: 21 / 9;
   }
@@ -74,6 +125,43 @@ const widths = hero ? [800, 1200, 1600, 2000] : [480, 800, 1200];
     .hero .plate {
       aspect-ratio: 16 / 10;
     }
+  }
+
+  /* Minimal browser frame: a thin rule, a top bar and three dots, all from tokens. */
+  .frame {
+    border: var(--rule);
+    background: var(--paper);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 10px;
+    border-bottom: var(--rule);
+  }
+  .bar i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--muted);
+  }
+
+  .zoom {
+    display: block;
+    cursor: zoom-in;
+  }
+  .zoom:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   figcaption {
     font-size: var(--text-small);

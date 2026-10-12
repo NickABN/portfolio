@@ -6,10 +6,15 @@ role: "Desarrollador backend"
 stack: ["Python", "FastAPI", "AWS Lambda", "DynamoDB", "Playwright"]
 status: live
 featured: false
-cover: ../images/kiricheck-architecture.es.svg
+cover: ../images/kiricheck-card.es.svg
 coverFit: contain
-coverAlt: "Diagrama de arquitectura: los empleados registran asistencia por WhatsApp en un servicio Lambda que escribe en DynamoDB; los administradores usan un front en Nuxt que llama a una API de administración en FastAPI sobre Lambda, con módulos de bonos, prenómina, monitor de incidencias y reportes."
-caption: "Del registro de asistencia al reporte de nómina: un almacén de tablas y una API de administración encima."
+coverAlt: "Los empleados registran asistencia por WhatsApp en un servicio Lambda que escribe en DynamoDB. Una API de administración en FastAPI sobre Lambda lo lee y alimenta bonos, prenómina y reportes en Excel, CSV y PDF."
+caption: "Un registro por WhatsApp termina como un número en el reporte de nómina."
+figures:
+  - src: ../images/kiricheck-architecture.es.svg
+    alt: "Diagrama de arquitectura: los empleados registran asistencia por WhatsApp en un servicio Lambda que escribe en DynamoDB; los administradores usan un front en Nuxt que llama a una API de administración en FastAPI sobre Lambda, con módulos de bonos, prenómina, monitor de incidencias y reportes."
+    caption: "Del registro de asistencia al reporte de nómina: un almacén de tablas y una API de administración encima."
+    kind: diagram
 ---
 
 ## El problema

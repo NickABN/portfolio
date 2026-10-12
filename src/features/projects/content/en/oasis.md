@@ -9,10 +9,15 @@ featured: true
 order: 1
 liveUrl: "https://play.google.com/store/apps/details?id=com.oasisapp.user"
 client: true
-cover: ../images/oasis-architecture.en.svg
+cover: ../images/oasis-card.en.svg
 coverFit: contain
-coverAlt: "Architecture diagram: Flutter and React clients call a Node and Express REST API on Elastic Beanstalk, which saves bookings and Stripe payments in MySQL and notifies guests; an Angular admin panel uses a GraphQL service."
-caption: "How a booking gets made: guests, one REST API, one transaction."
+coverAlt: "Flutter and React clients call a Node and Express REST API on Elastic Beanstalk, which saves bookings and Stripe payments in MySQL in one transaction. The API verifies each Stripe charge. The web app went from 25 to 150 concurrent users on the same instance."
+caption: "How a booking gets made, and the number that mattered at World Cup scale."
+figures:
+  - src: ../images/oasis-architecture.en.svg
+    alt: "Architecture diagram: Flutter and React clients call a Node and Express REST API on Elastic Beanstalk, which saves bookings and Stripe payments in MySQL and notifies guests; an Angular admin panel uses a GraphQL service."
+    caption: "How a booking gets made: guests, one REST API, one transaction."
+    kind: diagram
 highlights:
   - value: "25 → 150"
     label: "Concurrent web users, same instance"

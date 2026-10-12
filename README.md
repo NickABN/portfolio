@@ -97,6 +97,7 @@ Frontmatter fields:
 | `cover`, `coverAlt` | no | Cover image path relative to the Markdown file, and its alt text. See [Project images](#project-images) |
 | `coverFit` | no | `cover` (default) crops the image to fill the frame; `contain` shows it whole on a grey plate. Use `contain` for diagrams |
 | `caption` | no | Figure caption |
+| `figures` | no | Extra figures for the detail page: `src`, `alt`, `caption`, `kind`. See [Project images](#project-images) |
 | `client` | no | `true` marks client work. Default `false`. A client project with no `liveUrl`/`repoUrl` shows a "private client work" note in its fact box instead of link buttons |
 | `highlights` | no | Up to three headline figures shown as a strip above the case study (see below). Only use numbers the text already states |
 
@@ -119,11 +120,13 @@ The Markdown body becomes the case study on the detail page:
 
 ### Project images
 
-Every project can carry one cover figure, shown on its home card (16:10) and as the wide hero of its detail page (21:9 on desktop, 16:10 on tablets and phones). Without a `cover`, a grey placeholder is shown. Three ways to get one:
+Every project has one **cover**, shown on its home card (16:10, whole, never cropped) and as the wide hero of its detail page (FIG. 1; 21:9 on desktop, 16:10 on tablets and phones). Without a `cover`, a grey placeholder is shown. Everything else goes in `figures` (see below), never as `![]()` in the Markdown body.
+
+**The cover is made for the card, not reused from the case study.** The card is about 560px wide, so a full architecture diagram turns to mush there. Use a product composite (phone screens, see `agendly-booking.webp`) or, for projects with nothing to show, a **card-cover SVG**: `<slug>-card.<locale>.svg`, **1600x1000 (16:10)**, one big serif headline, 3-5 nodes with large text (node titles 44px or more, labels 26px or more in the viewBox), and a key figure only if the case study already states it. See `oasis-card.en.svg`. The full diagram then goes in `figures`. Three ways to get a cover:
 
 1. **Screenshot with the capture script.** Describe the shot in `scripts/capture/captures.config.json` and run `pnpm capture <slug>`. It saves `src/features/projects/content/images/<slug>-<width>.png` at 2x and prints the frontmatter lines to paste.
 2. **Your own screenshots or screen recordings.** Drop the file in `src/features/projects/content/images/` and point `cover` at it.
-3. **An editorial diagram.** An SVG for projects that cannot be shown (private or client work). See `myfrac-architecture.en.svg` for the style. Set `coverFit: contain` so it is never cropped.
+3. **A card-cover SVG.** For projects that cannot be shown (private or client work). Set `coverFit: contain` so it is never cropped.
 
 Frontmatter (paths are relative to the Markdown file; use the same image or a localized one in each language):
 
@@ -134,7 +137,27 @@ caption: "Short figure caption"
 coverFit: cover   # or contain, for diagrams
 ```
 
-Recommended sizes: diagrams at **21:9, 1680x720**, with their own background colour (`#DCDFDE`, the plate colour); screenshots at **16:10, at least 1600x1000**. SVGs are served as-is; raster images are optimised and resized at build time.
+Recommended sizes: card covers at **16:10, 1600x1000**; full diagrams at **21:9, 1680x720**; both with their own background colour (`#DCDFDE`, the plate colour); screenshots at **16:10, at least 1600x1000**. SVGs are served as-is (they cannot load web fonts, so size text for the Georgia, Arial and Courier fallbacks); raster images are optimised and resized at build time.
+
+#### Figures
+
+`figures` is an optional list; each item needs `src` (path relative to the Markdown file), `alt`, `caption` and a `kind`:
+
+```yaml
+figures:
+  - src: ../images/my-project-architecture.en.svg
+    alt: "What the diagram shows, for screen readers"
+    caption: "How a request gets through the system: ..."
+    kind: diagram   # diagram | screen | composite
+```
+
+| `kind` | Where it appears |
+| --- | --- |
+| `diagram` | **How it works** section, wider than the text column (edge to edge on phones) |
+| `screen` | **Plates** section, inside a minimal browser frame |
+| `composite` | **Plates** section, without a frame (e.g. phone mock-ups) |
+
+Figures are numbered automatically after the hero (FIG. 2, 3, ...): diagrams first, then plates, each in the order written. The grouping and numbering live in `src/features/projects/domain/figures.ts`. A section with no figures is omitted. Every figure opens in a larger `<dialog>` view on click (Esc closes it); without JavaScript it is a plain link to the image. Section headings continue the body's numbering and are translated in `src/features/projects/i18n.ts`.
 
 **Privacy.** Never publish client data: no real names, emails, tokens, customer records or internal URLs. Redact or hide them (the `hide` option below blanks elements before the shot) and check the image at full size before committing.
 

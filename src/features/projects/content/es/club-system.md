@@ -8,10 +8,19 @@ status: in-progress
 featured: true
 order: 3
 client: true
-cover: ../images/club-system-architecture.es.svg
+cover: ../images/club-system-card.es.svg
 coverFit: contain
-coverAlt: "Diagrama de arquitectura: el personal y los operadores usan una app React en S3 y CloudFront que llama a un backend FastAPI sobre PostgreSQL en RDS, con un contrato OpenAPI, migraciones Goose, Terraform y un ETL en Python desde la base heredada alrededor."
-caption: "Un contrato, un esquema: la app web, la API y la migración de datos cuelgan de ellos."
+coverAlt: "Una app React en S3 y CloudFront llama a un backend FastAPI sobre PostgreSQL en RDS. El contrato OpenAPI se escribe primero y un ETL en Python carga la base heredada. Terraform, revisado como código, lo despliega todo en AWS."
+caption: "La plataforma en una línea: navegador, API, base de datos y el contrato que los une."
+figures:
+  - src: ../images/club-system-architecture.es.svg
+    alt: "Diagrama de arquitectura: el personal y los operadores usan una app React en S3 y CloudFront que llama a un backend FastAPI sobre PostgreSQL en RDS, con un contrato OpenAPI, migraciones Goose, Terraform y un ETL en Python desde la base heredada alrededor."
+    caption: "Un contrato, un esquema: la app web, la API y la migración de datos cuelgan de ellos."
+    kind: diagram
+  - src: ../images/club-system-etl.es.svg
+    alt: "Flujo de migración: se lee la base heredada, se carga en staging crudo, se transforma y mapea en una corrida de prueba y luego se escribe en el esquema nuevo de PostgreSQL, con validación, corridas idempotentes y un registro de corridas con rollback."
+    caption: "Cómo una fila heredada se vuelve registro de socio: solo lectura, staging crudo, mapeo en corrida de prueba, validación y escritura."
+    kind: diagram
 ---
 
 ## El problema
@@ -25,8 +34,6 @@ Un club privado de golf y campo necesitaba un solo sistema para administrar sus 
 - **La infraestructura en Terraform** sobre AWS, iterada con el equipo de infraestructura del cliente a partir de sus revisiones, y contenedores Docker como parte del flujo de despliegue.
 - **La migración de datos desde la base heredada del club.** Un ETL en Python que lee el sistema anterior sin escribir jamás en él, guarda cada fila intacta en staging, la mapea al esquema nuevo y verifica el resultado antes de darlo por bueno.
 - **Tests de la app web de reservas:** pruebas unitarias con Vitest y end-to-end con Playwright.
-
-![Flujo de migración: se lee la base heredada, se carga en staging crudo, se transforma y mapea en una corrida de prueba y luego se escribe en el esquema nuevo de PostgreSQL, con validación, corridas idempotentes y un registro de corridas con rollback.](../images/club-system-etl.es.svg)
 
 ## Decisiones
 
