@@ -8,6 +8,7 @@ status: in-progress
 featured: true
 order: 4
 cover: ../images/agendly-booking.webp
+coverFit: contain
 coverAlt: "Flujo de reserva en un teléfono para una barbería ficticia: lista de servicios con precios, elección de especialista y una cuadrícula de día y horario con un horario seleccionado."
 caption: "El flujo de reserva, de enlace a horario en tres toques: sin cuenta y sin app."
 ---

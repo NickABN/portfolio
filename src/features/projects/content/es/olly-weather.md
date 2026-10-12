@@ -8,6 +8,10 @@ status: live
 featured: false
 liveUrl: "https://olly-olly-weather.netlify.app"
 repoUrl: "https://github.com/NickABN/olly-weather-app"
+cover: ../images/olly-weather-cover.webp
+coverFit: contain
+coverAlt: "Olly Weather en un teléfono: la pantalla de inicio de sesión y el pronóstico de Morelia, México, con viento, humedad, lluvia, índice UV, calidad del aire y una franja por horas que termina en tormenta por la tarde."
+caption: "Inicio de sesión con la cuenta demo y, enseguida, el clima en vivo del lugar donde estás."
 ---
 
 ## El problema

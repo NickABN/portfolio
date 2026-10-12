@@ -8,6 +8,7 @@ status: in-progress
 featured: true
 order: 4
 cover: ../images/agendly-booking.webp
+coverFit: contain
 coverAlt: "Booking flow on a phone for a fictional barbershop: a list of services with prices, a choice of specialist, and a day and time grid with a selected slot."
 caption: "The booking flow, three taps from link to slot: no account, no app."
 ---
