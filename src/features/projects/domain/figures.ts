@@ -36,3 +36,24 @@ export function groupFigures<T extends FigureLike>(
     plates: plates.map((figure, index) => ({ figure, number: firstNumber + diagrams.length + index })),
   };
 }
+
+export interface FigureSectionNumbers {
+  /** Section number for "How it works", or `undefined` when the project has no diagrams. */
+  howItWorks?: number;
+  /** Section number for "Plates", or `undefined` when the project has no plates. */
+  plates?: number;
+}
+
+/**
+ * Numbers the figure sections so they continue the body's numbered `##` sections. A section that
+ * would be empty gets no number and does not consume one.
+ */
+export function figureSectionNumbers(
+  sectionsBefore: number,
+  groups: FigureGroups<FigureLike>,
+): FigureSectionNumbers {
+  let next = sectionsBefore + 1;
+  const howItWorks = groups.diagrams.length > 0 ? next++ : undefined;
+  const plates = groups.plates.length > 0 ? next : undefined;
+  return { howItWorks, plates };
+}

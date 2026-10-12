@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupFigures, type FigureKind } from './figures';
+import { figureSectionNumbers, groupFigures, type FigureKind } from './figures';
 
 const fig = (kind: FigureKind, id: string) => ({ kind, id });
 
@@ -47,5 +47,26 @@ describe('groupFigures', () => {
   it('honours a custom first number', () => {
     const { plates } = groupFigures([fig('screen', 'a')], 5);
     expect(plates[0]?.number).toBe(5);
+  });
+});
+
+describe('figureSectionNumbers', () => {
+  it('continues the body numbering with How it works, then Plates', () => {
+    const groups = groupFigures([fig('diagram', 'd'), fig('screen', 's')]);
+    expect(figureSectionNumbers(3, groups)).toEqual({ howItWorks: 4, plates: 5 });
+  });
+
+  it('gives Plates the next number when there are no diagrams', () => {
+    const groups = groupFigures([fig('screen', 's'), fig('composite', 'c')]);
+    expect(figureSectionNumbers(3, groups)).toEqual({ howItWorks: undefined, plates: 4 });
+  });
+
+  it('numbers only How it works when there are no plates', () => {
+    const groups = groupFigures([fig('diagram', 'd')]);
+    expect(figureSectionNumbers(2, groups)).toEqual({ howItWorks: 3, plates: undefined });
+  });
+
+  it('numbers nothing when there are no figures', () => {
+    expect(figureSectionNumbers(3, groupFigures([]))).toEqual({ howItWorks: undefined, plates: undefined });
   });
 });

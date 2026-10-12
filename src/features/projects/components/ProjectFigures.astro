@@ -1,7 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro';
 import type { Locale } from '../../../shared/i18n/locales';
-import { groupFigures, type FigureKind } from '../domain/figures';
+import { figureSectionNumbers, groupFigures, type FigureKind } from '../domain/figures';
 import { useProjectsUi } from '../i18n';
 import ProjectFigure from './ProjectFigure.astro';
 
@@ -23,14 +23,14 @@ const { locale, figures, sectionsBefore } = Astro.props;
 const strings = useProjectsUi(locale);
 const { diagrams, plates } = groupFigures(figures);
 const pad = (n: number) => String(n).padStart(2, '0');
-const platesSection = sectionsBefore + (diagrams.length > 0 ? 2 : 1);
+const sections = figureSectionNumbers(sectionsBefore, { diagrams, plates });
 ---
 
 {
   diagrams.length > 0 && (
     <section class="wide" aria-labelledby="how-it-works">
       <h2 id="how-it-works">
-        <span class="num">{pad(sectionsBefore + 1)}</span>
+        <span class="num">{pad(sections.howItWorks ?? 0)}</span>
         {strings.howItWorks}
       </h2>
       <div class="stack">
@@ -55,7 +55,7 @@ const platesSection = sectionsBefore + (diagrams.length > 0 ? 2 : 1);
   plates.length > 0 && (
     <section class="wide" aria-labelledby="plates">
       <h2 id="plates">
-        <span class="num">{pad(platesSection)}</span>
+        <span class="num">{pad(sections.plates ?? 0)}</span>
         {strings.plates}
       </h2>
       <div class:list={['grid', { single: plates.length === 1 && plates[0].figure.kind !== 'screen' }]}>
@@ -114,9 +114,17 @@ const platesSection = sectionsBefore + (diagrams.length > 0 ? 2 : 1);
         dialog.showModal();
       });
     });
-    // Clicking the backdrop (the dialog element itself, outside its content) closes it.
+    // Only a click outside the dialog box closes it: clicks on its padding or on the empty space
+    // beside a narrow image also target the dialog element, so compare against its bounds.
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
+      if (event.target !== dialog) return;
+      const box = dialog.getBoundingClientRect();
+      const inside =
+        event.clientX >= box.left &&
+        event.clientX <= box.right &&
+        event.clientY >= box.top &&
+        event.clientY <= box.bottom;
+      if (!inside) dialog.close();
     });
     dialog.addEventListener('close', () => {
       trigger?.focus();
