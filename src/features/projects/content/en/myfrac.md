@@ -41,6 +41,10 @@ I own most of the platform end to end: the infrastructure, the Java back end, th
 
 ![Diagram: administrators upload resident photos to the Spring Boot API, gate terminals pull the active list over HTTPS and report each check-in to a MySQL visit log, and temporary visitor QR codes reach the scanners over MQTT.](../images/myfrac-facial-access.en.svg)
 
+![Admin panel, bulk facial upload review: each ZIP photo is matched to a resident, with pending, rejected and ready-to-activate states before it goes live. All data shown is fictional.](../images/myfrac-facial-ingest.webp)
+
+![Admin panel, facial access log: a filterable table of check-ins and check-outs with the resident, gate and timestamp of each event, fed by gate terminals. All data shown is fictional.](../images/myfrac-facial-visits.webp)
+
 
 ## Decisions
 

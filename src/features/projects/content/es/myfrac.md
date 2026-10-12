@@ -41,6 +41,10 @@ Llevo la mayor parte de la plataforma de punta a punta: la infraestructura, el b
 
 ![Diagrama: los administradores cargan fotos de residentes a la API Spring Boot, las terminales de la caseta descargan la lista activa por HTTPS y reportan cada entrada a una bitácora de visitas en MySQL, y los QR temporales de visitantes llegan a los escáneres por MQTT.](../images/myfrac-facial-access.es.svg)
 
+![Panel de administración, revisión de la carga masiva de fotos: cada foto del ZIP se asigna a un residente, con estados pendiente, rechazada y lista para activar antes de entrar en producción. Todos los datos mostrados son ficticios.](../images/myfrac-facial-ingest.webp)
+
+![Panel de administración, bitácora de accesos faciales: tabla filtrable de entradas y salidas con el residente, la puerta y la hora de cada evento, alimentada por las terminales de la caseta. Todos los datos mostrados son ficticios.](../images/myfrac-facial-visits.webp)
+
 
 ## Decisiones
 
