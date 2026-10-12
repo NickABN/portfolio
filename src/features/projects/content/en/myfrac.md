@@ -3,7 +3,7 @@ title: "MYFRAC"
 year: 2024
 deck: "A residential community platform with facial and QR access control over IoT, mobile apps for residents and guards, and a WhatsApp assistant that handles about 7,000 visitor accesses a month."
 role: "Full-stack developer & squad tech lead"
-stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter"]
+stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter", "spaCy"]
 status: live
 featured: true
 order: 2
@@ -49,7 +49,7 @@ I own most of the platform end to end: the infrastructure, the Java back end, th
 
 - **The core Spring Boot back end,** backed by AWS Lambda functions for asynchronous work, with CSV, Excel and PDF reports in Python and Java.
 - **Access control at the gate.** Gate devices — facial recognition terminals and QR scanners — authenticate against the API with HMAC-signed HTTPS requests, and every check-in and check-out lands in a MySQL visit log. Temporary visitor QR codes reach the scanners over MQTT through AWS IoT Core.
-- **The residents' WhatsApp assistant,** built on Botmaker with LLM-based language understanding (OpenAI and Anthropic). It handles about 7,000 automated visitor accesses a month and cut handling time from 4–10 minutes to 1–3, measured with operational metrics I implemented.
+- **The residents' WhatsApp assistant,** built on Botmaker with a spaCy NLP pipeline for understanding messages, and the OpenAI and Anthropic APIs as a fallback when a message's structure is unexpected or too complex for it to parse. It handles about 7,000 automated visitor accesses a month and cut handling time from 4–10 minutes to 1–3, measured with operational metrics I implemented.
 - **The guards' and residents' Flutter apps** for iOS and Android, and the web panels administrators use to run each community.
 - **QR invitations, end to end:** the conversation flow, a new FastAPI service, changes to the Spring Boot API for compatibility, the Flutter QR-scanning app for the gate, and the AWS deployment with CDK.
 - **Security for devices and people:** HMAC signatures to authenticate the IoT devices against the API, and the platform's own OAuth2 login and token flow with Spring Security.

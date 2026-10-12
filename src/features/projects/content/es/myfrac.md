@@ -3,7 +3,7 @@ title: "MYFRAC"
 year: 2024
 deck: "Una plataforma para comunidades residenciales con control de acceso facial y por QR sobre IoT, apps móviles para residentes y vigilantes, y un asistente de WhatsApp que gestiona unos 7,000 accesos de visitantes al mes."
 role: "Desarrollador full-stack y tech lead del squad"
-stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter"]
+stack: ["Python", "FastAPI", "Java", "Spring Boot", "AWS IoT Core", "MySQL", "Flutter", "spaCy"]
 status: live
 featured: true
 order: 2
@@ -49,7 +49,7 @@ Llevo la mayor parte de la plataforma de punta a punta: la infraestructura, el b
 
 - **El backend principal en Spring Boot,** apoyado en funciones AWS Lambda para el trabajo asíncrono, con reportes en CSV, Excel y PDF en Python y Java.
 - **Control de acceso en la caseta.** Los dispositivos de las casetas —terminales de reconocimiento facial y escáneres de QR— se autentican contra la API con peticiones HTTPS firmadas con HMAC, y cada entrada y salida queda en una bitácora de visitas en MySQL. Los códigos QR temporales de visitantes llegan a los escáneres por MQTT a través de AWS IoT Core.
-- **El asistente de WhatsApp para residentes,** construido sobre Botmaker con comprensión de lenguaje basada en LLMs (OpenAI y Anthropic). Gestiona unos 7,000 accesos automatizados de visitantes al mes y bajó el tiempo de atención de 4–10 minutos a 1–3, medido con métricas operativas que implementé.
+- **El asistente de WhatsApp para residentes,** construido sobre Botmaker con un pipeline de NLP en spaCy para entender los mensajes, y las APIs de OpenAI y Anthropic como respaldo cuando la estructura de un mensaje es inesperada o demasiado compleja para analizarla. Gestiona unos 7,000 accesos automatizados de visitantes al mes y bajó el tiempo de atención de 4–10 minutos a 1–3, medido con métricas operativas que implementé.
 - **Las apps Flutter de vigilantes y residentes** para iOS y Android, y los paneles web con los que los administradores operan cada comunidad.
 - **Invitaciones con QR, de punta a punta:** el flujo conversacional, un servicio nuevo en FastAPI, cambios en la API de Spring Boot para mantener compatibilidad, la app Flutter para escanear el QR en la caseta y el despliegue en AWS con CDK.
 - **Seguridad para dispositivos y personas:** firmas HMAC para autenticar los dispositivos IoT contra la API, y el flujo propio de login y tokens OAuth2 de la plataforma con Spring Security.
